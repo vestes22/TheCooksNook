@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">The Cooks Nook</string>
+    <string name="cook_book_title">Virginia\'s Cook Book</string>
+    <string name="breakfast_text">Breakfast</string>
+    <string name="breakfast_icon_desc">Pancakes with syrup.</string>
+    <string name="lunch_text">Lunch</string>
+    <string name="lunch_icon_desc">Sandwich</string>
+    <string name="dinner_text">Dinner</string>
+    <string name="dinner_icon_desc">Turkey roast.</string>
+    <string name="appetizers_text">Appetizers</string>
+    <string name="appetizers_icon_desc">Chips and guacamole.</string>
+    <string name="add_recipe">Add Recipe</string>
+</resources>

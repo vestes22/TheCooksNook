@@ -1,0 +1,2 @@
+rootProject.name='The Cooks Nook'
+include ':app'

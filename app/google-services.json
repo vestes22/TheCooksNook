@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "25884934595",
+    "project_id": "the-cooks-nook-1614821827337",
+    "storage_bucket": "the-cooks-nook-1614821827337.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25884934595:android:cbdff699fad65ee6e5fd76",
+        "android_client_info": {
+          "package_name": "com.codelovely.thecooksnook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25884934595-0p3nu1pm61n85lnpob8tkih2jvk9mfo6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codelovely.thecooksnook",
+            "certificate_hash": "c343126d100deac1732216056b728cfbc1acf1e2"
+          }
+        },
+        {
+          "client_id": "25884934595-v6hdvactber2deeecgd4q6qsroiahnc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLvjtKyDLbTM5b9P5LqlmrSH-aBHGBFUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25884934595-ndh1pr82ibfer41vr4600vibkadbtr5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
