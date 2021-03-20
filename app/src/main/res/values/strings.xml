@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Cooks Nook</string>
+    <string name="app_name">The Cook\'s Nook</string>
     <string name="cook_book_title">Virginia\'s Cook Book</string>
     <string name="breakfast_text">Breakfast</string>
     <string name="breakfast_icon_desc">Pancakes with syrup.</string>
