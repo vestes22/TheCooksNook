@@ -1,5 +1,6 @@
 package com.codelovely.thecooksnook.data;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
@@ -12,5 +13,8 @@ import androidx.room.ForeignKey;
         }
 )
 public class UserShoppingList {
+        @ColumnInfo(name="Shopping list code") int shoppingCode;
+        @ColumnInfo(name="Ingredient code") int ingredientCode;
+        @ColumnInfo(name="Food code") int foodCode;
 
 }

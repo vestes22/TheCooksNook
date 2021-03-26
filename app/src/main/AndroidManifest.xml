@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CookBookActivity"></activity>
+        <activity android:name=".RecipeActivity"></activity>
+        <activity android:name=".CookBookActivity" />
         <activity android:name=".CookBookRecipesActivity" />
         <activity android:name=".CookBookHomeActivity" />
         <activity android:name=".HomeScreenActivity" />
