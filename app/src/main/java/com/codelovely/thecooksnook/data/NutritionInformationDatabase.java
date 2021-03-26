@@ -3,7 +3,6 @@ package com.codelovely.thecooksnook.data;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-// Song and Album are classes annotated with @Entity.
 @Database(version = 1, entities = {
         AddFoodDesc.class,
         DerivDesc.class,
@@ -16,7 +15,15 @@ import androidx.room.RoomDatabase;
         MainFoodDesc.class,
         MoistAdjust.class,
         NutrientDesc.class,
-        SubcodeDesc.class
+        SubcodeDesc.class,
+        Recipe.class,
+        RecipeIngredient.class,
+        Menu.class,
+        ShoppingList.class,
+        User.class,
+        UserMenu.class,
+        UserRecipe.class,
+        UserShoppingList.class
 })
 abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public AddFoodDescDao getAddFoodDescDao();
@@ -31,6 +38,13 @@ abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public MoistAdjustDao getMoistAdjustDao();
     abstract public NutrientDescDao getNutrientDescDao();
     abstract public SubcodeDescDao getSubcodeDescDao();
-
+    abstract public RecipeDao getRecipeDao();
+    abstract public RecipeIngredientDao getRecipeIngredientDao();
+    abstract public ShoppingListDao getShoppingListDao();
+    abstract public UserDao getUserDao();
+    abstract public UserMenuDao getUserMenuDao();
+    abstract public UserRecipeDao getUserRecipeDao();
+    abstract public UserShoppingListDao getUserShoppingListDao();
+    abstract public MenuDao getMenuDao();
 
 }
