@@ -15,4 +15,5 @@ public class Menu {
     @PrimaryKey @ColumnInfo(name="Menu code") int menuCode;
     @ColumnInfo(name="User code") int userCode;
     @ColumnInfo(name="Date created") LocalDate dateCreated;
+    @ColumnInfo(name="Title") String title;
 }

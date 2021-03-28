@@ -16,4 +16,5 @@ public class ShoppingList {
     @PrimaryKey @ColumnInfo(name="Shopping list code") int shoppingCode;
     @ColumnInfo(name="User code") int userCode;
     @ColumnInfo(name="Date created") LocalDate dateCreated;
+    @ColumnInfo(name="Title") String title;
 }

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(
         tableName ="foodWeights",
-        primaryKeys = {"Food code", "Subcode", "Seq num"},
+        primaryKeys = {"Food code", "Subcode", "Seq num", "Portion code"},
         foreignKeys = {@ForeignKey(entity = FoodPortionDesc.class, parentColumns = "Portion code", childColumns = "Portion code"),
             @ForeignKey(entity = MainFoodDesc.class, parentColumns = "Food code", childColumns = "Food code"),
             @ForeignKey(entity = SubcodeDesc.class, parentColumns = "Subcode", childColumns = "Subcode")
