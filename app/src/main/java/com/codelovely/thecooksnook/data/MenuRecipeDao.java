@@ -6,7 +6,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface UserShoppingListDao {
-    @Query("SELECT * FROM userShoppingLists")
-    public List<UserShoppingList> getAll();
+public interface MenuRecipeDao {
+    @Query("SELECT * FROM menuRecipes")
+    public List<MenuRecipe> getAll();
 }
