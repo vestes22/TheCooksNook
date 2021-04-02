@@ -5,7 +5,6 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity (
@@ -17,8 +16,25 @@ import java.util.Date;
         }
 )
 public class MenuRecipe {
-    @ColumnInfo(name="Menu code") int menuCode;
-    @ColumnInfo(name="Recipe code") int recipeCode;
-    @ColumnInfo(name="Recipe date") Date recipeDate;
-    @ColumnInfo(name="Recipe category") String recipeCategory;
+    private @ColumnInfo(name="Menu code") int menuId;
+    private @ColumnInfo(name="Recipe code") int recipeId;
+    private @ColumnInfo(name="Recipe date") Date recipeDate;
+    private @ColumnInfo(name="Recipe category") String recipeCategory;
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public void setRecipeDate(Date recipeDate) {
+        this.recipeDate = recipeDate;
+    }
+
+    public void setRecipeCategory (String recipeCategory) {
+        this.recipeCategory = recipeCategory;
+    }
+
 }

@@ -13,6 +13,22 @@ import androidx.room.PrimaryKey;
         }
 )
 public class FoodSubcodeLinks {
-    @ColumnInfo(name="Food code") int foodCode;
-    @ColumnInfo(name="Subcode") int subcode;
+    private @ColumnInfo(name="Food code") int foodId;
+    private @ColumnInfo(name="Subcode") int subcode;
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public void setSubcode(int subcode) {
+        this.subcode = subcode;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public int getSubcode() {
+        return subcode;
+    }
 }

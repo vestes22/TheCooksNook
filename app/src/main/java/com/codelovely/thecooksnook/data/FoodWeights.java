@@ -15,9 +15,49 @@ import androidx.room.PrimaryKey;
 )
 
 public class FoodWeights {
-    @ColumnInfo(name="Food code") int foodCode;
-    @ColumnInfo(name="Subcode") int subcode;
-    @ColumnInfo(name="Portion code") int portionCode;
-    @ColumnInfo(name="Seq num") int seqNum;
-    @ColumnInfo(name="Portion weight") float portionWeight;
+    private @ColumnInfo(name="Food code") int foodId;
+    private @ColumnInfo(name="Subcode") int subcode;
+    private @ColumnInfo(name="Portion code") int portionId;
+    private @ColumnInfo(name="Seq num") int seqNum;
+    private @ColumnInfo(name="Portion weight") float portionWeight;
+
+    public void setFoodId(int foodId) {
+        this.foodId=foodId;
+    }
+
+    public void setSubcode(int subcode) {
+        this.subcode = subcode;
+    }
+
+    public void setPortionId(int portionId) {
+        this.portionId = portionId;
+    }
+
+    public void setSeqNum(int seqNum) {
+        this.seqNum = seqNum;
+    }
+
+    public void setPortionWeight(float portionWeight) {
+        this.portionWeight = portionWeight;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public int getSubcode() {
+        return subcode;
+    }
+
+    public int getPortionId() {
+        return portionId;
+    }
+
+    public int getSeqNum() {
+        return seqNum;
+    }
+
+    public float getPortionWeight() {
+        return portionWeight;
+    }
 }

@@ -13,8 +13,32 @@ import androidx.room.ForeignKey;
 )
 
 public class FNDDSNutritionValue {
-    @ColumnInfo(name="Food code") int foodCode;
-    @ColumnInfo(name="Nutrient code") int nutrientCode;
-    @ColumnInfo(name="Nutrient value") float nutrientVal;
+    private @ColumnInfo(name="Food code") int foodId;
+    private @ColumnInfo(name="Nutrient code") int nutrientId;
+    private @ColumnInfo(name="Nutrient value") float nutrientVal;
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public void setNutrientId(int nutrientId) {
+        this.nutrientId = nutrientId;
+    }
+
+    public void setNutrientVal(float nutrientVal) {
+        this.nutrientVal = nutrientVal;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public int getNutrientId() {
+        return nutrientId;
+    }
+
+    public float getNutrientVal() {
+        return nutrientVal;
+    }
 }
 

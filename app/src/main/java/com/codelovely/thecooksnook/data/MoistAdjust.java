@@ -11,6 +11,22 @@ import androidx.room.PrimaryKey;
 )
 
 public class MoistAdjust {
-    @PrimaryKey @ColumnInfo(name="Food code") int foodCode;
-    @ColumnInfo(name = "Moisture change") float moistureChange;
+    private @PrimaryKey @ColumnInfo(name="Food code") int foodId;
+    private @ColumnInfo(name = "Moisture change") float moistureChange;
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public void setMoistureChange(float moistureChange) {
+        this.moistureChange = moistureChange;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public float getMoistureChange() {
+        return moistureChange;
+    }
 }

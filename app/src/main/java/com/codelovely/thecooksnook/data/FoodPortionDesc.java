@@ -7,6 +7,22 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "foodPortionDesc")
 
 public class FoodPortionDesc {
-    @PrimaryKey @ColumnInfo(name="Portion code") int portionCode;
-    @ColumnInfo(name="Portion description") String portionDesc;
+    private @PrimaryKey @ColumnInfo(name="Portion code") int portionId;
+    private @ColumnInfo(name="Portion description") String portionDesc;
+
+    public void setPortionId(int portionId) {
+        this.portionId = portionId;
+    }
+
+    public void setPortionDesc(String portionDesc) {
+        this.portionDesc = portionDesc;
+    }
+
+    public int getPortionId() {
+        return portionId;
+    }
+
+    public String getPortionDesc() {
+        return portionDesc;
+    }
 }

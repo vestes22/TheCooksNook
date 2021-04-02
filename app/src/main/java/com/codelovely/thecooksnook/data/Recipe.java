@@ -11,7 +11,21 @@ public class Recipe {
     private String description;
     private String instructions;
 
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
 
     public int getRecipeId() {
         return recipeId;
