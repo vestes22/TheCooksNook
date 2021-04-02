@@ -12,6 +12,22 @@ import androidx.room.ForeignKey;
         }
 )
 public class UserRecipe {
-    @ColumnInfo(name="User code") int userId;
-    @ColumnInfo(name="Recipe code") long recipeId;
+    private @ColumnInfo(name="User code") int userId;
+    private @ColumnInfo(name="Recipe code") int recipeId;
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
 }

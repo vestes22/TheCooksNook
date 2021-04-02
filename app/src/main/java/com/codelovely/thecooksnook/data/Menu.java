@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity (
         tableName="menus",
@@ -14,6 +15,6 @@ import java.time.LocalDate;
 public class Menu {
     @PrimaryKey @ColumnInfo(name="Menu code") int menuCode;
     @ColumnInfo(name="User code") int userCode;
-    @ColumnInfo(name="Date created") LocalDate dateCreated;
+    @ColumnInfo(name="Date created") Date dateCreated;
     @ColumnInfo(name="Title") String title;
 }

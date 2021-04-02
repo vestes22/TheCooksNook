@@ -1,9 +1,16 @@
 package com.codelovely.thecooksnook.data;
 
-import androidx.room.Database;
-import androidx.room.RoomDatabase;
+import android.content.Context;
 
-@Database(version = 1, entities = {
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+@Database(version = 1, exportSchema = false, entities = {
         AddFoodDesc.class,
         DerivDesc.class,
         FNDDSIngredients.class,
@@ -19,15 +26,13 @@ import androidx.room.RoomDatabase;
         NutrientDesc.class,
         Recipe.class,
         RecipeFood.class,
-        RecipeIngredient.class,
         ShoppingList.class,
         ShoppingListFood.class,
-        ShoppingListIngredient.class,
         SubcodeDesc.class,
         User.class,
         UserRecipe.class,
 })
-
+@TypeConverters({Converters.class})
 abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public AddFoodDescDao getAddFoodDescDao();
     abstract public DerivDescDao getDerivDescDao();
@@ -44,12 +49,30 @@ abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public NutrientDescDao getNutrientDescDao();
     abstract public RecipeDao getRecipeDao();
     abstract public RecipeFoodDao getRecipeFoodDao();
-    abstract public RecipeIngredientDao getRecipeIngredientDao();
     abstract public ShoppingListDao getShoppingListDao();
     abstract public ShoppingListFoodDao getShoppingListFoodDao();
-    abstract public ShoppingListIngredientDao getShoppingListIngredientDao();
     abstract public SubcodeDescDao getSubcodeDescDao();
     abstract public UserDao getUserDao();
     abstract public UserRecipeDao getUserRecipeDao();
 
+    private static volatile NutritionInformationDatabase INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    static NutritionInformationDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (NutritionInformationDatabase.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            NutritionInformationDatabase.class, "nutrition_information_database")
+                            .createFromAsset("data/FNDDSDatabase.db")
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 }
+
+

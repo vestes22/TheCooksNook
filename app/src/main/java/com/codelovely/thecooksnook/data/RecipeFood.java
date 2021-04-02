@@ -12,6 +12,22 @@ import androidx.room.ForeignKey;
                 @ForeignKey(entity=MainFoodDesc.class, parentColumns="Food code", childColumns = "Food code"),}
 )
 public class RecipeFood {
-    @ColumnInfo(name="Recipe code") int recipeCode;
-    @ColumnInfo(name="Food code") int foodCode;
+    private @ColumnInfo(name="Recipe code") int recipeId;
+    private @ColumnInfo(name="Food code") int foodId;
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
 }

@@ -5,213 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimaryLight"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".HomeScreenActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:background="@drawable/neumorphism_background_style"
-        android:orientation="vertical"
-        android:elevation="8dp">
+        android:layout_height="wrap_content"
+        android:text="The Cook's Nook"
+        android:textColor="@color/colorNude"
+        android:background="@color/colorPrimary"/>
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/recipe_fragment_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"
-            android:text="The Cook's Nook"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@+id/recipe_recommendation_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:name="com.codelovely.thecooksnook.RecipeFragment" />
 
-        <TextView
-            android:id="@+id/recipe_recommendation_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Savor the flavor."
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/recipe_recommendation_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <soup.neumorphism.NeumorphCardView
-            android:id="@+id/recipe_recommendation_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            app:neumorph_shapeType="flat"
-            app:neumorph_shadowElevation="8dp"
-            app:neumorph_shadowColorLight="#FFF"
-            app:neumorph_shadowColorDark="#d9d9d9"
-            app:neumorph_backgroundColor="@color/colorNude"
-            app:layout_constraintBottom_toTopOf="@+id/barrier1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_recommendation_text">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
-
-                <ImageView
-                    android:id="@+id/recipe_image"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/sandwich"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/recipe_description"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintHorizontal_bias="1"/>
-
-                <TextView
-                    android:id="@+id/recipe_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:text = "Recipe Title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/recipe_description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="The brief recipe description is going to go here..."
-                    android:maxLines="3"
-                    android:lines="3"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginEnd="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recipe_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/recipe_image"
-                    app:layout_constraintHorizontal_bias="3"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </soup.neumorphism.NeumorphCardView>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:layout_constraintBottom_toTopOf="@id/menu_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_recommendation_card" />
-
-        <soup.neumorphism.NeumorphButton
-            android:id="@+id/menu_button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="10dp"
-            app:neumorph_shapeType="flat"
-            app:neumorph_shadowElevation="8dp"
-            app:neumorph_shadowColorLight="#FFF"
-            app:neumorph_shadowColorDark="#d9d9d9"
-            app:neumorph_backgroundColor="@color/colorNude"
-            android:text="My Menus"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/barrier"
-            app:layout_constraintEnd_toStartOf="@+id/shopping_list_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barrier1" />
-
-        <soup.neumorphism.NeumorphButton
-            android:id="@+id/shopping_list_button"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            app:neumorph_shapeType="flat"
-            app:neumorph_shadowElevation="8dp"
-            app:neumorph_shadowColorLight="#FFF"
-            app:neumorph_shadowColorDark="#d9d9d9"
-            app:neumorph_backgroundColor="@color/colorNude"
-            android:text="Shopping Lists"
-            app:layout_constraintBottom_toTopOf="@+id/barrier"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/menu_button"
-            app:layout_constraintTop_toBottomOf="@+id/barrier1" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="menu_button,shopping_list_button"
-            app:layout_constraintBottom_toTopOf="@id/cook_book_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_button" />
-
-        <soup.neumorphism.NeumorphButton
-            android:id="@+id/cook_book_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            app:neumorph_shapeType="flat"
-            app:neumorph_shadowElevation="8dp"
-            app:neumorph_shadowColorLight="#FFF"
-            app:neumorph_shadowColorDark="#FFB6B2"
-            app:neumorph_backgroundColor="@color/colorAccent"
-            android:onClick="cookBookButtonClicked"
-            android:paddingLeft="8dp"
-            android:paddingTop="40dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="40dp"
-            android:text="Browse My Cook Book"
-            android:textColor="@color/colorNude"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barrier" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </LinearLayout>

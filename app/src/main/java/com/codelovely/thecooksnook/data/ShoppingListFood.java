@@ -13,6 +13,22 @@ import androidx.room.ForeignKey;
         }
 )
 public class ShoppingListFood {
-    @ColumnInfo(name="Shopping list code") int shoppingListCode;
-    @ColumnInfo(name="Food code") int foodCode;
+    private @ColumnInfo(name="Shopping list code") int shoppingListId;
+    private @ColumnInfo(name="Food code") int foodId;
+
+    public void setShoppingListId(int shoppingListId) {
+        this.shoppingListId = shoppingListId;
+    }
+
+    public void setFoodId(int foodId) {
+        this.foodId = foodId;
+    }
+
+    public int getShoppingListId() {
+        return shoppingListId;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
 }
