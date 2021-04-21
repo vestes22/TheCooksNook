@@ -37,4 +37,19 @@ public class MenuRecipe {
         this.recipeCategory = recipeCategory;
     }
 
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public Date getRecipeDate() {
+        return recipeDate;
+    }
+
+    public String recipeCategory() {
+        return recipeCategory;
+    }
 }

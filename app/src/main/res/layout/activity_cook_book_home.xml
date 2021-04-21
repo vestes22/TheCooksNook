@@ -17,7 +17,7 @@
     android:layout_marginBottom="24dp"
     android:background="@drawable/neumorphism_background_style"
     android:orientation="vertical"
-    android:elevation="8dp">
+    android:elevation="20dp">
 
     <TextView
         android:id="@+id/cook_book_title"

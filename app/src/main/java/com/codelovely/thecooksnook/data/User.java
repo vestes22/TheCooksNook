@@ -1,16 +1,19 @@
 package com.codelovely.thecooksnook.data;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
 public class User {
-    private @PrimaryKey @ColumnInfo(name="User code") int userId;
+    private @PrimaryKey @NonNull @ColumnInfo(name="User code") String userId;
     private @ColumnInfo(name="First name") String firstName;
     private @ColumnInfo(name="Last name") String lastName;
 
-    public void setUserId(int userId) {
+    public User() {}
+
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -22,7 +25,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 

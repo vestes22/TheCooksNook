@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "FNDDSIngred",
         primaryKeys = {"Food code", "Seq num"},
-        foreignKeys = {@ForeignKey(entity = MainFoodDesc.class, parentColumns = "Food code", childColumns = "Food code"),
+        foreignKeys = {
+                @ForeignKey(entity = MainFoodDesc.class, parentColumns = "Food code", childColumns = "Food code"),
                 @ForeignKey(entity = FoodPortionDesc.class, parentColumns = "Portion code", childColumns = "Portion code")
         }
 )

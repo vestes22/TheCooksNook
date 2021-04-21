@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,7 +34,7 @@ import java.util.concurrent.Executors;
         UserRecipe.class,
 })
 @TypeConverters({Converters.class})
-abstract class NutritionInformationDatabase extends RoomDatabase {
+public abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public AddFoodDescDao getAddFoodDescDao();
     abstract public DerivDescDao getDerivDescDao();
     abstract public FNDDSIngredientsDao getFNDDSIngredientsDao();
@@ -57,16 +58,16 @@ abstract class NutritionInformationDatabase extends RoomDatabase {
 
     private static volatile NutritionInformationDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
+    public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static NutritionInformationDatabase getDatabase(final Context context) {
+    public static NutritionInformationDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (NutritionInformationDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             NutritionInformationDatabase.class, "nutrition_information_database")
-                            .createFromAsset("data/FNDDSDatabase.db")
+                            .createFromAsset("FNDDSDatabase.db")
                             .build();
                 }
             }

@@ -2,6 +2,7 @@ package com.codelovely.thecooksnook;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codelovely.thecooksnook.data.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,6 +22,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
     private GoogleSignInClient mGoogleSignInClient;
@@ -27,6 +35,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     TextView statusTextView;
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_sign_in);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("25884934595-v6hdvactber2deeecgd4q6qsroiahnc2.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -76,6 +86,40 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     protected void updateUI(GoogleSignInAccount account) {
     if(account != null ) {
+
+        String displayName = account.getDisplayName();
+        final String familyName = account.getFamilyName();
+        final String givenName = account.getGivenName();
+        final String personId = account.getId();
+        System.out.println("Display name: " + displayName);
+        System.out.println("Family name: " + familyName);
+        System.out.println("Given name: " + givenName);
+        System.out.println("ID: " + personId);
+
+
+        ValueEventListener changeListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = new User();
+                user.setFirstName(givenName);
+                user.setLastName(familyName);
+                user.setUserId(personId);
+
+                if (! dataSnapshot.hasChild("/users/" + personId)) {
+                    dataSnapshot.getRef().child("users").child(personId).setValue(user);
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference dbReference = database.getReference();
+        dbReference.addValueEventListener(changeListener);
+
         Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
     }

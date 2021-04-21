@@ -32,7 +32,7 @@ public class Menu {
         this.title = title;
     }
 
-    public int getMenuID() {
+    public int getMenuId() {
         return menuId;
     }
 
