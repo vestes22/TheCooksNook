@@ -32,25 +32,15 @@ public class HomeScreenActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void databaseStuff(View view) {
-
-        NutritionInformationDatabase db = NutritionInformationDatabase.getDatabase(this);
-        final DerivDescDao derivDescDao = db.getDerivDescDao();
-        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run()  {
-                List<DerivDesc> derivDescs = derivDescDao.getAll();
-                System.out.println("Results returned: " + derivDescs.size());
-                for(int i = 0; i < derivDescs.size(); i++) {
-                    System.out.println("Deriv code: " + derivDescs.get(i).getDerivationCode());
-                    System.out.println("Description: " + derivDescs.get(i).getDerivationDesc());
-                }
-            }
-        });
-    }
 
     public void recommendedRecipeClicked(View view) {
         Intent intent = new Intent(this, RecipeActivity.class);
         startActivity(intent);
+    }
+
+    public void shoppingListClicked(View view) {
+    }
+
+    public void mealPlannerClicked(View view) {
     }
 }

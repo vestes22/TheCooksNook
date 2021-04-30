@@ -1,9 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<recycler xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    tools:context=".RecipeActivity">
+    android:layout_width="match_parent"
+    android:orientation="vertical">
 
-</recycler>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is a recipe!" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recipe_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Mexican Lasagna"
+                android:textColor="@color/colorNude"
+                android:textSize="32sp"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/recipe_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="A savory casserole dish layered with beef, beans, cheese, and corn tortillas."
+                android:textColor="@color/colorNude" />
+
+            <ImageView
+                android:id="@+id/recipe_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/turkey" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingredients:"
+                android:textColor="@color/colorNude"
+                android:textSize="24sp" />
+
+            <ListView
+                android:id="@+id/ingredients_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
