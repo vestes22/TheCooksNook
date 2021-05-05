@@ -1,22 +1,20 @@
 package com.codelovely.thecooksnook.viewmodels;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.codelovely.thecooksnook.data.MainFoodDescDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeViewModel extends ViewModel {
+public class AddRecipeViewModel extends ViewModel {
     MainFoodDescDao foodDao;
     private String recipeTitle;
     private String recipeDescription;
     private String instructions;
     private List<MainFoodDesc> ingredients;
-    private MutableLiveData<LiveData<MainFoodDesc>> searchResults;
+    private MutableLiveData<List<MainFoodDesc>> searchResults;
 
     public void setRecipeTitle(String recipeTitle) {
         this.recipeTitle = recipeTitle;
@@ -54,13 +52,14 @@ public class RecipeViewModel extends ViewModel {
         return ingredients;
     }
 
-    public void search(String query) {
+    public MutableLiveData<List<MainFoodDesc>> search(String query) {
         if(query.trim().isEmpty()) {
-            searchResults.setValue((LiveData<MainFoodDesc>) foodDao.getAll());
+            searchResults.setValue((List<MainFoodDesc>) foodDao.getAll());
         }
         else {
-            searchResults.setValue((LiveData<MainFoodDesc>) foodDao.search("*" + query + "*"));
+            searchResults.setValue((List<MainFoodDesc>) foodDao.search("*" + query + "*"));
         }
+        return searchResults;
     }
 
 }
