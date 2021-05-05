@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(version = 1, exportSchema = false, entities = {
+@Database(version = 2, exportSchema = false, entities = {
         AddFoodDesc.class,
         DerivDesc.class,
         FNDDSIngredients.class,
@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
         FoodWeights.class,
         IngredNutValue.class,
         MainFoodDesc.class,
+        MainFoodDescFTS.class,
         Menu.class,
         MenuRecipe.class,
         MoistAdjust.class,

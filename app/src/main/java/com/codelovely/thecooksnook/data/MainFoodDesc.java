@@ -2,6 +2,7 @@ package com.codelovely.thecooksnook.data;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Fts4;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName="mainFoodDesc")
@@ -43,4 +44,11 @@ public class MainFoodDesc {
     public String getWweiaCategoryDesc() {
         return wweiaCategoryDesc;
     }
+}
+
+
+@Entity (tableName = "mainFoodDesc_fts")
+@Fts4 (contentEntity = MainFoodDesc.class)
+class MainFoodDescFTS {
+    @ColumnInfo(name = "Main food description") String mainFoodDesc;
 }
