@@ -16,11 +16,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The Cook's Nook"
+        android:text="@string/application_title"
         android:textColor="@color/colorNude"
         android:background="@color/colorPrimary"
         android:layout_gravity="center"
-        android:textSize="24dp"/>
+        android:textSize="24sp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorNude"
-                        android:text="Recommended Recipe"
+                        android:text="@string/recommended_recipe"
                         android:textSize="24sp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="16dp"
@@ -79,13 +79,14 @@
                         app:layout_constraintEnd_toStartOf="@+id/recommended_recipe_description"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent=".3"/>
+                        app:layout_constraintWidth_percent=".3"
+                        android:contentDescription="@string/recipe_image_description" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/recommended_recipe_description"
-                        android:text="This is a sample recipe recommended by the application."
+                        android:text="@string/recipe_description"
                         android:textColor="@color/colorNude"
                         android:paddingBottom="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/recommended_recipe_title"
@@ -126,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorNude"
-                        android:text="Meal Planner"
+                        android:text="@string/meal_planner"
                         android:textSize="24sp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="16dp"
@@ -147,13 +148,14 @@
                         app:layout_constraintEnd_toStartOf="@+id/meal_planner_card_description"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent=".3"/>
+                        app:layout_constraintWidth_percent=".3"
+                        android:contentDescription="@string/recipe_image_description" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/meal_planner_card_description"
-                        android:text="This is a sample recipe recommended by the application."
+                        android:text="@string/this_is_a_sample_recipe_recommended_by_the_application"
                         android:textColor="@color/colorNude"
                         android:paddingBottom="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/meal_planner_card_title"
@@ -194,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorNude"
-                        android:text="Shopping List"
+                        android:text="@string/shopping_list"
                         android:textSize="24sp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="16dp"
@@ -215,13 +217,14 @@
                         app:layout_constraintEnd_toStartOf="@+id/shopping_list_card_description"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent=".3"/>
+                        app:layout_constraintWidth_percent=".3"
+                        android:contentDescription="@string/recipe_image_description" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/shopping_list_card_description"
-                        android:text="This is a sample recipe recommended by the application."
+                        android:text="@string/recommended_recipe_description"
                         android:textColor="@color/colorNude"
                         android:paddingBottom="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/shopping_list_card_title"
@@ -263,7 +266,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textColor="@color/colorNude"
-                        android:text="Virginia's Cook Book!"
+                        android:text="@string/personal_cook_book_title"
                         android:textSize="24sp"
                         android:layout_gravity="center"
                         android:layout_marginBottom="16dp"
@@ -284,13 +287,14 @@
                         app:layout_constraintEnd_toStartOf="@+id/cook_book_card_description"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintWidth_default="percent"
-                        app:layout_constraintWidth_percent=".3"/>
+                        app:layout_constraintWidth_percent=".3"
+                        android:contentDescription="@string/recipe_image_description" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/cook_book_card_description"
-                        android:text="This is a sample recipe recommended by the application."
+                        android:text="@string/recommended_recipe_description"
                         android:textColor="@color/colorNude"
                         android:paddingBottom="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/cook_book_card_title"

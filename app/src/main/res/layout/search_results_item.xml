@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textSize="10sp"
-        android:text="+ Add" />
+        android:textSize="12sp"
+        android:text="@string/add_ingredient_button" />
 
 </LinearLayout>
