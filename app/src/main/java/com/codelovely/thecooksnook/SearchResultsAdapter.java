@@ -7,38 +7,44 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.codelovely.thecooksnook.data.MainFoodDesc;
-
 import java.util.List;
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder> {
 
     private List<MainFoodDesc> mSearchResults;
+    private SearchResultsListener mSearchResultsListener;
 
-    public class SearchResultsViewHolder extends RecyclerView.ViewHolder {
+    public class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView ingredientTextView;
         private Button addIngredientButton;
+        SearchResultsListener listener;
 
-        private SearchResultsViewHolder(View itemView) {
+        private SearchResultsViewHolder(View itemView, SearchResultsListener listener) {
             super(itemView);
-
+            this.listener = listener;
             ingredientTextView = (TextView) itemView.findViewById(R.id.ingredient_name);
             addIngredientButton = (Button) itemView.findViewById(R.id.add_ingredient_button);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bind(String text) {
             ingredientTextView.setText(text);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onSearchResultClicked(getAdapterPosition());
+        }
     }
 
-    public SearchResultsAdapter (List<MainFoodDesc> searchResults) {
+    public SearchResultsAdapter (List<MainFoodDesc> searchResults, SearchResultsListener searchResultsListener) {
         mSearchResults = searchResults;
+        mSearchResultsListener = searchResultsListener;
     }
 
     @Override
@@ -57,7 +63,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View searchResultView = inflater.inflate(R.layout.search_results_item, parent, false);
-        SearchResultsViewHolder holder = new SearchResultsViewHolder(searchResultView);
+        SearchResultsViewHolder holder = new SearchResultsViewHolder(searchResultView, mSearchResultsListener);
         return holder;
     }
 
@@ -67,6 +73,9 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         holder.bind(current.getMainFoodDesc());
     }
 
+    public interface SearchResultsListener {
+        void onSearchResultClicked(int position);
+    }
 
 
     static class SearchResultsDiff extends DiffUtil.ItemCallback<MainFoodDesc> {
