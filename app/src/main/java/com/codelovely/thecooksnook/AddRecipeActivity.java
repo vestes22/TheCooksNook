@@ -26,11 +26,6 @@ public class AddRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_recipe);
         mSearchResults = null;
         mMainFoodDescDao = NutritionInformationDatabase.getDatabase(this).getMainFoodDescDao();
-
-        RecyclerView searchResultsRv = findViewById(R.id.search_results);
-        adapter = new SearchResultsAdapter(mSearchResults);
-        searchResultsRv.setAdapter(adapter);
-        searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
         searchIngredientsText = (EditText) findViewById(R.id.searchText);
     }
 
@@ -42,7 +37,11 @@ public class AddRecipeActivity extends AppCompatActivity {
                 mSearchResults = mMainFoodDescDao.search("*" + query + "*");
             }
         });
-        adapter.notifyDataSetChanged();
+
+        RecyclerView searchResultsRv = findViewById(R.id.search_results);
+        adapter = new SearchResultsAdapter(mSearchResults);
+        searchResultsRv.setAdapter(adapter);
+        searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
 
         if (mSearchResults == null) {
             System.out.println("No results returned.");

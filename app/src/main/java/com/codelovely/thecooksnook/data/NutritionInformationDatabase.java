@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -69,6 +70,14 @@ public abstract class NutritionInformationDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             NutritionInformationDatabase.class, "nutrition_information_database")
                             .createFromAsset("FNDDSDatabase.db")
+                            .addCallback(new RoomDatabase.Callback() {
+                                @Override
+                                public void onCreate(SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
+                                    db.execSQL("INSERT INTO mainFoodDesc_fts(mainFoodDesc_fts) VALUES ('rebuild')");
+                                }
+                            })
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
