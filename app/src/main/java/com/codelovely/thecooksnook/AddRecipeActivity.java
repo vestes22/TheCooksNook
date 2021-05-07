@@ -1,36 +1,56 @@
 package com.codelovely.thecooksnook;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
-
+import android.view.View;
+import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
+import com.codelovely.thecooksnook.data.MainFoodDescDao;
+import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 import com.codelovely.thecooksnook.viewmodels.AddRecipeViewModel;
-
 import java.util.List;
 
 public class AddRecipeActivity extends AppCompatActivity {
-    private AddRecipeViewModel viewModel;
+    MainFoodDescDao mMainFoodDescDao;
+    EditText searchIngredientsText;
+    SearchResultsAdapter adapter;
+    List<MainFoodDesc> mSearchResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
+        mSearchResults = null;
+        mMainFoodDescDao = NutritionInformationDatabase.getDatabase(this).getMainFoodDescDao();
 
-        // Get the ViewModel
-        viewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
+        RecyclerView searchResultsRv = findViewById(R.id.search_results);
+        adapter = new SearchResultsAdapter(mSearchResults);
+        searchResultsRv.setAdapter(adapter);
+        searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
+        searchIngredientsText = (EditText) findViewById(R.id.searchText);
+    }
 
-        // Create the observer, which updates the UI.
-        final Observer<List<MainFoodDesc>> searchResultsObserver = new Observer<List<MainFoodDesc>>() {
+    public void searchButtonClicked(View view) {
+        final String query = searchIngredientsText.getText().toString();
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
-            public void onChanged(final List<MainFoodDesc> searchResults) {
-                //TODO - Update the Recyclerview with the data from the search results.
+            public void run() {
+                mSearchResults = mMainFoodDescDao.search("*" + query + "*");
             }
-        };
+        });
+        adapter.notifyDataSetChanged();
 
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        // TODO - viewModel.search().observe(this, searchResultsObserver); May have something to do with recyclerview adapter... we'll see
+        if (mSearchResults == null) {
+            System.out.println("No results returned.");
+        }
+        else {
+            for (MainFoodDesc food : mSearchResults) {
+                System.out.println(food.getMainFoodDesc());
+            }
+        }
     }
 }

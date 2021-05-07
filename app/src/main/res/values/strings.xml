@@ -39,4 +39,5 @@
     <string name="sample_recipe_description">A savory casserole dish layered with beef, beans, cheese, and corn tortillas.</string>
     <string name="testing">testing</string>
     <string name="add_ingredient_button">+ Add</string>
+    <string name="search">Search</string>
 </resources>

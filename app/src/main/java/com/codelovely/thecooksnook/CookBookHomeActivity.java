@@ -18,4 +18,9 @@ public class CookBookHomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CookBookActivity.class);
         startActivity(intent);
     }
+
+    public void addRecipeButtonClicked(View view) {
+        Intent intent = new Intent(this, AddRecipeActivity.class);
+        startActivity(intent);
+    }
 }

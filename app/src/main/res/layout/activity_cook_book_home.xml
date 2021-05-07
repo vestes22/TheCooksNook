@@ -312,6 +312,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:onClick="addRecipeButtonClicked"
         app:neumorph_shapeType="flat"
         app:neumorph_shadowElevation="8dp"
         app:neumorph_shadowColorLight="#FFF"

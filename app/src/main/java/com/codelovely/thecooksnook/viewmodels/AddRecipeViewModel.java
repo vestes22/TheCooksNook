@@ -1,65 +1,34 @@
 package com.codelovely.thecooksnook.viewmodels;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
+import androidx.lifecycle.AndroidViewModel;
+import com.codelovely.thecooksnook.DatabaseRepository;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
-import com.codelovely.thecooksnook.data.MainFoodDescDao;
 
 import java.util.List;
 
-public class AddRecipeViewModel extends ViewModel {
-    MainFoodDescDao foodDao;
-    private String recipeTitle;
-    private String recipeDescription;
-    private String instructions;
-    private List<MainFoodDesc> ingredients;
-    private MutableLiveData<List<MainFoodDesc>> searchResults;
+public class AddRecipeViewModel extends AndroidViewModel {
+    private DatabaseRepository mRepository;
+    private List<MainFoodDesc> mSearchResults;
+    private final List<MainFoodDesc> mAllFood;
 
-    public void setRecipeTitle(String recipeTitle) {
-        this.recipeTitle = recipeTitle;
+
+    public AddRecipeViewModel(Application application) {
+        super(application);
+
+        mRepository = new DatabaseRepository(application);
+        mAllFood = mRepository.getAllFood();
     }
 
-    public void setRecipeDescription(String recipeDescription) {
-        this.recipeDescription = recipeDescription;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public void addIngredient(MainFoodDesc ingredient) {
-        ingredients.add(ingredient);
-    }
-
-    public void removeIngredient(MainFoodDesc ingredient) {
-        ingredients.remove(ingredient);
-    }
-
-    public String getRecipeTitle() {
-        return recipeTitle;
-    }
-
-    public String getRecipeDescription() {
-        return recipeDescription;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public List<MainFoodDesc> getIngredients() {
-        return ingredients;
-    }
-
-    public MutableLiveData<List<MainFoodDesc>> search(String query) {
+    public List<MainFoodDesc> search(String query) {
         if(query.trim().isEmpty()) {
-            searchResults.setValue((List<MainFoodDesc>) foodDao.getAll());
+            mSearchResults = mRepository.getAllFood();
         }
         else {
-            searchResults.setValue((List<MainFoodDesc>) foodDao.search("*" + query + "*"));
+            mSearchResults = mRepository.search("*" + query + "*");
         }
-        return searchResults;
+        return mSearchResults;
     }
 
 }
