@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
-import com.codelovely.thecooksnook.data.MainFoodDescDao;
+import com.codelovely.thecooksnook.data.daos.FoodPortionDao;
+import com.codelovely.thecooksnook.data.daos.MainFoodDescDao;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
+import com.codelovely.thecooksnook.models.FoodPortion;
+
 import java.util.List;
 
 public class AddRecipeActivity extends AppCompatActivity implements SearchResultsAdapter.SearchResultsListener {
@@ -16,6 +19,8 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     EditText searchIngredientsText;
     SearchResultsAdapter adapter;
     List<MainFoodDesc> mSearchResults;
+    FoodPortionDao mFoodPortionDao;
+    List<FoodPortion> mFoodPortions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         setContentView(R.layout.activity_add_recipe);
         mSearchResults = null;
         mMainFoodDescDao = NutritionInformationDatabase.getDatabase(this).getMainFoodDescDao();
+        mFoodPortionDao = NutritionInformationDatabase.getDatabase(this).getFoodPortionDao();
         searchIngredientsText = findViewById(R.id.searchText);
     }
 
@@ -53,6 +59,23 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     @Override
     public void onSearchResultClicked(int position) {
         // TODO - When searchResults recyclerview item is clicked.
+        // This part is making the app crash.
+        // For some reason it won't let me access foodPortions from inner class?
+        // But it will let me use the global mFoodPortions... I do not want that.
+        // So how? What do? Whyyyyyyyyyyyyyyyyyyyyyyyyyyyy
         System.out.println("Search result " + mSearchResults.get(position).getMainFoodDesc() + " clicked!");
+        final int foodCode = mSearchResults.get(position).getFoodId();
+        final List<FoodPortion> foodPortions;
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mFoodPortions = mFoodPortionDao.getPortionOptions(foodCode);
+            }
+        });
+
+        for (FoodPortion portion : mFoodPortions) {
+            System.out.println(portion.getPortionDesc());
+        }
+
     }
 }

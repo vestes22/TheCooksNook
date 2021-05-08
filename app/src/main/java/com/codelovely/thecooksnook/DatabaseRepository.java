@@ -2,10 +2,8 @@ package com.codelovely.thecooksnook;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
-
 import com.codelovely.thecooksnook.data.MainFoodDesc;
-import com.codelovely.thecooksnook.data.MainFoodDescDao;
+import com.codelovely.thecooksnook.data.daos.MainFoodDescDao;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 
 import java.util.List;
