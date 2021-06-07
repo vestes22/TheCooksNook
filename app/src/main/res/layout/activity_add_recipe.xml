@@ -48,6 +48,11 @@
         android:layout_height="wrap_content"
         android:text="@string/add_ingredients_text" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ingredients_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/searchText"
         android:layout_width="match_parent"
@@ -64,17 +69,13 @@
         android:onClick="searchButtonClicked"
         android:text="@string/search"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!--
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ingredients_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
--->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,81 +1,87 @@
 package com.codelovely.thecooksnook;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
-import com.codelovely.thecooksnook.data.daos.FoodPortionDao;
-import com.codelovely.thecooksnook.data.daos.MainFoodDescDao;
-import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
-import com.codelovely.thecooksnook.models.FoodPortion;
 
 import java.util.List;
 
 public class AddRecipeActivity extends AppCompatActivity implements SearchResultsAdapter.SearchResultsListener {
-    MainFoodDescDao mMainFoodDescDao;
     EditText searchIngredientsText;
-    SearchResultsAdapter adapter;
-    List<MainFoodDesc> mSearchResults;
-    FoodPortionDao mFoodPortionDao;
-    List<FoodPortion> mFoodPortions;
+    SearchResultsAdapter searchAdapter;
+    IngredientsListAdapter ingredientsAdapter;
+    AddRecipeViewModel mAddRecipeViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
-        mSearchResults = null;
-        mMainFoodDescDao = NutritionInformationDatabase.getDatabase(this).getMainFoodDescDao();
-        mFoodPortionDao = NutritionInformationDatabase.getDatabase(this).getFoodPortionDao();
+
         searchIngredientsText = findViewById(R.id.searchText);
-    }
+        mAddRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
 
-    public void searchButtonClicked(View view) {
-        final String query = searchIngredientsText.getText().toString();
-        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mSearchResults = mMainFoodDescDao.search("*" + query + "*");
-            }
-        });
-
+        // The rest of this is setup code for our two RecyclerViews:
+        // The one we use for our search results, and the one we use to store
+        // the list of ingredients for our recipe.
+        RecyclerView ingredientsListRv = findViewById(R.id.ingredients_list);
         RecyclerView searchResultsRv = findViewById(R.id.search_results);
-        adapter = new SearchResultsAdapter(mSearchResults, this);
-        searchResultsRv.setAdapter(adapter);
+        searchAdapter = new SearchResultsAdapter(new SearchResultsAdapter.SearchResultsDiff(), this);
+        // I'm just going to see if I can use the same DiffUtil callback class thingy for both adapters.
+        // Currently I have an inner DiffUtil class created in SearchResultsAdapter, but not for IngredientsListAdapter.
+        // I can't see why the same class wouldn't work for both!
+        ingredientsAdapter = new IngredientsListAdapter(new SearchResultsAdapter.SearchResultsDiff());
+        searchResultsRv.setAdapter(searchAdapter);
+        ingredientsListRv.setAdapter(ingredientsAdapter);
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
-
-        if (mSearchResults == null) {
-            System.out.println("No results returned.");
-        }
-        else {
-            for (MainFoodDesc food : mSearchResults) {
-                System.out.println(food.getMainFoodDesc());
-            }
-        }
+        ingredientsListRv.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /*
+    This enables the user to search for ingredients to use in their recipe.
+    Data retrieval follows the Android Guide to App Architecture:
+    It asks the ViewModel for the data.
+    The ViewModel gets the data from the Repository, which gets it from the Room database.
+
+    I have a love/hate relationship with LiveData, which is what we use to store the results.
+     */
+    public void searchButtonClicked(View view) {
+        String query = searchIngredientsText.getText().toString();
+
+        // So, this works. But I have qualms about creating an observer in this method...
+        // It's recommended to observe LiveData in onCreate for a reason. We don't want to create
+        // a billion observers, do we?
+        // Maybe we can instantiate a global observer in onCreate, and simply attach it to the observed method here?
+
+        final Observer<List<MainFoodDesc>> searchResultsObserver = new Observer<List<MainFoodDesc>>() {
+            @Override
+            public void onChanged(@Nullable final List<MainFoodDesc> searchResults) {
+                searchAdapter.submitList(searchResults);
+                if (searchResults == null) {
+                    System.out.println("The results in onChanged are null.");
+                }
+            }
+        };
+
+        mAddRecipeViewModel.fetchIngredientByQuery(query).observe(this, searchResultsObserver);
+    }
+
+    /*
+    After a user searches for ingredients, they can click on an item in the search results to add that ingredient to their recipe.
+    Which is what we do here.
+     */
     @Override
     public void onSearchResultClicked(int position) {
+        System.out.println("Search result clicked!");
+        List<MainFoodDesc> currentList = searchAdapter.getCurrentList();
+        mAddRecipeViewModel.addRecipeIngredient(currentList.get(position));
+        System.out.println("I clicked " + currentList.get(position).getMainFoodDesc());
         // TODO - When searchResults recyclerview item is clicked.
-        // This part is making the app crash.
-        // For some reason it won't let me access foodPortions from inner class?
-        // But it will let me use the global mFoodPortions... I do not want that.
-        // So how? What do? Whyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-        System.out.println("Search result " + mSearchResults.get(position).getMainFoodDesc() + " clicked!");
-        final int foodCode = mSearchResults.get(position).getFoodId();
-        final List<FoodPortion> foodPortions;
-        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mFoodPortions = mFoodPortionDao.getPortionOptions(foodCode);
-            }
-        });
-
-        for (FoodPortion portion : mFoodPortions) {
-            System.out.println(portion.getPortionDesc());
-        }
-
     }
 }
