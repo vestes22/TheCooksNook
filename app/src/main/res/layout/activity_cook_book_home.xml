@@ -1,52 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:background="@color/colorPrimaryLight"
-    tools:context=".CookBookHomeActivity">
-
-<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="24dp"
-    android:layout_marginTop="24dp"
-    android:layout_marginRight="24dp"
-    android:layout_marginBottom="24dp"
-    android:background="@drawable/neumorphism_background_style"
+    android:padding="16dp"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
-    android:elevation="20dp">
+    android:elevation="20dp"
+    tools:context=".CookBookHomeActivity">
 
     <TextView
         android:id="@+id/cook_book_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="casual"
         android:gravity="center_horizontal"
         android:text="@string/cook_book_title"
-        android:textSize="30sp"
+        android:textColor="@color/colorNude"
+        android:background="@color/colorPrimary"
+        android:textSize="24sp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/breakfast_button"
+        android:layout_marginBottom="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <soup.neumorphism.NeumorphCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/breakfast_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="0dp"
         android:onClick="onBreakfastButtonClicked"
-        app:neumorph_shapeType="flat"
-        app:neumorph_shadowElevation="8dp"
-        app:neumorph_shadowColorLight="#FFF"
-        app:neumorph_shadowColorDark="#d9d9d9"
-        app:neumorph_backgroundColor="@color/colorNude"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@+id/dinner_button"
         app:layout_constraintEnd_toStartOf="@+id/lunch_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,21 +50,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="24dp"
-            android:paddingLeft="24dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp">
+            android:padding="24dp">
 
     <TextView
         android:id="@+id/breakfast_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/breakfast_text"
-        android:layout_marginBottom="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/breakfast_icon"/>
+        app:layout_constraintBottom_toTopOf="@+id/breakfast_icon"
+        style="@style/cookbook_headings" />
 
         <ImageView
             android:layout_width="0dp"
@@ -87,45 +76,36 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </soup.neumorphism.NeumorphCardView>
+    </androidx.cardview.widget.CardView>
 
-    <soup.neumorphism.NeumorphCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/lunch_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="0dp"
-
-        android:paddingRight="24dp"
-        android:paddingLeft="24dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
-        app:neumorph_shapeType="flat"
-        app:neumorph_shadowElevation="8dp"
-        app:neumorph_shadowColorLight="#FFF"
-        app:neumorph_shadowColorDark="#d9d9d9"
-        app:neumorph_backgroundColor="@color/colorNude"
+        android:onClick="onLunchButtonClicked"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@+id/appetizers_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/breakfast_button"
         app:layout_constraintTop_toBottomOf="@+id/cook_book_title"
         app:layout_constraintVertical_weight="2">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="24dp"
-            android:paddingLeft="24dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp">
+            android:padding="24dp">
 
         <TextView
             android:id="@+id/lunch_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/lunch_text"
-            android:layout_marginBottom="8dp"
+            style="@style/cookbook_headings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,9 +126,9 @@
                 android:contentDescription="@string/lunch_icon_desc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </soup.neumorphism.NeumorphCardView>
+    </androidx.cardview.widget.CardView>
 
-    <soup.neumorphism.NeumorphCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/dinner_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -156,11 +136,11 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:neumorph_shapeType="flat"
-        app:neumorph_shadowElevation="8dp"
-        app:neumorph_shadowColorLight="#FFF"
-        app:neumorph_shadowColorDark="#d9d9d9"
-        app:neumorph_backgroundColor="@color/colorNude"
+        android:onClick="onDinnerButtonClicked"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@+id/barrier"
         app:layout_constraintEnd_toStartOf="@+id/appetizers_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -177,14 +157,11 @@
 
         <TextView
             android:id="@+id/dinner_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/dinner_text"
-            android:layout_marginBottom="8dp"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/cookbook_headings"/>
 
             <ImageView
                 android:id="@+id/dinner_icon"
@@ -200,9 +177,9 @@
                 android:contentDescription="@string/dinner_icon_desc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </soup.neumorphism.NeumorphCardView>
+    </androidx.cardview.widget.CardView>
 
-    <soup.neumorphism.NeumorphCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/appetizers_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -210,11 +187,11 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:neumorph_shapeType="flat"
-        app:neumorph_shadowElevation="8dp"
-        app:neumorph_shadowColorLight="#FFF"
-        app:neumorph_shadowColorDark="#d9d9d9"
-        app:neumorph_backgroundColor="@color/colorNude"
+        android:onClick="onAppetizerButtonClicked"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@+id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dinner_button"
@@ -231,14 +208,11 @@
 
         <TextView
             android:id="@+id/appetizers_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/appetizers_text"
-            android:layout_marginBottom="8dp"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/cookbook_headings"/>
 
             <ImageView
                 android:layout_width="0dp"
@@ -254,7 +228,7 @@
                 android:contentDescription="@string/appetizers_icon_desc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </soup.neumorphism.NeumorphCardView>
+    </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -267,19 +241,19 @@
         app:layout_constraintTop_toBottomOf="@+id/dinner_button"
         />
 
-    <soup.neumorphism.NeumorphCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/view_all_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
-        app:neumorph_shapeType="flat"
-        app:neumorph_shadowElevation="8dp"
-        app:neumorph_shadowColorLight="#FFF"
-        app:neumorph_shadowColorDark="#d9d9d9"
-        app:neumorph_backgroundColor="@color/colorNude"
+        android:layout_marginBottom="0dp"
+        android:onClick="onViewAllButtonClicked"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@id/add_recipe_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -292,32 +266,30 @@
 
         <TextView
             android:id="@+id/view_all_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/view_all_recipes"
             android:layout_gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </soup.neumorphism.NeumorphCardView>
+            style="@style/cookbook_headings"/>
 
-    <soup.neumorphism.NeumorphCardView
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/add_recipe_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="addRecipeButtonClicked"
-        app:neumorph_shapeType="flat"
-        app:neumorph_shadowElevation="8dp"
-        app:neumorph_shadowColorLight="#FFF"
-        app:neumorph_shadowColorDark="#d9d9d9"
-        app:neumorph_backgroundColor="@color/colorAccent"
+        card_view:cardBackgroundColor="@color/colorAccent"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -330,16 +302,13 @@
 
             <TextView
                 android:id="@+id/add_recipe_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/cookbook_headings"
                 android:text="@string/add_new_recipe_text"
-                android:textColor="@color/colorNude"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </soup.neumorphism.NeumorphCardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>

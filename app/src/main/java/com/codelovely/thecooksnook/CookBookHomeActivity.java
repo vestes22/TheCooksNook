@@ -23,4 +23,16 @@ public class CookBookHomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddRecipeActivity.class);
         startActivity(intent);
     }
+
+    public void onLunchButtonClicked(View view) {
+    }
+
+    public void onDinnerButtonClicked(View view) {
+    }
+
+    public void onAppetizerButtonClicked(View view) {
+    }
+
+    public void onViewAllButtonClicked(View view) {
+    }
 }

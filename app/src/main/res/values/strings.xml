@@ -17,9 +17,9 @@
     <string name="recipe_instructions_label">Instructions</string>
     <string name="recipe_instructions_hint">Recipe preparation instructions</string>
     <string name="add_recipe_title">Add New Recipe</string>
-    <string name="recipe_name_label">Name:</string>
+    <string name="recipe_name_label">Name</string>
     <string name="recipe_name_prompt">Name</string>
-    <string name="recipe_description_label">Description:</string>
+    <string name="recipe_description_label">Description</string>
     <string name="recipe_description_hint">Description</string>
     <string name="add_ingredients_text">Add Ingredients</string>
     <string name="recipe_name_hint">Recipe name</string>

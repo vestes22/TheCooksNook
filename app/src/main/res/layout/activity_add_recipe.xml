@@ -1,99 +1,364 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AddRecipeActivity">
+    android:layout_height="wrap_content"
+    tools:context=".AddRecipeActivity"
+    android:background="@color/colorPrimary"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_recipe_title"
-        android:gravity="center"
-        android:textSize="24sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe_name_label" />
-
-    <EditText
-        android:id="@+id/recipe_name_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/recipe_name_prompt"
-        android:hint="@string/recipe_name_hint"
-        android:autofillHints="The name of the recipe" />
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe_description_label" />
-
-    <EditText
-        android:id="@+id/recipe_description_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:gravity="start|top"
-        android:hint="@string/recipe_description_hint"
-        android:autofillHints="The recipe description" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_ingredients_text" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ingredients_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/searchText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/search_text_label"
-        android:autofillHints="Search for ingredients" />
-
-    <Button
-        android:id="@+id/ingredient_search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="searchButtonClicked"
-        android:text="@string/search"/>
+        <TextView
+            android:id="@+id/add_recipe_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_recipe_title"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorNude"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recipe_details_card"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_results"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!-- Recipe Details CardView -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/recipe_details_card"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/add_recipe_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/search_ingredients_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/recipe_name_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/recipe_name_hint"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColorHint="@color/colorNude"
+                    app:boxStrokeColor="@color/colorNude"
+                    app:boxStrokeWidth="2dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/recipe_description_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorNude"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/recipe_description_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/recipe_description_hint"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColorHint="@color/colorNude"
+                    app:boxStrokeColor="@color/colorNude"
+                    app:boxStrokeWidth="2dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_name_text"
+                    app:layout_constraintBottom_toTopOf="@id/recipe_category_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorNude"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/recipe_category_label"
+                    style="@style/cookbook_headings"
+                    android:text="Category"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_description_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/chipGroup" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_category_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/breakfast_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStrokeColor="@color/colorAccent"
+                        android:textColor="@color/colorNude"
+                        app:chipBackgroundColor="@color/colorPrimaryDark"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:chipStrokeWidth="2dp"
+                        android:text="@string/breakfast_text"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/lunch_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipBackgroundColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorNude"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:chipStrokeColor="@color/colorAccent"
+                        app:chipStrokeWidth="2dp"
+                        android:text="@string/lunch_text"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/dinner_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStrokeColor="@color/colorAccent"
+                        app:chipBackgroundColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorNude"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:chipStrokeWidth="2dp"
+                        android:text="@string/dinner_text"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/appetizers_chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStrokeColor="@color/colorAccent"
+                        app:chipBackgroundColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorNude"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:chipStrokeWidth="2dp"
+                        android:text="@string/appetizers_text"/>
+                </com.google.android.material.chip.ChipGroup>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe_instructions_label" />
 
-    <EditText
-        android:id="@+id/instructions_text"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginBottom="10dp"
-        android:hint="@string/recipe_instructions_hint"
-        android:fontFamily="sans-serif-condensed"
-        android:background="#d3d7b6"
-        android:minLines="2"
-        android:maxLines="3"
-        android:scrollbars="vertical"
-        android:inputType="textMultiLine"
-        android:autofillHints="What am I supposed to put here?" />
 
-</LinearLayout>
+
+        <!-- Search Ingredients Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/search_ingredients_card"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/recipe_details_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recipe_ingredients_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@color/colorPrimaryDark" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/searchText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Search For Ingredients"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColorHint="@color/colorNude"
+                    app:boxStrokeColor="@color/colorNude"
+                    app:boxStrokeWidth="2dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ingredient_search_button"
+                    app:layout_constraintBottom_toTopOf="@id/search_results" >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/search_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorNude"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/ingredient_search_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="searchButtonClicked"
+                    android:text="@string/search"
+                    app:layout_constraintStart_toEndOf="@id/searchText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/search_results"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/search_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ingredient_search_button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+        <!-- Ingredients RecyclerView CardView -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/recipe_ingredients_card"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/search_ingredients_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recipe_instructions_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark" >
+
+                <TextView
+                    android:id="@+id/add_ingredients_label"
+                    style="@style/cookbook_headings"
+                    android:text="Ingredients List"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/ingredients_list"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/ingredients_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/add_ingredients_label" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+        <!-- Instructions Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/recipe_instructions_card"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/recipe_ingredients_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/add_recipe_button">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark" >
+
+                <TextView
+                    android:id="@+id/instructions_label"
+                    style="@style/cookbook_headings"
+                    android:text="@string/recipe_instructions_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/instructions_text"/>
+
+                <EditText
+                    android:id="@+id/instructions_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="100dp"
+                    android:padding="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/recipe_instructions_hint"
+                    android:minLines="2"
+                    android:maxLines="3"
+                    android:scrollbars="vertical"
+                    android:inputType="textMultiLine"
+                    android:autofillHints="What am I supposed to put here?"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/instructions_label"
+                    app:layout_constraintBottom_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+        <!-- Save Recipe button -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_recipe_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:onClick="saveRecipeButtonClicked"
+            card_view:cardBackgroundColor="@color/colorAccent"
+            card_view:cardElevation="8dp"
+            card_view:cardCornerRadius="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_card">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/add_recipe_text"
+                    style="@style/cookbook_headings"
+                    android:text="Save Recipe"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -2,14 +2,21 @@ package com.codelovely.thecooksnook;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -18,13 +25,29 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     SearchResultsAdapter searchAdapter;
     IngredientsListAdapter ingredientsAdapter;
     AddRecipeViewModel mAddRecipeViewModel;
+    ChipGroup chipGroup;
+
+    Boolean breakfastChecked;
+    Boolean lunchChecked;
+    Boolean dinnerChecked;
+    Boolean appetizerChecked;
+    Chip breakfastChip;
+    Chip lunchChip;
+    Chip dinnerChip;
+    Chip appetizersChip;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
 
-        searchIngredientsText = findViewById(R.id.searchText);
+        searchIngredientsText = (TextInputEditText)findViewById(R.id.search_edit_text);
+        chipGroup = (ChipGroup)findViewById(R.id.chipGroup);
+        breakfastChip = (Chip)findViewById(R.id.breakfast_chip);
+        lunchChip = (Chip)findViewById(R.id.lunch_chip);
+        dinnerChip = (Chip)findViewById(R.id.dinner_chip);
+        appetizersChip = (Chip)findViewById(R.id.appetizers_chip);
         mAddRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
 
         // The rest of this is setup code for our two RecyclerViews:
@@ -41,6 +64,79 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         ingredientsListRv.setAdapter(ingredientsAdapter);
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
         ingredientsListRv.setLayoutManager(new LinearLayoutManager(this));
+
+        final Observer<List<MainFoodDesc>> ingredientsListObserver = new Observer<List<MainFoodDesc>>() {
+            @Override
+            public void onChanged(@Nullable final List<MainFoodDesc> ingredientsList) {
+                ingredientsAdapter.submitList(ingredientsList);
+                if (ingredientsList == null) {
+                    System.out.println("The results in onChanged are null.");
+                }
+            }
+        };
+
+        breakfastChecked = false;
+        lunchChecked = false;
+        dinnerChecked = false;
+        appetizerChecked = false;
+
+        breakfastChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (breakfastChecked) {
+                   breakfastChecked = false;
+                   breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+                }
+                else if (!breakfastChecked) {
+                    breakfastChecked = true;
+                    breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
+                }
+            }
+        });
+
+        lunchChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (lunchChecked) {
+                    lunchChecked = false;
+                    lunchChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+                }
+                else if (!lunchChecked) {
+                    lunchChecked = true;
+                    lunchChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
+                }
+            }
+        });
+
+        dinnerChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dinnerChecked) {
+                    dinnerChecked = false;
+                    dinnerChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+                }
+                else if (!dinnerChecked) {
+                    dinnerChecked = true;
+                    dinnerChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
+                }
+            }
+        });
+
+        appetizersChip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (appetizerChecked) {
+                    appetizerChecked = false;
+                    appetizersChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+                }
+                else if (!appetizerChecked) {
+                    appetizerChecked = true;
+                    appetizersChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
+                }
+            }
+        });
+
+        mAddRecipeViewModel.getRecipeIngredients().observe(this, ingredientsListObserver);
     }
 
     /*
@@ -58,6 +154,11 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         // It's recommended to observe LiveData in onCreate for a reason. We don't want to create
         // a billion observers, do we?
         // Maybe we can instantiate a global observer in onCreate, and simply attach it to the observed method here?
+        // But global variables can be yucky.
+        // My main question is.... Using observers when the method requires an argument. We get the user's query here.
+        // We can't pass it to an observer in the onCreate method... or can we?
+        // Is the answer onClickListeners?
+        // ... It's onClickListeners, isn't it...
 
         final Observer<List<MainFoodDesc>> searchResultsObserver = new Observer<List<MainFoodDesc>>() {
             @Override
@@ -78,10 +179,18 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
      */
     @Override
     public void onSearchResultClicked(int position) {
+        // Sooooo... this, kind of works?
+        // I mean, ingredients are getting added to the ingredients list.
+        // But there seems to be hella lag.
+        // And maybe i'm clicking on search results without meaning to while trying to scroll,
+        // but it also seems like sometimes items are getting adde that I don't want to be added.
+
         System.out.println("Search result clicked!");
         List<MainFoodDesc> currentList = searchAdapter.getCurrentList();
         mAddRecipeViewModel.addRecipeIngredient(currentList.get(position));
         System.out.println("I clicked " + currentList.get(position).getMainFoodDesc());
-        // TODO - When searchResults recyclerview item is clicked.
+    }
+
+    public void saveRecipeButtonClicked(View view) {
     }
 }

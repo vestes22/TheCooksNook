@@ -12,13 +12,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".5"
-        android:text="Placeholder text" />
+        android:text="Placeholder text"
+        android:textColor="@color/colorNude"/>
 
     <TextView
         android:text="Qty: "
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".1" />
+        android:layout_weight=".1"
+        android:textColor="@color/colorNude"/>
 
     <EditText
         android:id="@+id/qtyEditText"
@@ -26,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_weight=".1"
         android:ems="10"
-        android:inputType="number" />
+        android:inputType="number"
+        android:textColor="@color/colorNude"/>
 
     <Spinner
         android:id="@+id/unitSpinner"
