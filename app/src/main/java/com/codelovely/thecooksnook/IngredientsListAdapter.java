@@ -18,12 +18,6 @@ import com.codelovely.thecooksnook.data.MainFoodDesc;
 public class IngredientsListAdapter extends ListAdapter<MainFoodDesc, IngredientsListAdapter.IngredientsViewHolder> {
 
 
-
-    /*
-    A static class, SearchResultsDiff is described in the SearchResultsAdapter class.
-    Do we need to write an inner DiffUtil class for each adapter?
-    Or can that static class be reused?
-     */
     public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<MainFoodDesc> diffCallback) {
         super(diffCallback);
     }
@@ -50,6 +44,20 @@ public class IngredientsListAdapter extends ListAdapter<MainFoodDesc, Ingredient
         MainFoodDesc current = getItem(position);
         holder.bind(current);
 
+    }
+
+
+    static class IngredientsDiff extends DiffUtil.ItemCallback<MainFoodDesc> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
+            return oldItem == newItem;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
+            return oldItem.getFoodId() == newItem.getFoodId();
+        }
     }
 
     /*

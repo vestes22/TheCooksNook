@@ -26,19 +26,6 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
         mSearchResultsListener = searchResultsListener;
     }
 
-    // TODO - determine if we really need this function. I'm going to leave it commented out for now, will erase later if we can get by without it.
-/*
-    @Override
-    public int getItemCount() {
-        if(mSearchResults == null) {
-            return 0;
-        }
-        else {
-            return mSearchResults.size();
-        }
-   } */
-
-
     /*
     onCreateViewHolder is called right when the adapter is created and is used to initialize the ViewHolder.
      */

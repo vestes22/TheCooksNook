@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.google.android.material.chip.Chip;
@@ -27,10 +28,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     AddRecipeViewModel mAddRecipeViewModel;
     ChipGroup chipGroup;
 
-    Boolean breakfastChecked;
-    Boolean lunchChecked;
-    Boolean dinnerChecked;
-    Boolean appetizerChecked;
     Chip breakfastChip;
     Chip lunchChip;
     Chip dinnerChip;
@@ -56,10 +53,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         RecyclerView ingredientsListRv = findViewById(R.id.ingredients_list);
         RecyclerView searchResultsRv = findViewById(R.id.search_results);
         searchAdapter = new SearchResultsAdapter(new SearchResultsAdapter.SearchResultsDiff(), this);
-        // I'm just going to see if I can use the same DiffUtil callback class thingy for both adapters.
-        // Currently I have an inner DiffUtil class created in SearchResultsAdapter, but not for IngredientsListAdapter.
-        // I can't see why the same class wouldn't work for both!
-        ingredientsAdapter = new IngredientsListAdapter(new SearchResultsAdapter.SearchResultsDiff());
+        ingredientsAdapter = new IngredientsListAdapter(new IngredientsListAdapter.IngredientsDiff());
         searchResultsRv.setAdapter(searchAdapter);
         ingredientsListRv.setAdapter(ingredientsAdapter);
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
@@ -68,74 +62,63 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         final Observer<List<MainFoodDesc>> ingredientsListObserver = new Observer<List<MainFoodDesc>>() {
             @Override
             public void onChanged(@Nullable final List<MainFoodDesc> ingredientsList) {
+                ingredientsAdapter.submitList(null);
                 ingredientsAdapter.submitList(ingredientsList);
-                if (ingredientsList == null) {
-                    System.out.println("The results in onChanged are null.");
-                }
             }
         };
 
-        breakfastChecked = false;
-        lunchChecked = false;
-        dinnerChecked = false;
-        appetizerChecked = false;
+        breakfastChip.setCheckable(true);
+        lunchChip.setCheckable(true);
+        dinnerChip.setCheckable(true);
+        appetizersChip.setCheckable(true);
 
-        breakfastChip.setOnClickListener(new View.OnClickListener() {
+        breakfastChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (breakfastChecked) {
-                   breakfastChecked = false;
-                   breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (!isChecked) {
+                    breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (!breakfastChecked) {
-                    breakfastChecked = true;
+                else if (isChecked) {
                     breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
         });
 
-        lunchChip.setOnClickListener(new View.OnClickListener() {
+        lunchChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (lunchChecked) {
-                    lunchChecked = false;
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (!isChecked) {
                     lunchChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (!lunchChecked) {
-                    lunchChecked = true;
+                else if (isChecked) {
                     lunchChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
         });
 
-        dinnerChip.setOnClickListener(new View.OnClickListener() {
+        dinnerChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (dinnerChecked) {
-                    dinnerChecked = false;
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (!isChecked) {
                     dinnerChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (!dinnerChecked) {
-                    dinnerChecked = true;
+                else if (isChecked) {
                     dinnerChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
         });
 
-        appetizersChip.setOnClickListener(new View.OnClickListener() {
+        appetizersChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                if (appetizerChecked) {
-                    appetizerChecked = false;
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (!isChecked) {
                     appetizersChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (!appetizerChecked) {
-                    appetizerChecked = true;
+                else if (isChecked) {
                     appetizersChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
         });
-
         mAddRecipeViewModel.getRecipeIngredients().observe(this, ingredientsListObserver);
     }
 
@@ -179,16 +162,8 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
      */
     @Override
     public void onSearchResultClicked(int position) {
-        // Sooooo... this, kind of works?
-        // I mean, ingredients are getting added to the ingredients list.
-        // But there seems to be hella lag.
-        // And maybe i'm clicking on search results without meaning to while trying to scroll,
-        // but it also seems like sometimes items are getting adde that I don't want to be added.
-
-        System.out.println("Search result clicked!");
         List<MainFoodDesc> currentList = searchAdapter.getCurrentList();
         mAddRecipeViewModel.addRecipeIngredient(currentList.get(position));
-        System.out.println("I clicked " + currentList.get(position).getMainFoodDesc());
     }
 
     public void saveRecipeButtonClicked(View view) {
