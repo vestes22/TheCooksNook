@@ -4,21 +4,31 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codelovely.thecooksnook.data.MainFoodDesc;
+import com.codelovely.thecooksnook.models.FoodOption;
+import com.codelovely.thecooksnook.models.FoodPortion;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-public class IngredientsListAdapter extends ListAdapter<MainFoodDesc, IngredientsListAdapter.IngredientsViewHolder> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsListAdapter.IngredientsViewHolder> {
 
 
-    public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<MainFoodDesc> diffCallback) {
+    public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<FoodOption> diffCallback) {
         super(diffCallback);
     }
 
@@ -41,21 +51,21 @@ public class IngredientsListAdapter extends ListAdapter<MainFoodDesc, Ingredient
      */
     @Override
     public void onBindViewHolder(IngredientsListAdapter.IngredientsViewHolder holder, int position) {
-        MainFoodDesc current = getItem(position);
+        FoodOption current = getItem(position);
         holder.bind(current);
 
     }
 
 
-    static class IngredientsDiff extends DiffUtil.ItemCallback<MainFoodDesc> {
+    static class IngredientsDiff extends DiffUtil.ItemCallback<FoodOption> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
+        public boolean areItemsTheSame(@NonNull FoodOption oldItem, @NonNull FoodOption newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
+        public boolean areContentsTheSame(@NonNull FoodOption oldItem, @NonNull FoodOption newItem) {
             return oldItem.getFoodId() == newItem.getFoodId();
         }
     }
@@ -68,20 +78,28 @@ public class IngredientsListAdapter extends ListAdapter<MainFoodDesc, Ingredient
     class IngredientsViewHolder extends RecyclerView.ViewHolder {
         private TextView ingredientName;
         private EditText ingredientQty;
-        private Spinner unit;
+        private AutoCompleteTextView unit;
+        private Context context;
 
         public IngredientsViewHolder(View itemView) {
             super(itemView);
 
             ingredientName = (TextView) itemView.findViewById(R.id.ingredient_name);
-            ingredientQty = (EditText) itemView.findViewById(R.id.qtyEditText);
-            unit = (Spinner) itemView.findViewById(R.id.unitSpinner);
+            ingredientQty = (TextInputEditText) itemView.findViewById(R.id.qty_edit_text);
+            unit = (AutoCompleteTextView) itemView.findViewById(R.id.my_unit_spinner);
+            context = itemView.getContext();
         }
 
-        public void bind(MainFoodDesc mainFoodDesc) {
-            ingredientName.setText(mainFoodDesc.getMainFoodDesc());
-            // The EditText, ingredientQty, is initially left blank for the user to fill out.
-            // TODO - set the data for the portions spinner.
+        public void bind(FoodOption foodOption) {
+            ingredientName.setText(foodOption.getFoodName());
+            List<FoodPortion> foodPortions = foodOption.getFoodPortions();
+            List<String> portionStrings = new ArrayList<>();
+            for (FoodPortion portion : foodPortions) {
+                portionStrings.add(portion.getPortionDesc());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, portionStrings);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            unit.setAdapter(adapter);
         }
     }
 }

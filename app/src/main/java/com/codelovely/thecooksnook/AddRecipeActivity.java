@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
+import com.codelovely.thecooksnook.models.FoodOption;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -59,9 +60,9 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
         ingredientsListRv.setLayoutManager(new LinearLayoutManager(this));
 
-        final Observer<List<MainFoodDesc>> ingredientsListObserver = new Observer<List<MainFoodDesc>>() {
+        final Observer<List<FoodOption>> ingredientsListObserver = new Observer<List<FoodOption>>() {
             @Override
-            public void onChanged(@Nullable final List<MainFoodDesc> ingredientsList) {
+            public void onChanged(@Nullable final List<FoodOption> ingredientsList) {
                 ingredientsAdapter.submitList(null);
                 ingredientsAdapter.submitList(ingredientsList);
             }

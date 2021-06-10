@@ -56,6 +56,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:textColorHint="@color/colorNude"
+                    app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
                     app:boxStrokeWidth="2dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -81,16 +82,43 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:textColorHint="@color/colorNude"
+                    app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
                     app:boxStrokeWidth="2dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recipe_name_text"
-                    app:layout_constraintBottom_toTopOf="@id/recipe_category_label">
+                    app:layout_constraintBottom_toTopOf="@id/num_servings_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorNude"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/num_servings_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Number of Servings"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColorHint="@color/colorNude"
+                    app:hintTextColor="@color/colorAccent"
+                    app:boxStrokeColor="@color/colorNude"
+                    app:boxStrokeWidth="2dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_description_text"
+                    app:layout_constraintBottom_toTopOf="@id/recipe_category_label">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/num_servings_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorNude"/>
@@ -103,7 +131,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recipe_description_text"
+                    app:layout_constraintTop_toBottomOf="@id/num_servings_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/chipGroup" />
 
@@ -201,6 +229,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:textColorHint="@color/colorNude"
+                    app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
                     app:boxStrokeWidth="2dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -308,23 +337,33 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/instructions_text"/>
 
-                <EditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/instructions_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="100dp"
-                    android:padding="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:hint="@string/recipe_instructions_hint"
-                    android:minLines="2"
-                    android:maxLines="3"
-                    android:scrollbars="vertical"
+                    android:hint="Preparation Instructions"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColorHint="@color/colorNude"
+                    app:hintTextColor="@color/colorAccent"
+                    app:boxStrokeColor="@color/colorNude"
+                    app:boxStrokeWidth="2dp"
                     android:inputType="textMultiLine"
-                    android:autofillHints="What am I supposed to put here?"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/instructions_label"
-                    app:layout_constraintBottom_toTopOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent" >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/instructions_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="150dp"
+                        android:textColor="@color/colorNude"/>
+                </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 

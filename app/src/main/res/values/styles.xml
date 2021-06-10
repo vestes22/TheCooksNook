@@ -10,7 +10,7 @@
     </style>
 
 
-    <style name="myTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="myTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/colorPrimaryLight</item>
     </style>
 
@@ -46,7 +46,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="Widget.Shrine.Toolbar" parent="Widget.AppCompat.Toolbar">
+    <style name="Widget.Shrine.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">?attr/colorAccent</item>
         <item name="android:theme">@style/AppTheme</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
@@ -66,5 +66,6 @@
     <style name="Widget.Shrine.Backdrop" parent="">
         <item name="android:background">?attr/colorAccent</item>
     </style>
+
 
 </resources>

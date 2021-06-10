@@ -31,7 +31,7 @@ public class DatabaseRepository {
 
     // Gets the available portion options for a specific food item.
     // For example, portion options for measuring walnuts might include cups, ounces, or number of nuts.
-    public LiveData<List<FoodPortion>> getPortionOptions(final int id) {
+    public List<FoodPortion> getPortionOptions(final int id) {
         return mFoodPortionDao.getPortionOptions(id);
     }
 

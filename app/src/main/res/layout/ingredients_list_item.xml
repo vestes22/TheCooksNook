@@ -1,41 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/ingredient_name"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".5"
         android:text="Placeholder text"
-        android:textColor="@color/colorNude"/>
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:layout_gravity="center"/>
 
-    <TextView
-        android:text="Qty: "
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/qty_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".1"
-        android:textColor="@color/colorNude"/>
+        android:hint="Qty"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColorHint="@color/colorNude"
+        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="@color/colorNude"
+        app:boxStrokeWidth="2dp"
+        android:layout_weight=".2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
 
-    <EditText
-        android:id="@+id/qtyEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".1"
-        android:ems="10"
-        android:inputType="number"
-        android:textColor="@color/colorNude"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/qty_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorNude" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorNude"
+            android:text="X"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            />
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/unitSpinner"
         android:layout_width="0dp"
+        android:layout_weight=".8"
         android:layout_height="wrap_content"
-        android:layout_weight=".3" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColorHint="@color/colorNude"
+        app:hintTextColor="@color/colorAccent"
+        app:boxStrokeColor="@color/colorNude"
+        app:boxStrokeWidth="2dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:hint="Unit">
 
+        <AutoCompleteTextView
+            android:id="@+id/my_unit_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorNude"
+            android:inputType="none"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 
 </LinearLayout>

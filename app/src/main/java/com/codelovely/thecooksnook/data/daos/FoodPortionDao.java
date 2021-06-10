@@ -12,5 +12,5 @@ public interface FoodPortionDao {
     @Query ("SELECT foodWeights.`Food code` AS foodCode, foodWeights.`Portion code` AS portionCode, foodPortionDesc.`Portion description` AS portionDesc " +
             "FROM FoodPortionDesc INNER JOIN FoodWeights ON FoodPortionDesc.[Portion code] = FoodWeights.[Portion code] " +
             "WHERE FoodWeights.[Food code] = :foodCode")
-    LiveData<List<FoodPortion>> getPortionOptions(int foodCode);
+    List<FoodPortion> getPortionOptions(int foodCode);
 }

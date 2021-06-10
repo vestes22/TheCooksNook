@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.codelovely.thecooksnook.data.MainFoodDesc;
+import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
+import com.codelovely.thecooksnook.models.FoodOption;
 import com.codelovely.thecooksnook.models.FoodPortion;
 
 import java.util.ArrayList;
@@ -17,8 +19,8 @@ public class AddRecipeViewModel extends AndroidViewModel {
     // The reason for two lists of ingredients:
     // It is not easy to manipulate list items when working with MutableLiveData. We are limited to postValue() or setValue() (as far as I know).
     // Instead, we use a regular ArrayList for data manipulations. Then, we can update the value of the MutableLiveData with the postValue() method.
-    private List<MainFoodDesc> _mRecipeIngredients = new ArrayList<MainFoodDesc>();
-    private MutableLiveData<List<MainFoodDesc>> mRecipeIngredients = new MutableLiveData<List<MainFoodDesc>>();
+    private List<FoodOption> _mRecipeIngredients = new ArrayList<FoodOption>();
+    private MutableLiveData<List<FoodOption>> mRecipeIngredients = new MutableLiveData<List<FoodOption>>();
 
     public AddRecipeViewModel(Application application) {
         super(application);
@@ -32,12 +34,21 @@ public class AddRecipeViewModel extends AndroidViewModel {
         return mRepository.search(query);
     }
 
-    public LiveData<List<FoodPortion>> getPortionOptions(int id) {
+    public List<FoodPortion> getPortionOptions(int id) {
         return mRepository.getPortionOptions(id);
     }
 
-    public void addRecipeIngredient(MainFoodDesc ingredient) {
-        _mRecipeIngredients.add(ingredient);
+    public void addRecipeIngredient(final MainFoodDesc ingredient) {
+        final FoodOption foodOption = new FoodOption();
+        foodOption.setFoodId(ingredient.getFoodId());
+        foodOption.setFoodName(ingredient.getMainFoodDesc());
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                foodOption.setFoodPortion(mRepository.getPortionOptions(ingredient.getFoodId()));
+            }
+        });
+        _mRecipeIngredients.add(foodOption);
         mRecipeIngredients.postValue(_mRecipeIngredients);
     }
 
@@ -46,7 +57,7 @@ public class AddRecipeViewModel extends AndroidViewModel {
        mRecipeIngredients.postValue(_mRecipeIngredients);
     }
 
-    public LiveData<List<MainFoodDesc>> getRecipeIngredients() {
+    public LiveData<List<FoodOption>> getRecipeIngredients() {
         return mRecipeIngredients;
     }
 }
