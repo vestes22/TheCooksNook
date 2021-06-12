@@ -1,57 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/this_is_a_recipe" />
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:padding="24dp">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/turkey"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/recipe_title"
+            app:layout_constraintBottom_toTopOf="@id/ingredients_list"/>
+
+        <TextView
+            android:id="@+id/recipe_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/recipe_title"
+            android:textColor="@color/colorNude"
+            android:textSize="32sp"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/recipe_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/recipe_description"/>
+
+        <TextView
+            android:id="@+id/recipe_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sample_recipe_description"
+            android:textColor="@color/colorNude"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toBottomOf="@id/recipe_title"
+            app:layout_constraintStart_toEndOf="@id/recipe_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ingredients_list"/>
+
+
+        <TextView
+            android:id="@+id/ingredients_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Ingredients Go Here "
+            android:textColor="@color/colorNude"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_image"
+            app:layout_constraintBottom_toTopOf="@id/recipe_instructions"/>
 
-            <TextView
-                android:id="@+id/recipe_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/recipe_title"
-                android:textColor="@color/colorNude"
-                android:textSize="32sp"
-                android:layout_margin="8dp"/>
+        <TextView
+            android:id="@+id/recipe_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recipe Instructions go here... "
+            android:textColor="@color/colorNude"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredients_list"
+            app:layout_constraintBottom_toTopOf="@id/recipe_nutrition_label"/>
 
-            <TextView
-                android:id="@+id/recipe_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_recipe_description"
-                android:textColor="@color/colorNude" />
+        <TextView
+            android:id="@+id/recipe_nutrition_label"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Nutrition Facts"
+            android:textColor="@color/colorNude"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_instructions"
+            app:layout_constraintBottom_toTopOf="@id/recipe_nutrition_label"/>
 
-            <ImageView
-                android:id="@+id/recipe_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/turkey" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_ingredients_text"
-                android:textColor="@color/colorNude"
-                android:textSize="24sp" />
-
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

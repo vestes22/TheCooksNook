@@ -9,7 +9,9 @@ public class Recipe {
     private @PrimaryKey(autoGenerate=true) @ColumnInfo(name="Recipe code") int recipeId;
     private String title;
     private String description;
+    private @ColumnInfo(name="Number of servings") int numServings;
     private String instructions;
+    private String category;
 
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
@@ -23,9 +25,13 @@ public class Recipe {
         this.description = description;
     }
 
+    public void setNumServings(int numServings) { this.numServings = numServings; }
+
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
+    public void setCategory(String category) { this.category = category; }
 
     public int getRecipeId() {
         return recipeId;
@@ -39,7 +45,11 @@ public class Recipe {
         return description;
     }
 
+    public int getNumServings() { return numServings; }
+
     public String getInstructions() {
         return instructions;
     }
+
+    public String getCategory() { return category; }
 }

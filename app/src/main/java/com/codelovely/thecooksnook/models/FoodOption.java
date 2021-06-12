@@ -1,7 +1,5 @@
 package com.codelovely.thecooksnook.models;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 
 public class FoodOption {
@@ -9,6 +7,8 @@ public class FoodOption {
     private int foodId;
     private String foodName;
     private List<FoodPortion> foodPortions;
+    private FoodPortion selectedPortion;
+    private int qty = 0;
 
     public void setFoodName(String foodName) {
         this.foodName = foodName;
@@ -20,7 +20,12 @@ public class FoodOption {
 
     public void setFoodPortion(List<FoodPortion> foodPortions) {
         this.foodPortions = foodPortions;
+        selectedPortion = foodPortions.get(0);
     }
+
+    public void setSelectedPortion(FoodPortion selectedPortion) { this.selectedPortion = selectedPortion; }
+
+    public void setQty(int qty) { this.qty = qty; }
 
     public int getFoodId() {
         return foodId;
@@ -33,5 +38,9 @@ public class FoodOption {
     public List<FoodPortion> getFoodPortions() {
         return foodPortions;
     }
+
+    public FoodPortion getSelectedPortion() { return selectedPortion; }
+
+    public int getQty() { return qty; }
 
 }

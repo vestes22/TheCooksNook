@@ -6,6 +6,7 @@ public class Recipe {
     private int id;
     private String name;
     private String description;
+    private int numServings;
     private List<Ingredient> ingredients;
     private String instructions;
     private String category;
@@ -15,6 +16,8 @@ public class Recipe {
     public void setName(String name) { this.name = name; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public void setNumServings(int numServings) { this.numServings = numServings; }
 
     public void setIngredients(List<Ingredient> ingredients) { this.ingredients = ingredients; }
 
@@ -27,6 +30,8 @@ public class Recipe {
     public String getName() { return name; }
 
     public String getDescription() { return description; }
+
+    public int getNumServings() { return numServings; }
 
     public List<Ingredient> getIngredients() { return ingredients; }
 

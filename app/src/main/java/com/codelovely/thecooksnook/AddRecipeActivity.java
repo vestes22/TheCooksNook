@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.codelovely.thecooksnook.models.FoodOption;
+import com.codelovely.thecooksnook.models.Recipe;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,11 +25,16 @@ import java.util.List;
 
 public class AddRecipeActivity extends AppCompatActivity implements SearchResultsAdapter.SearchResultsListener {
     EditText searchIngredientsText;
+    EditText recipeNameText;
+    EditText recipeDescriptionText;
+    EditText recipeServingsText;
+    EditText recipeInstructionsText;
+    Observer<List<MainFoodDesc>> searchResultsObserver;
     SearchResultsAdapter searchAdapter;
     IngredientsListAdapter ingredientsAdapter;
     AddRecipeViewModel mAddRecipeViewModel;
-    ChipGroup chipGroup;
 
+    ChipGroup chipGroup;
     Chip breakfastChip;
     Chip lunchChip;
     Chip dinnerChip;
@@ -40,16 +46,21 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
 
+        // Initializing the Views
         searchIngredientsText = (TextInputEditText)findViewById(R.id.search_edit_text);
-        chipGroup = (ChipGroup)findViewById(R.id.chipGroup);
-        breakfastChip = (Chip)findViewById(R.id.breakfast_chip);
-        lunchChip = (Chip)findViewById(R.id.lunch_chip);
-        dinnerChip = (Chip)findViewById(R.id.dinner_chip);
-        appetizersChip = (Chip)findViewById(R.id.appetizers_chip);
+        recipeNameText = (TextInputEditText)findViewById(R.id.name_edit_text);
+        recipeDescriptionText = (TextInputEditText)findViewById(R.id.description_edit_text);
+        recipeServingsText = (TextInputEditText)findViewById(R.id.num_servings_edit_text);
+        recipeInstructionsText = (TextInputEditText)findViewById(R.id.instructions_edit_text);
+        chipGroup = findViewById(R.id.chipGroup);
+        breakfastChip = findViewById(R.id.breakfast_chip);
+        lunchChip = findViewById(R.id.lunch_chip);
+        dinnerChip = findViewById(R.id.dinner_chip);
+        appetizersChip = findViewById(R.id.appetizers_chip);
         mAddRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
 
-        // The rest of this is setup code for our two RecyclerViews:
-        // The one we use for our search results, and the one we use to store
+        // Setup code for our two RecyclerViews:
+        // One we use for our search results, and one we use to store
         // the list of ingredients for our recipe.
         RecyclerView ingredientsListRv = findViewById(R.id.ingredients_list);
         RecyclerView searchResultsRv = findViewById(R.id.search_results);
@@ -60,14 +71,30 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
         ingredientsListRv.setLayoutManager(new LinearLayoutManager(this));
 
+        // Setup code for our observers, which we use to populate the RecyclerViews with updated data.
         final Observer<List<FoodOption>> ingredientsListObserver = new Observer<List<FoodOption>>() {
             @Override
             public void onChanged(@Nullable final List<FoodOption> ingredientsList) {
                 ingredientsAdapter.submitList(null);
+                ingredientsAdapter.updateIngredients(ingredientsList);
                 ingredientsAdapter.submitList(ingredientsList);
             }
         };
 
+        mAddRecipeViewModel.getRecipeIngredients().observe(this, ingredientsListObserver);
+
+        searchResultsObserver = new Observer<List<MainFoodDesc>>() {
+            @Override
+            public void onChanged(@Nullable final List<MainFoodDesc> searchResults) {
+                searchAdapter.submitList(searchResults);
+                if (searchResults == null) {
+                    System.out.println("The results in onChanged are null.");
+                }
+            }
+        };
+
+
+        // Setup code for our chips and their listeners. The chips to allow the user to select a category for their recipe (i.e. Breakfast, or Dinner).
         breakfastChip.setCheckable(true);
         lunchChip.setCheckable(true);
         dinnerChip.setCheckable(true);
@@ -79,7 +106,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
                 if (!isChecked) {
                     breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (isChecked) {
+                else {
                     breakfastChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
@@ -91,7 +118,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
                 if (!isChecked) {
                     lunchChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (isChecked) {
+                else {
                     lunchChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
@@ -103,7 +130,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
                 if (!isChecked) {
                     dinnerChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (isChecked) {
+                else {
                     dinnerChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
@@ -115,12 +142,11 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
                 if (!isChecked) {
                     appetizersChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
                 }
-                else if (isChecked) {
+                else {
                     appetizersChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
                 }
             }
         });
-        mAddRecipeViewModel.getRecipeIngredients().observe(this, ingredientsListObserver);
     }
 
     /*
@@ -133,27 +159,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
      */
     public void searchButtonClicked(View view) {
         String query = searchIngredientsText.getText().toString();
-
-        // So, this works. But I have qualms about creating an observer in this method...
-        // It's recommended to observe LiveData in onCreate for a reason. We don't want to create
-        // a billion observers, do we?
-        // Maybe we can instantiate a global observer in onCreate, and simply attach it to the observed method here?
-        // But global variables can be yucky.
-        // My main question is.... Using observers when the method requires an argument. We get the user's query here.
-        // We can't pass it to an observer in the onCreate method... or can we?
-        // Is the answer onClickListeners?
-        // ... It's onClickListeners, isn't it...
-
-        final Observer<List<MainFoodDesc>> searchResultsObserver = new Observer<List<MainFoodDesc>>() {
-            @Override
-            public void onChanged(@Nullable final List<MainFoodDesc> searchResults) {
-                searchAdapter.submitList(searchResults);
-                if (searchResults == null) {
-                    System.out.println("The results in onChanged are null.");
-                }
-            }
-        };
-
         mAddRecipeViewModel.fetchIngredientByQuery(query).observe(this, searchResultsObserver);
     }
 
@@ -163,10 +168,89 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
      */
     @Override
     public void onSearchResultClicked(int position) {
+        // Gets the ingredient that was clicked.
         List<MainFoodDesc> currentList = searchAdapter.getCurrentList();
-        mAddRecipeViewModel.addRecipeIngredient(currentList.get(position));
+        MainFoodDesc ingredient = currentList.get(position);
+
+        // Compares the ID of the selected ingredient with the ingredients we already have added to our list.
+        // If we already have the ingredient on our list, we do not want to add it again.
+        // But if the ingredient is not on our list, we add it.
+        List<FoodOption> ingredientsList = ingredientsAdapter.getCurrentList();
+        int flag = -1;
+        for (FoodOption food : ingredientsList) {
+            if (food.getFoodId() == ingredient.getFoodId())
+            {
+                flag++;
+            }
+        }
+        if (flag >= 0) {
+            System.out.println("Ingredient already added.");
+        }
+        else {
+            mAddRecipeViewModel.addRecipeIngredient(ingredient);
+        }
     }
 
+
     public void saveRecipeButtonClicked(View view) {
+        // Variables to hold the extracted values for our recipe.
+        String recipeName;
+        String recipeDescription;
+        int numServings;
+        String recipeCategory = "BREAKFAST";
+        String recipeInstructions;
+        // TODO - ensure at least one chip is selected
+
+        if (breakfastChip.isChecked()) {
+            recipeCategory = "BREAKFAST";
+        }
+
+        if (lunchChip.isChecked()) {
+            recipeCategory = "LUNCH";
+        }
+
+        if (dinnerChip.isChecked()) {
+            recipeCategory = "DINNER";
+        }
+
+        if (appetizersChip.isChecked()) {
+            recipeCategory = "APPETIZER";
+        }
+
+        try {
+            recipeName = recipeNameText.getText().toString();
+            recipeDescription = recipeDescriptionText.getText().toString();
+            numServings = Integer.parseInt(recipeServingsText.getText().toString());
+            recipeInstructions = recipeInstructionsText.getText().toString();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        recipeName = recipeNameText.getText().toString();
+        recipeDescription = recipeDescriptionText.getText().toString();
+        numServings = Integer.parseInt(recipeServingsText.getText().toString());
+        recipeInstructions = recipeInstructionsText.getText().toString();
+        List<FoodOption> ingredients = ingredientsAdapter.getIngredients();
+
+
+        // TODO - input validation
+        // Validate our inputs.
+
+        // TODO - create recipe object
+        Recipe recipe = new Recipe();
+        recipe.setCategory(recipeCategory);
+        recipe.setDescription(recipeDescription);
+        recipe.setName(recipeName);
+        recipe.setInstructions(recipeInstructions);
+        recipe.setNumServings(numServings);
+
+        // TODO - Set Recipe Ingredients
+
+        // TODO - Save recipe object to Room Database - write method in ViewModel
+        // May have to write additional columns in the RecipeFood entity to store values for quantity and portion
+
+        // TODO - Save recipe object to Firebase - write method in ViewModel
+
+        // TODO - Re-Route to cookbook home screen.
+
     }
 }

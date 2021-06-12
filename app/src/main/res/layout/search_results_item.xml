@@ -12,15 +12,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="16sp"
         android:textColor="@color/colorNude"/>
 
-    <Button
+    <TextView
         android:id="@+id/add_ingredient_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textSize="12sp"
-        android:text="@string/add_ingredient_button" />
+        android:textSize="16sp"
+        android:text="@string/add_ingredient_button"
+        android:textColor="@color/colorAccent"/>
 
 </LinearLayout>

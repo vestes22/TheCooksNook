@@ -59,6 +59,7 @@
                     app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
                     app:boxStrokeWidth="2dp"
+                    app:errorEnabled="true"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -81,6 +82,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    app:errorEnabled="true"
                     android:textColorHint="@color/colorNude"
                     app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
@@ -98,6 +100,7 @@
                         android:textColor="@color/colorNude"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/num_servings_text"
                     android:layout_width="match_parent"
@@ -110,6 +113,7 @@
                     android:textColorHint="@color/colorNude"
                     app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
+                    app:errorEnabled="true"
                     app:boxStrokeWidth="2dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
@@ -350,6 +354,7 @@
                     app:hintTextColor="@color/colorAccent"
                     app:boxStrokeColor="@color/colorNude"
                     app:boxStrokeWidth="2dp"
+                    app:errorEnabled="true"
                     android:inputType="textMultiLine"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"

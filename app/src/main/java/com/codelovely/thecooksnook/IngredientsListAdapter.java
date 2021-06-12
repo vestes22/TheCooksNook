@@ -1,31 +1,39 @@
 package com.codelovely.thecooksnook;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.codelovely.thecooksnook.models.FoodOption;
 import com.codelovely.thecooksnook.models.FoodPortion;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsListAdapter.IngredientsViewHolder> {
+
+    // Returns a list of ingredients for the recipe, including the values grabbed from the EditTexts
+    private List<FoodOption> _ingredients;
+
+    public void updateIngredients(List<FoodOption> ingredients) {
+        _ingredients = ingredients;
+    }
+
+    public List<FoodOption> getIngredients() {
+        return _ingredients;
+    }
 
 
     public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<FoodOption> diffCallback) {
@@ -52,8 +60,9 @@ public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsL
     @Override
     public void onBindViewHolder(IngredientsListAdapter.IngredientsViewHolder holder, int position) {
         FoodOption current = getItem(position);
+        holder.ingredientQty.setText(String.valueOf(_ingredients.get(position).getQty()));
+        holder.unit.setText(_ingredients.get(position).getSelectedPortion().getPortionDesc(), false);
         holder.bind(current);
-
     }
 
 
@@ -92,7 +101,7 @@ public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsL
 
         public void bind(FoodOption foodOption) {
             ingredientName.setText(foodOption.getFoodName());
-            List<FoodPortion> foodPortions = foodOption.getFoodPortions();
+            final List<FoodPortion> foodPortions = foodOption.getFoodPortions();
             List<String> portionStrings = new ArrayList<>();
             for (FoodPortion portion : foodPortions) {
                 portionStrings.add(portion.getPortionDesc());
@@ -100,6 +109,50 @@ public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsL
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, portionStrings);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             unit.setAdapter(adapter);
+
+            ingredientQty.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(!ingredientQty.getText().toString().equals("")) {
+                         _ingredients.get(getAdapterPosition()).setQty(Integer.parseInt(ingredientQty.getText().toString()));
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            unit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(!unit.getText().toString().equals("")) {
+                        String portion = unit.getText().toString();
+                        for (FoodPortion foodPortion : foodPortions) {
+                            if(portion.equals(foodPortion.getPortionDesc())) {
+                                _ingredients.get(getAdapterPosition()).setSelectedPortion(foodPortion);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
         }
     }
 }

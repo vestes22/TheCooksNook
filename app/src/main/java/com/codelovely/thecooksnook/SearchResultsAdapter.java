@@ -83,14 +83,14 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
      */
     public class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView ingredientTextView;
-        private Button addIngredientButton;
+        //private Button addIngredientButton;
         SearchResultsListener listener;
 
         private SearchResultsViewHolder(View itemView, SearchResultsListener listener) {
             super(itemView);
             this.listener = listener;
             ingredientTextView = (TextView) itemView.findViewById(R.id.ingredient_name);
-            addIngredientButton = (Button) itemView.findViewById(R.id.add_ingredient_button);
+            //addIngredientButton = (Button) itemView.findViewById(R.id.add_ingredient_button);
 
             itemView.setOnClickListener(this);
         }
