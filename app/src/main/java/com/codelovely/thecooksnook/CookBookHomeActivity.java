@@ -31,6 +31,8 @@ public class CookBookHomeActivity extends AppCompatActivity {
     }
 
     public void onAppetizerButtonClicked(View view) {
+        Intent intent = new Intent(this, CookBookActivity.class);
+        intent.putExtra("category", "APPETIZER");
     }
 
     public void onViewAllButtonClicked(View view) {

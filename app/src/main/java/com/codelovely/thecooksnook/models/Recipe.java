@@ -8,6 +8,7 @@ public class Recipe {
     private String description;
     private int numServings;
     private List<Ingredient> ingredients;
+    private List<Nutrient> nutrients;
     private String instructions;
     private String category;
 
@@ -46,4 +47,12 @@ public class Recipe {
     public void removeIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);
     }
+
+    // TODO - write method calculateNutrients.
+    // This method will iterate through all ingredients in the recipe's list and add the nutrients.
+    // The total value of each nutrient will be stored in the recipe's nutrients list.
+    // We will need to calculate the nutrients each time we query a recipe object from the database.
+    // We need to consider two things: total nutrients, and total nutrients per serving size.
+    // TODO - accessing nutrients may be faster if we store them in a dictionary or hash instead (key/value = nutrientId/nutrientObject). Just for the recipe, we probs can keep then in standard lists in the Ingredient class.
+    // Question - total nutrients in the recipe will have fields for foodId, portion units, etc. but we don't care about those for TOTAL recipe nutrients. Do we just keep the values null?
 }

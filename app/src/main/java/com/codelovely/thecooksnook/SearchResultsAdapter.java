@@ -89,7 +89,7 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
         private SearchResultsViewHolder(View itemView, SearchResultsListener listener) {
             super(itemView);
             this.listener = listener;
-            ingredientTextView = (TextView) itemView.findViewById(R.id.ingredient_name);
+            ingredientTextView = (TextView) itemView.findViewById(R.id.searchResultsItem_ingredientName);
             //addIngredientButton = (Button) itemView.findViewById(R.id.add_ingredient_button);
 
             itemView.setOnClickListener(this);

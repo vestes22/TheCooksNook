@@ -1,6 +1,5 @@
 package com.codelovely.thecooksnook.data.daos;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import com.codelovely.thecooksnook.models.FoodPortion;

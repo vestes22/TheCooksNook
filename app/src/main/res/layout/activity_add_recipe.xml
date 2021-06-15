@@ -14,7 +14,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/add_recipe_title"
+            android:id="@+id/addRecipe_activityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_recipe_title"
@@ -24,21 +24,21 @@
             android:textColor="@color/colorNude"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recipe_details_card"
+            app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeDetailsCard"
             app:layout_constraintTop_toTopOf="parent"/>
 
 
         <!-- Recipe Details CardView -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/recipe_details_card"
+            android:id="@+id/addRecipe_recipeDetailsCard"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@id/add_recipe_title"
+            app:layout_constraintTop_toBottomOf="@id/addRecipe_activityTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/search_ingredients_card">
+            app:layout_constraintBottom_toTopOf="@id/addRecipe_searchResultsCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:padding="16dp"
@@ -47,7 +47,7 @@
                 android:background="@color/colorPrimaryDark" >
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/recipe_name_text"
+                    android:id="@+id/addRecipe_recipeNameText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/recipe_name_hint"
@@ -64,17 +64,17 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/recipe_description_text">
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeDescriptionText">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name_edit_text"
+                        android:id="@+id/addRecipe_recipeNameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorNude"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/recipe_description_text"
+                    android:id="@+id/addRecipe_recipeDescriptionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/recipe_description_hint"
@@ -90,11 +90,11 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recipe_name_text"
-                    app:layout_constraintBottom_toTopOf="@id/num_servings_text">
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeNameText"
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_numServingsText">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/description_edit_text"
+                        android:id="@+id/addRecipe_recipeDescriptionEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorNude"/>
@@ -102,7 +102,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/num_servings_text"
+                    android:id="@+id/addRecipe_numServingsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Number of Servings"
@@ -118,40 +118,41 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recipe_description_text"
-                    app:layout_constraintBottom_toTopOf="@id/recipe_category_label">
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeDescriptionText"
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeCategoryLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/num_servings_edit_text"
+                        android:id="@+id/addRecipe_numServingsEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorNude"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/recipe_category_label"
+                    android:id="@+id/addRecipe_recipeCategoryLabel"
                     style="@style/cookbook_headings"
                     android:text="Category"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/num_servings_text"
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_numServingsText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/chipGroup" />
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_chipGroup" />
 
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
+                    android:id="@+id/addRecipe_chipGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     app:singleSelection="true"
+                    app:selectionRequired="true"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recipe_category_label"
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeCategoryLabel"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/breakfast_chip"
+                        android:id="@+id/addRecipe_breakfastChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:chipStrokeColor="@color/colorAccent"
@@ -163,7 +164,7 @@
                         android:text="@string/breakfast_text"/>
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/lunch_chip"
+                        android:id="@+id/addRecipe_lunchChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:chipBackgroundColor="@color/colorPrimaryDark"
@@ -175,7 +176,7 @@
                         android:text="@string/lunch_text"/>
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/dinner_chip"
+                        android:id="@+id/addRecipe_dinnerChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:chipStrokeColor="@color/colorAccent"
@@ -187,7 +188,7 @@
                         android:text="@string/dinner_text"/>
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/appetizers_chip"
+                        android:id="@+id/addRecipe_appetizerChip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:chipStrokeColor="@color/colorAccent"
@@ -207,15 +208,15 @@
 
         <!-- Search Ingredients Card -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/search_ingredients_card"
+            android:id="@+id/addRecipe_searchResultsCard"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@id/recipe_details_card"
+            app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeDetailsCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recipe_ingredients_card">
+            app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeIngredientsCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -224,7 +225,7 @@
                 android:background="@color/colorPrimaryDark" >
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/searchText"
+                    android:id="@+id/addRecipe_searchIngredientsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Search For Ingredients"
@@ -239,36 +240,36 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ingredient_search_button"
-                    app:layout_constraintBottom_toTopOf="@id/search_results" >
+                    app:layout_constraintEnd_toStartOf="@id/addRecipe_searchIngredientsButton"
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_searchResultsRecyclerView" >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/search_edit_text"
+                        android:id="@+id/addRecipe_searchIngredientsEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorNude"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/ingredient_search_button"
+                    android:id="@+id/addRecipe_searchIngredientsButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="searchButtonClicked"
                     android:text="@string/search"
-                    app:layout_constraintStart_toEndOf="@id/searchText"
+                    app:layout_constraintStart_toEndOf="@id/addRecipe_searchIngredientsText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/search_results"/>
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_searchResultsRecyclerView"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:id="@+id/search_results"
+                    android:id="@+id/addRecipe_searchResultsRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ingredient_search_button" />
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_searchIngredientsButton" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -278,15 +279,15 @@
 
         <!-- Ingredients RecyclerView CardView -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/recipe_ingredients_card"
+            android:id="@+id/addRecipe_recipeIngredientsCard"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@id/search_ingredients_card"
+            app:layout_constraintTop_toBottomOf="@id/addRecipe_searchResultsCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/recipe_instructions_card">
+            app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeInstructionsCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -295,20 +296,20 @@
                 android:background="@color/colorPrimaryDark" >
 
                 <TextView
-                    android:id="@+id/add_ingredients_label"
+                    android:id="@+id/addRecipe_recipeIngredientsLabel"
                     style="@style/cookbook_headings"
                     android:text="Ingredients List"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/ingredients_list"/>
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeIngredientsRecyclerView"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ingredients_list"
+                    android:id="@+id/addRecipe_recipeIngredientsRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/add_ingredients_label" />
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeIngredientsLabel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -317,15 +318,15 @@
 
         <!-- Instructions Card -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/recipe_instructions_card"
+            android:id="@+id/addRecipe_recipeInstructionsCard"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@id/recipe_ingredients_card"
+            app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeIngredientsCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/add_recipe_button">
+            app:layout_constraintBottom_toTopOf="@id/addRecipe_saveRecipeButton">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -333,16 +334,16 @@
                 android:background="@color/colorPrimaryDark" >
 
                 <TextView
-                    android:id="@+id/instructions_label"
+                    android:id="@+id/addRecipe_recipeInstructionsLabel"
                     style="@style/cookbook_headings"
                     android:text="@string/recipe_instructions_label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/instructions_text"/>
+                    app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeInstructionsText"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/instructions_text"
+                    android:id="@+id/addRecipe_recipeInstructionsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Preparation Instructions"
@@ -359,11 +360,11 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/instructions_label"
+                    app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeInstructionsLabel"
                     app:layout_constraintBottom_toBottomOf="parent" >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/instructions_edit_text"
+                        android:id="@+id/addRecipe_recipeInstructionsEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="150dp"
@@ -377,7 +378,7 @@
 
         <!-- Save Recipe button -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/add_recipe_button"
+            android:id="@+id/addRecipe_saveRecipeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -388,14 +389,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_instructions_card">
+            app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeInstructionsCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/add_recipe_text"
                     style="@style/cookbook_headings"
                     android:text="Save Recipe"
                     android:layout_marginTop="16dp"

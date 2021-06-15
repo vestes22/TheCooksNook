@@ -8,7 +8,7 @@
     android:paddingTop="8dp" >
 
     <TextView
-        android:id="@+id/ingredient_name"
+        android:id="@+id/searchResultsItem_ingredientName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -16,7 +16,6 @@
         android:textColor="@color/colorNude"/>
 
     <TextView
-        android:id="@+id/add_ingredient_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"

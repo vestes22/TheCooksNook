@@ -10,13 +10,8 @@
     android:paddingRight="16dp"
     tools:context=".SignInActivity">
 
-    <TextView
-        android:id="@+id/status_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
+        android:id="@+id/signIn_signInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

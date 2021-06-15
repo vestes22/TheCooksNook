@@ -11,7 +11,7 @@
     <string name="appetizers_icon_desc">Chips and guacamole.</string>
     <string name="add_recipe">Add Recipe</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!--  -->
     <string name="search_text_label">Name</string>
     <string name="recipe_instructions_label">Instructions</string>
     <string name="recipe_instructions_hint">Recipe preparation instructions</string>

@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.codelovely.thecooksnook.data.entities.RecipeFood;
+import com.codelovely.thecooksnook.models.Ingredient;
 
 import java.util.List;
 
@@ -15,6 +16,10 @@ public interface RecipeFoodDao {
     @Query("SELECT * FROM recipeFoods")
     public LiveData<List<RecipeFood>> getAllRecipeFoods();
 
+    @Query("SELECT * FROM recipeFoods WHERE `Recipe code` = :recipeId")
+    List<RecipeFood> getIngredientsByRecipeId(int recipeId);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(RecipeFood recipeFood);
 }
+

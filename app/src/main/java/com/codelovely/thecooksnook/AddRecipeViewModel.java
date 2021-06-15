@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
-import com.codelovely.thecooksnook.models.FoodOption;
+import com.codelovely.thecooksnook.models.Ingredient;
 import com.codelovely.thecooksnook.models.FoodPortion;
+import com.codelovely.thecooksnook.models.Nutrient;
+import com.codelovely.thecooksnook.models.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +21,8 @@ public class AddRecipeViewModel extends AndroidViewModel {
     // The reason for two lists of ingredients:
     // It is not easy to manipulate list items when working with MutableLiveData. We are limited to postValue() or setValue() (as far as I know).
     // Instead, we use a regular ArrayList for data manipulations. Then, we can update the value of the MutableLiveData with the postValue() method.
-    private List<FoodOption> _mRecipeIngredients = new ArrayList<FoodOption>();
-    private MutableLiveData<List<FoodOption>> mRecipeIngredients = new MutableLiveData<List<FoodOption>>();
+    private List<Ingredient> _mRecipeIngredients = new ArrayList<Ingredient>();
+    private MutableLiveData<List<Ingredient>> mRecipeIngredients = new MutableLiveData<List<Ingredient>>();
 
     public AddRecipeViewModel(Application application) {
         super(application);
@@ -39,7 +41,7 @@ public class AddRecipeViewModel extends AndroidViewModel {
     }
 
     public void addRecipeIngredient(final MainFoodDesc ingredient) {
-        final FoodOption foodOption = new FoodOption();
+        final Ingredient foodOption = new Ingredient();
         foodOption.setFoodId(ingredient.getFoodId());
         foodOption.setFoodName(ingredient.getMainFoodDesc());
         NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
@@ -57,8 +59,31 @@ public class AddRecipeViewModel extends AndroidViewModel {
        mRecipeIngredients.postValue(_mRecipeIngredients);
     }
 
-    public LiveData<List<FoodOption>> getRecipeIngredients() {
+    public LiveData<List<Ingredient>> getRecipeIngredients() {
         return mRecipeIngredients;
+    }
+
+    public List<Nutrient> getNutrition(final int foodCode, final int portionCode) {
+        final List<Nutrient> nutrients = new ArrayList<>();
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Nutrient> repoResults = mRepository.getNutrition(foodCode, portionCode);
+                for (Nutrient nutrient : repoResults) {
+                    nutrients.add(nutrient);
+                }
+            }
+        });
+        return mRepository.getNutrition(foodCode, portionCode);
+    }
+
+    public void insertRecipe(final Recipe recipe) {
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+               mRepository.insertRecipe(recipe);
+            }
+        });
     }
 }
 

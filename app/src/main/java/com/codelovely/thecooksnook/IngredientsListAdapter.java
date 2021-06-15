@@ -15,28 +15,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.codelovely.thecooksnook.models.FoodOption;
+import com.codelovely.thecooksnook.models.Ingredient;
 import com.codelovely.thecooksnook.models.FoodPortion;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsListAdapter.IngredientsViewHolder> {
+public class IngredientsListAdapter extends ListAdapter<Ingredient, IngredientsListAdapter.IngredientsViewHolder> {
 
     // Returns a list of ingredients for the recipe, including the values grabbed from the EditTexts
-    private List<FoodOption> _ingredients;
+    private List<Ingredient> _ingredients;
 
-    public void updateIngredients(List<FoodOption> ingredients) {
+    public void updateIngredients(List<Ingredient> ingredients) {
         _ingredients = ingredients;
     }
 
-    public List<FoodOption> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return _ingredients;
     }
 
 
-    public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<FoodOption> diffCallback) {
+    public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<Ingredient> diffCallback) {
         super(diffCallback);
     }
 
@@ -59,22 +59,22 @@ public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsL
      */
     @Override
     public void onBindViewHolder(IngredientsListAdapter.IngredientsViewHolder holder, int position) {
-        FoodOption current = getItem(position);
+        Ingredient current = getItem(position);
         holder.ingredientQty.setText(String.valueOf(_ingredients.get(position).getQty()));
         holder.unit.setText(_ingredients.get(position).getSelectedPortion().getPortionDesc(), false);
         holder.bind(current);
     }
 
 
-    static class IngredientsDiff extends DiffUtil.ItemCallback<FoodOption> {
+    static class IngredientsDiff extends DiffUtil.ItemCallback<Ingredient> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull FoodOption oldItem, @NonNull FoodOption newItem) {
+        public boolean areItemsTheSame(@NonNull Ingredient oldItem, @NonNull Ingredient newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull FoodOption oldItem, @NonNull FoodOption newItem) {
+        public boolean areContentsTheSame(@NonNull Ingredient oldItem, @NonNull Ingredient newItem) {
             return oldItem.getFoodId() == newItem.getFoodId();
         }
     }
@@ -93,15 +93,15 @@ public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsL
         public IngredientsViewHolder(View itemView) {
             super(itemView);
 
-            ingredientName = (TextView) itemView.findViewById(R.id.ingredient_name);
-            ingredientQty = (TextInputEditText) itemView.findViewById(R.id.qty_edit_text);
-            unit = (AutoCompleteTextView) itemView.findViewById(R.id.my_unit_spinner);
+            ingredientName = (TextView) itemView.findViewById(R.id.ingredientListItem_ingredientName);
+            ingredientQty = (TextInputEditText) itemView.findViewById(R.id.ingredientListItem_qtyEditText);
+            unit = (AutoCompleteTextView) itemView.findViewById(R.id.ingredientListItem_portionOptionMenuItem);
             context = itemView.getContext();
         }
 
-        public void bind(FoodOption foodOption) {
-            ingredientName.setText(foodOption.getFoodName());
-            final List<FoodPortion> foodPortions = foodOption.getFoodPortions();
+        public void bind(Ingredient ingredient) {
+            ingredientName.setText(ingredient.getFoodName());
+            final List<FoodPortion> foodPortions = ingredient.getFoodPortions();
             List<String> portionStrings = new ArrayList<>();
             for (FoodPortion portion : foodPortions) {
                 portionStrings.add(portion.getPortionDesc());
@@ -119,7 +119,7 @@ public class IngredientsListAdapter extends ListAdapter<FoodOption, IngredientsL
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if(!ingredientQty.getText().toString().equals("")) {
-                         _ingredients.get(getAdapterPosition()).setQty(Integer.parseInt(ingredientQty.getText().toString()));
+                         _ingredients.get(getAdapterPosition()).setQty(Float.parseFloat(ingredientQty.getText().toString()));
                     }
                 }
 

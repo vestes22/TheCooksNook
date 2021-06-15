@@ -43,7 +43,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.signIn_signInButton).setOnClickListener(this);
     }
 
     protected void onStart() {
@@ -135,7 +135,7 @@ If GoogleSignIn.getLastSignedInAccount returns null, the user has not yet signed
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
+            case R.id.signIn_signInButton:
                 signIn();
                 break;
             // ...

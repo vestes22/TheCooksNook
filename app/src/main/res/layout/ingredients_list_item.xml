@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/ingredient_name"
+        android:id="@+id/ingredientListItem_ingredientName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Placeholder text"
@@ -24,7 +24,7 @@
         android:orientation="horizontal" >
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/qty_label"
+        android:id="@+id/ingredientListItem_qtyLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Qty"
@@ -40,7 +40,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox" >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/qty_edit_text"
+            android:id="@+id/ingredientListItem_qtyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorNude" />
@@ -56,7 +56,7 @@
             />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/unitSpinner"
+        android:id="@+id/ingredientListItem_portionOptionMenu"
         android:layout_width="0dp"
         android:layout_weight=".8"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         android:hint="Unit">
 
         <AutoCompleteTextView
-            android:id="@+id/my_unit_spinner"
+            android:id="@+id/ingredientListItem_portionOptionMenuItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorNude"

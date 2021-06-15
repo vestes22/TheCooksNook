@@ -17,6 +17,7 @@ import com.codelovely.thecooksnook.data.daos.FoodPortionDescDao;
 import com.codelovely.thecooksnook.data.daos.FoodSubcodeLinksDao;
 import com.codelovely.thecooksnook.data.daos.FoodWeightsDao;
 import com.codelovely.thecooksnook.data.daos.IngredNutValueDao;
+import com.codelovely.thecooksnook.data.daos.IngredientDao;
 import com.codelovely.thecooksnook.data.daos.MainFoodDescDao;
 import com.codelovely.thecooksnook.data.daos.MenuDao;
 import com.codelovely.thecooksnook.data.daos.MenuRecipeDao;
@@ -85,6 +86,7 @@ public abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public FoodPortionDescDao getFoodPortionDescDao();
     abstract public FoodSubcodeLinksDao getFoodSubcodeLinksDao();
     abstract public FoodWeightsDao getFoodWeightsDao();
+    abstract public IngredientDao getIngredientDao();
     abstract public IngredNutValueDao getIngredNutValueDao();
     abstract public MainFoodDescDao getMainFoodDescDao();
     abstract public MenuDao getMenuDao();
