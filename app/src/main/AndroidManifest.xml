@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddRecipeActivity"></activity>
+        <activity android:name=".DailyMealPlanActivity"></activity>
+        <activity android:name=".MealPlannerActivity" />
+        <activity android:name=".AddRecipeActivity" />
         <activity android:name=".RecipeActivity" />
         <activity android:name=".CookBookActivity" />
         <activity android:name=".CookBookRecipesActivity" />

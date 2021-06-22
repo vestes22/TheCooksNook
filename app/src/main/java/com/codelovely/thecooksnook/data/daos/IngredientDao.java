@@ -1,6 +1,4 @@
 package com.codelovely.thecooksnook.data.daos;
-
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import com.codelovely.thecooksnook.models.Nutrient;
@@ -17,7 +15,7 @@ public interface IngredientDao {
             "FNDDSNutVal.`Nutrient code` AS nutrientCode, " +
             "FNDDSNutVal.`Nutrient value` AS nutrientValue, " +
             "NutDesc.`Nutrient description` AS nutrientDescription, " +
-            "NutDesc.Tagname, NutDesc.Unit, NutDesc.Decimals AS decimals " +
+            "NutDesc.Tagname, NutDesc.Unit AS unit, NutDesc.Decimals AS decimals " +
             "FROM NutDesc INNER JOIN FNDDSNutVal " +
             "ON NutDesc.`Nutrient code` = FNDDSNutVal.`Nutrient code` " +
             "INNER JOIN mainFoodDesc " +

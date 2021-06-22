@@ -1,10 +1,11 @@
-package com.codelovely.thecooksnook;
+package com.codelovely.thecooksnook.viewmodels;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.codelovely.thecooksnook.DatabaseRepository;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 import com.codelovely.thecooksnook.models.Ingredient;

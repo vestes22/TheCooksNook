@@ -1,4 +1,4 @@
-package com.codelovely.thecooksnook;
+package com.codelovely.thecooksnook.adapters;
 
 import android.content.Context;
 import android.text.Editable;
@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.codelovely.thecooksnook.R;
 import com.codelovely.thecooksnook.models.Ingredient;
 import com.codelovely.thecooksnook.models.FoodPortion;
 import com.google.android.material.textfield.TextInputEditText;
@@ -22,7 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientsListAdapter extends ListAdapter<Ingredient, IngredientsListAdapter.IngredientsViewHolder> {
+public class EditableIngredientsListAdapter extends ListAdapter<Ingredient, EditableIngredientsListAdapter.IngredientsViewHolder> {
 
     // Returns a list of ingredients for the recipe, including the values grabbed from the EditTexts
     private List<Ingredient> _ingredients;
@@ -36,7 +38,7 @@ public class IngredientsListAdapter extends ListAdapter<Ingredient, IngredientsL
     }
 
 
-    public IngredientsListAdapter(@NonNull DiffUtil.ItemCallback<Ingredient> diffCallback) {
+    public EditableIngredientsListAdapter(@NonNull DiffUtil.ItemCallback<Ingredient> diffCallback) {
         super(diffCallback);
     }
 
@@ -45,10 +47,10 @@ public class IngredientsListAdapter extends ListAdapter<Ingredient, IngredientsL
     onCreateViewHolder() is called right when the adapter is created and is used to initialize the ViewHolder.
      */
     @Override
-    public IngredientsListAdapter.IngredientsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EditableIngredientsListAdapter.IngredientsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View ingredientView = inflater.inflate(R.layout.ingredients_list_item, parent, false);
+        View ingredientView = inflater.inflate(R.layout.editable_ingredients_list_item, parent, false);
         IngredientsViewHolder holder = new IngredientsViewHolder(ingredientView);
         return holder;
     }
@@ -58,7 +60,7 @@ public class IngredientsListAdapter extends ListAdapter<Ingredient, IngredientsL
     This is where we populate our individual RecyclerView items with data.
      */
     @Override
-    public void onBindViewHolder(IngredientsListAdapter.IngredientsViewHolder holder, int position) {
+    public void onBindViewHolder(EditableIngredientsListAdapter.IngredientsViewHolder holder, int position) {
         Ingredient current = getItem(position);
         holder.ingredientQty.setText(String.valueOf(_ingredients.get(position).getQty()));
         holder.unit.setText(_ingredients.get(position).getSelectedPortion().getPortionDesc(), false);
@@ -66,7 +68,7 @@ public class IngredientsListAdapter extends ListAdapter<Ingredient, IngredientsL
     }
 
 
-    static class IngredientsDiff extends DiffUtil.ItemCallback<Ingredient> {
+    public static class IngredientsDiff extends DiffUtil.ItemCallback<Ingredient> {
 
         @Override
         public boolean areItemsTheSame(@NonNull Ingredient oldItem, @NonNull Ingredient newItem) {

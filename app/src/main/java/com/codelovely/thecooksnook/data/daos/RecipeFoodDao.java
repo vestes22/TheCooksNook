@@ -21,5 +21,8 @@ public interface RecipeFoodDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(RecipeFood recipeFood);
+
+    @Query("DELETE FROM recipeFoods WHERE `Recipe code` = :recipeId")
+    void deleteRecipeById(int recipeId);
 }
 

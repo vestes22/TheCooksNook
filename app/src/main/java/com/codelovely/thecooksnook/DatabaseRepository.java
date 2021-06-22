@@ -83,10 +83,19 @@ public class DatabaseRepository {
         }
     }
 
+    public List<Recipe> getAllRecipes() {
+        List<Recipe> recipes = mRecipeDao.getAll();
+        for (Recipe recipe : recipes) {
+            System.out.println(recipe.getRecipeId());
+        }
+        return mRecipeDao.getAll();
+    }
+
     public List<com.codelovely.thecooksnook.models.Recipe> getRecipesByCategory(String category) {
         List<com.codelovely.thecooksnook.data.entities.Recipe> recipes = mRecipeDao.getRecipeByCategory(category);
         List<com.codelovely.thecooksnook.models.Recipe> modelRecipes = new ArrayList<>();
         for (com.codelovely.thecooksnook.data.entities.Recipe recipe : recipes) {
+            System.out.println(recipe.getTitle());
             com.codelovely.thecooksnook.models.Recipe modelRecipe = new com.codelovely.thecooksnook.models.Recipe();
             modelRecipe.setId(recipe.getRecipeId());
             modelRecipe.setName(recipe.getTitle());
@@ -94,21 +103,50 @@ public class DatabaseRepository {
             modelRecipe.setNumServings(recipe.getNumServings());
             modelRecipe.setCategory(category);
             modelRecipe.setInstructions(recipe.getInstructions());
-
-            /*
-            List<Ingredient> ingredients = mRecipeFoodDao.getIngredientsByRecipeId(recipe.getRecipeId());
-            // TODO - instead of having multiple nested for loops, I'm only going to get the list of ingredients and their subsequent nutrition as needed.
-            // I'll do that when the Recipe screen loads, and I'll only do it for that one Recipe instead of all the recipes returned in the query.
-            for (Ingredient ingredient : ingredients) {
-                List<Nutrient> nutrients = mIngredientDao.getNutrition(ingredient.getFoodId(), ingredient.getSelectedPortion().getPortionCode());
-
-            }
-            modelRecipe.setIngredients(ingredients); */
+            modelRecipes.add(modelRecipe);
         }
         return modelRecipes;
     }
 
+    public com.codelovely.thecooksnook.models.Recipe getRecipeById(int recipeId) {
+        com.codelovely.thecooksnook.data.entities.Recipe recipeEntity = mRecipeDao.getRecipeById(recipeId);
+        com.codelovely.thecooksnook.models.Recipe modelRecipe = new com.codelovely.thecooksnook.models.Recipe();
+        modelRecipe.setName(recipeEntity.getTitle());
+        modelRecipe.setId(recipeEntity.getRecipeId());
+        modelRecipe.setDescription(recipeEntity.getDescription());
+        modelRecipe.setInstructions(recipeEntity.getInstructions());
+        modelRecipe.setCategory(recipeEntity.getCategory());
+        modelRecipe.setNumServings(recipeEntity.getNumServings());
+        List<Ingredient> ingredients = getIngredientsByRecipeId(recipeEntity.getRecipeId());
+        modelRecipe.setIngredients(ingredients);
+        modelRecipe.setRecipeNutrientsPerServing(ingredients);
+        return modelRecipe;
+    }
 
+    public List<Ingredient> getIngredientsByRecipeId(int recipeId) {
+        List<RecipeFood> recipeFoods = mRecipeFoodDao.getIngredientsByRecipeId(recipeId);
+        List<Ingredient> ingredients = new ArrayList<>();
+        for (RecipeFood recipeFood : recipeFoods) {
+            Ingredient ingredient = new Ingredient();
+            ingredient.setFoodId(recipeFood.getFoodId());
+            MainFoodDesc food = mMainFoodDescDao.searchFoodById(recipeFood.getFoodId());
+            ingredient.setFoodName(food.getMainFoodDesc());
+            ingredient.setQty(recipeFood.getQuantity());
+            ingredient.setSelectedPortion(mFoodPortionDao.getPortionById(recipeFood.getFoodId(), recipeFood.getPortionCode()));
+            List<Nutrient> nutrients = mIngredientDao.getNutrition(recipeFood.getFoodId(), recipeFood.getPortionCode());
+            for (Nutrient nutrient : nutrients) {
+                nutrient.setNutrientValue(nutrient.getNutrientValue() * recipeFood.getQuantity());
+            }
+            ingredient.setNutrients(nutrients);
+            ingredients.add(ingredient);
 
+        }
+        return ingredients;
+    }
+
+    public void deleteRecipeById(int recipeId) {
+        mRecipeFoodDao.deleteRecipeById(recipeId);
+        mRecipeDao.deleteByRecipeId(recipeId);
+    }
 
 }

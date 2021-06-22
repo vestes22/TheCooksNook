@@ -22,4 +22,8 @@ public interface MainFoodDescDao {
             "ON (mainFoodDesc.`Main food description` = mainFoodDesc_fts.`Main food description`) " +
             "WHERE mainFoodDesc_fts MATCH :query")
     List<MainFoodDesc> searchTest(String query);
+
+    @Query("SELECT * FROM mainFoodDesc  " +
+            "WHERE `Food code` = :id")
+    MainFoodDesc searchFoodById(int id);
 }

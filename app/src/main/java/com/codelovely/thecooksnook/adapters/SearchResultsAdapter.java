@@ -1,16 +1,17 @@
-package com.codelovely.thecooksnook;
+package com.codelovely.thecooksnook.adapters;
 
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.codelovely.thecooksnook.R;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 
 
@@ -63,7 +64,7 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
     For now, I understand they are used for efficiently updating lists of data by comparing values,
     and only updating positions where the values do not match.
      */
-    static class SearchResultsDiff extends DiffUtil.ItemCallback<MainFoodDesc> {
+    public static class SearchResultsDiff extends DiffUtil.ItemCallback<MainFoodDesc> {
 
         @Override
         public boolean areItemsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
@@ -83,14 +84,12 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
      */
     public class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView ingredientTextView;
-        //private Button addIngredientButton;
         SearchResultsListener listener;
 
         private SearchResultsViewHolder(View itemView, SearchResultsListener listener) {
             super(itemView);
             this.listener = listener;
             ingredientTextView = (TextView) itemView.findViewById(R.id.searchResultsItem_ingredientName);
-            //addIngredientButton = (Button) itemView.findViewById(R.id.add_ingredient_button);
 
             itemView.setOnClickListener(this);
         }

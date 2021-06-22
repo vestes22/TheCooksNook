@@ -15,9 +15,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import com.codelovely.thecooksnook.adapters.EditableIngredientsListAdapter;
+import com.codelovely.thecooksnook.adapters.SearchResultsAdapter;
 import com.codelovely.thecooksnook.data.MainFoodDesc;
 import com.codelovely.thecooksnook.models.Ingredient;
 import com.codelovely.thecooksnook.models.Recipe;
+import com.codelovely.thecooksnook.viewmodels.AddRecipeViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -32,7 +36,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     EditText recipeInstructionsText;
     Observer<List<MainFoodDesc>> searchResultsObserver;
     SearchResultsAdapter searchAdapter;
-    IngredientsListAdapter ingredientsAdapter;
+    EditableIngredientsListAdapter ingredientsAdapter;
     AddRecipeViewModel mAddRecipeViewModel;
 
     ChipGroup chipGroup;
@@ -66,7 +70,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         RecyclerView ingredientsListRv = findViewById(R.id.addRecipe_recipeIngredientsRecyclerView);
         RecyclerView searchResultsRv = findViewById(R.id.addRecipe_searchResultsRecyclerView);
         searchAdapter = new SearchResultsAdapter(new SearchResultsAdapter.SearchResultsDiff(), this);
-        ingredientsAdapter = new IngredientsListAdapter(new IngredientsListAdapter.IngredientsDiff());
+        ingredientsAdapter = new EditableIngredientsListAdapter(new EditableIngredientsListAdapter.IngredientsDiff());
         searchResultsRv.setAdapter(searchAdapter);
         ingredientsListRv.setAdapter(ingredientsAdapter);
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
