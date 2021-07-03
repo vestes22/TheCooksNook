@@ -67,5 +67,20 @@
         <item name="android:background">?attr/colorAccent</item>
     </style>
 
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:colorControlActivated">#ffea00</item>
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
+
+    <style name="MyDatePickerSpinnerStyle" parent="@android:style/Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="android:textColorPrimary">@color/colorNude</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+
+
 
 </resources>

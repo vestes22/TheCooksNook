@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.codelovely.thecooksnook.adapters.RecipeAdapter;
-import com.codelovely.thecooksnook.models.Recipe;
+import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.viewmodels.CookBookViewModel;
 
 import java.util.List;
@@ -32,7 +32,7 @@ CookBookActivity extends AppCompatActivity implements RecipeAdapter.RecipeListen
         // TODO - Write functionality for "View All" recipe button.
         // If "category == "ALL" then write another function in view model for all recipes.
 
-        List<Recipe> recipes =  mCookBookViewModel.getRecipesByCategory(category);
+        List<RecipeModel> recipes =  mCookBookViewModel.getRecipesByCategory(category);
 
         RecyclerView recipeRv = findViewById(R.id.cookBook_recipeRecyclerview);
         recipeAdapter = new RecipeAdapter(new RecipeAdapter.RecipeDiff(), this);
@@ -43,8 +43,8 @@ CookBookActivity extends AppCompatActivity implements RecipeAdapter.RecipeListen
 
     @Override
     public void onRecipeClicked(int position) {
-        List<Recipe> currentList =  recipeAdapter.getCurrentList();
-        Recipe recipe = currentList.get(position);
+        List<RecipeModel> currentList =  recipeAdapter.getCurrentList();
+        RecipeModel recipe = currentList.get(position);
         Intent intent = new Intent(this, RecipeActivity.class);
         intent.putExtra("recipeId", recipe.getId());
         startActivity(intent);

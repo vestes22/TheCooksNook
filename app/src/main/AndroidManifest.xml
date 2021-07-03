@@ -12,21 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DailyMealPlanActivity"></activity>
-        <activity android:name=".MealPlannerActivity" />
-        <activity android:name=".AddRecipeActivity" />
-        <activity android:name=".RecipeActivity" />
-        <activity android:name=".CookBookActivity" />
-        <activity android:name=".CookBookRecipesActivity" />
-        <activity android:name=".CookBookHomeActivity" />
-        <activity android:name=".HomeScreenActivity" />
-        <activity android:name=".SignInActivity">
+        <activity android:name=".AnychartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddMealPlanActivity" />
+        <activity android:name=".DailyMealPlanActivity" />
+        <activity android:name=".MealPlannerActivity" />
+        <activity android:name=".AddRecipeActivity" />
+        <activity android:name=".RecipeActivity" />
+        <activity android:name=".CookBookActivity" />
+        <activity android:name=".CookBookHomeActivity" />
+        <activity android:name=".HomeScreenActivity">
+        </activity>
+        <activity android:name=".SignInActivity" />
     </application>
 
 </manifest>

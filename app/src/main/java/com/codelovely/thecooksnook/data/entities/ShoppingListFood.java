@@ -4,14 +4,12 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
-import com.codelovely.thecooksnook.data.MainFoodDesc;
 
 @Entity (
         tableName = "shoppingListFoods",
         primaryKeys = {"Shopping list code", "Food code"},
         foreignKeys = {
-                @ForeignKey(entity=ShoppingList.class, parentColumns = "Shopping list code", childColumns = "Shopping list code"),
-                @ForeignKey(entity= MainFoodDesc.class, parentColumns = "Food code", childColumns = "Food code")
+                @ForeignKey(entity=ShoppingList.class, parentColumns = "Shopping list code", childColumns = "Shopping list code")
         }
 )
 public class ShoppingListFood {

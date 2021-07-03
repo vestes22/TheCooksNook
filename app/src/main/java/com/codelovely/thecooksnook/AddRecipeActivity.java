@@ -15,12 +15,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.codelovely.thecooksnook.adapters.EditableIngredientsListAdapter;
 import com.codelovely.thecooksnook.adapters.SearchResultsAdapter;
-import com.codelovely.thecooksnook.data.MainFoodDesc;
-import com.codelovely.thecooksnook.models.Ingredient;
-import com.codelovely.thecooksnook.models.Recipe;
+import com.codelovely.thecooksnook.models.IngredientModel;
+import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import com.codelovely.thecooksnook.viewmodels.AddRecipeViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -34,10 +35,11 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     EditText recipeDescriptionText;
     EditText recipeServingsText;
     EditText recipeInstructionsText;
-    Observer<List<MainFoodDesc>> searchResultsObserver;
+    Observer<List<SearchResultFood>> searchResultsObserver;
     SearchResultsAdapter searchAdapter;
     EditableIngredientsListAdapter ingredientsAdapter;
     AddRecipeViewModel mAddRecipeViewModel;
+    ProgressBar progressBar;
 
     ChipGroup chipGroup;
     Chip breakfastChip;
@@ -57,6 +59,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         recipeDescriptionText = (TextInputEditText)findViewById(R.id.addRecipe_recipeDescriptionEditText);
         recipeServingsText = (TextInputEditText)findViewById(R.id.addRecipe_numServingsEditText);
         recipeInstructionsText = (TextInputEditText)findViewById(R.id.addRecipe_recipeInstructionsEditText);
+        progressBar = (ProgressBar) findViewById(R.id.addRecipe_indeterminateProgressBar);
         chipGroup = findViewById(R.id.addRecipe_chipGroup);
         breakfastChip = findViewById(R.id.addRecipe_breakfastChip);
         lunchChip = findViewById(R.id.addRecipe_lunchChip);
@@ -64,39 +67,40 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         appetizersChip = findViewById(R.id.addRecipe_appetizerChip);
         mAddRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
 
-        // Setup code for our two RecyclerViews:
-        // One we use for our search results, and one we use to store
-        // the list of ingredients for our recipe.
-        RecyclerView ingredientsListRv = findViewById(R.id.addRecipe_recipeIngredientsRecyclerView);
+        progressBar.setVisibility(View.GONE);
+
+        // Setup code for our SearchResults RecyclerViews:
         RecyclerView searchResultsRv = findViewById(R.id.addRecipe_searchResultsRecyclerView);
-        searchAdapter = new SearchResultsAdapter(new SearchResultsAdapter.SearchResultsDiff(), this);
-        ingredientsAdapter = new EditableIngredientsListAdapter(new EditableIngredientsListAdapter.IngredientsDiff());
+        searchAdapter = new SearchResultsAdapter(this);
         searchResultsRv.setAdapter(searchAdapter);
-        ingredientsListRv.setAdapter(ingredientsAdapter);
         searchResultsRv.setLayoutManager(new LinearLayoutManager(this));
-        ingredientsListRv.setLayoutManager(new LinearLayoutManager(this));
-
-        // Setup code for our observers, which we use to populate the RecyclerViews with updated data.
-        final Observer<List<Ingredient>> ingredientsListObserver = new Observer<List<Ingredient>>() {
+        searchResultsObserver = new Observer<List<SearchResultFood>>() {
             @Override
-            public void onChanged(@Nullable final List<Ingredient> ingredientsList) {
-                ingredientsAdapter.submitList(null);
-                ingredientsAdapter.updateIngredients(ingredientsList);
-                ingredientsAdapter.submitList(ingredientsList);
-            }
-        };
-
-        mAddRecipeViewModel.getRecipeIngredients().observe(this, ingredientsListObserver);
-
-        searchResultsObserver = new Observer<List<MainFoodDesc>>() {
-            @Override
-            public void onChanged(@Nullable final List<MainFoodDesc> searchResults) {
-                searchAdapter.submitList(searchResults);
-                if (searchResults == null) {
-                    System.out.println("The results in onChanged are null.");
+            public void onChanged(List<SearchResultFood> searchResults) {
+                if (searchResults != null) {
+                    searchAdapter.setResults(searchResults);
                 }
             }
         };
+        mAddRecipeViewModel.getSearchResultsLiveData().observe(this, searchResultsObserver);
+
+
+        // Setup code for our Ingredients RecyclerView:
+        RecyclerView ingredientsListRv = findViewById(R.id.addRecipe_recipeIngredientsRecyclerView);
+        ingredientsAdapter = new EditableIngredientsListAdapter(new EditableIngredientsListAdapter.IngredientsDiff());
+        ingredientsListRv.setAdapter(ingredientsAdapter);
+        ingredientsListRv.setLayoutManager(new LinearLayoutManager(this));
+        final Observer<List<IngredientModel>> ingredientsListObserver = new Observer<List<IngredientModel>>() {
+            @Override
+            public void onChanged(@Nullable final List<IngredientModel> ingredientsList) {
+                ingredientsAdapter.submitList(null);
+                ingredientsAdapter.updateIngredients(ingredientsList);
+                ingredientsAdapter.submitList(ingredientsList);
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+
+       mAddRecipeViewModel.getSelectedIngredientsLiveData().observe(this, ingredientsListObserver);
 
 
         // Setup code for our chips and their listeners. The chips to allow the user to select a category for their recipe (i.e. Breakfast, or Dinner).
@@ -154,36 +158,26 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         });
     }
 
-    /*
-    This enables the user to search for ingredients to use in their recipe.
-    Data retrieval follows the Android Guide to App Architecture:
-    It asks the ViewModel for the data.
-    The ViewModel gets the data from the Repository, which gets it from the Room database.
 
-    I have a love/hate relationship with LiveData, which is what we use to store the results.
-     */
     public void searchButtonClicked(View view) {
         String query = searchIngredientsText.getText().toString();
-        mAddRecipeViewModel.fetchIngredientByQuery(query).observe(this, searchResultsObserver);
+        mAddRecipeViewModel.searchFoodDataCentralByName(query);
     }
 
-    /*
-    After a user searches for ingredients, they can click on an item in the search results to add that ingredient to their recipe.
-    Which is what we do here.
-     */
+
     @Override
     public void onSearchResultClicked(int position) {
-        // Gets the ingredient that was clicked.
-        List<MainFoodDesc> currentList = searchAdapter.getCurrentList();
-        MainFoodDesc ingredient = currentList.get(position);
 
-        // Compares the ID of the selected ingredient with the ingredients we already have added to our list.
-        // If we already have the ingredient on our list, we do not want to add it again.
-        // But if the ingredient is not on our list, we add it.
-        List<Ingredient> ingredientsList = ingredientsAdapter.getCurrentList();
+        // Gets the ingredient that was clicked.
+        List<SearchResultFood> currentList = searchAdapter.getResults();
+        SearchResultFood ingredient = currentList.get(position);
+        String dataType = ingredient.getDataType();
+
+        // Compares the ID of the selected ingredient with the ingredients we already have added to our list to ensure we don't add the same ingredient more than once.
+        List<IngredientModel> ingredientsList = ingredientsAdapter.getCurrentList();
         int flag = -1;
-        for (Ingredient food : ingredientsList) {
-            if (food.getFoodId() == ingredient.getFoodId())
+        for (IngredientModel food : ingredientsList) {
+            if (food.getFdcId() == ingredient.getFdcId())
             {
                 flag++;
             }
@@ -192,8 +186,21 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
             System.out.println("Ingredient already added.");
         }
         else {
-            mAddRecipeViewModel.addRecipeIngredient(ingredient);
+            progressBar.setVisibility(View.VISIBLE);
+
+            if (dataType.equals("Branded")) {
+                System.out.println("Calling getBrandedFoodItemById...");
+                mAddRecipeViewModel.getBrandedFoodItemById(ingredient.getFdcId());
+            }
+            else if (dataType.equals("Foundation")) {
+                System.out.println("Calling getFoundationFoodItemById...");
+                mAddRecipeViewModel.getFoundationFoodItemById(ingredient.getFdcId());
+            }
         }
+
+
+
+
     }
 
 
@@ -237,23 +244,26 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         recipeDescription = recipeDescriptionText.getText().toString();
         numServings = Integer.parseInt(recipeServingsText.getText().toString());
         recipeInstructions = recipeInstructionsText.getText().toString();
-        List<Ingredient> ingredients = ingredientsAdapter.getIngredients();
-        // Uses the ingredient and the selected portion size to calculate the nutrients for each ingredient.
-        // OOH, I need to multiply it by the qty.
-        // Actually, this probably doesn't need to be done here - since we are just saving it to the database.
-        // This should be calculated when we click on a recipe to display the details
+        List<IngredientModel> ingredients = ingredientsAdapter.getIngredients();
+
+        // TODO - figure out how to validate all ingredients have a quantity
+        /*
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.getAmountInRecipe() == null) {
+
+            }
+        }
+
+         */
 
         // Create new recipe object
-        Recipe recipe = new Recipe();
+        RecipeModel recipe = new RecipeModel();
         recipe.setName(recipeName);
         recipe.setDescription(recipeDescription);
         recipe.setNumServings(numServings);
         recipe.setCategory(recipeCategory);
         recipe.setInstructions(recipeInstructions);
         recipe.setIngredients(ingredients);
-
-
-        // TODO - Set Recipe Ingredients
 
 
         mAddRecipeViewModel.insertRecipe(recipe);

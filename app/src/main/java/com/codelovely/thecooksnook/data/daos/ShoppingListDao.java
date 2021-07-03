@@ -15,6 +15,6 @@ public interface ShoppingListDao {
     @Query("SELECT * FROM shoppingLists")
     public LiveData<List<ShoppingList>> getAll();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     void insert(ShoppingList shoppingList);
 }

@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codelovely.thecooksnook.R;
 import com.codelovely.thecooksnook.RecipeActivity;
-import com.codelovely.thecooksnook.models.Nutrient;
+import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 
-public class NutrientListAdapter extends ListAdapter<Nutrient, NutrientListAdapter.NutrientViewHolder> {
+public class NutrientListAdapter extends ListAdapter<FoodNutrient, NutrientListAdapter.NutrientViewHolder> {
 
 
-    public NutrientListAdapter(@NonNull DiffUtil.ItemCallback<Nutrient> diffCallback, RecipeActivity recipeActivity) {
+    public NutrientListAdapter(@NonNull DiffUtil.ItemCallback<FoodNutrient> diffCallback, RecipeActivity recipeActivity) {
         super(diffCallback);
     }
 
@@ -41,21 +41,21 @@ public class NutrientListAdapter extends ListAdapter<Nutrient, NutrientListAdapt
      */
     @Override
     public void onBindViewHolder(NutrientListAdapter.NutrientViewHolder holder, int position) {
-        Nutrient current = getItem(position);
+        FoodNutrient current = getItem(position);
         holder.bind(current);
     }
 
 
-    public static class NutrientsDiff extends DiffUtil.ItemCallback<Nutrient> {
+    public static class NutrientsDiff extends DiffUtil.ItemCallback<FoodNutrient> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Nutrient oldItem, @NonNull Nutrient newItem) {
+        public boolean areItemsTheSame(@NonNull FoodNutrient oldItem, @NonNull FoodNutrient newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Nutrient oldItem, @NonNull Nutrient newItem) {
-            return oldItem.getNutrientCode() == newItem.getNutrientCode();
+        public boolean areContentsTheSame(@NonNull FoodNutrient oldItem, @NonNull FoodNutrient newItem) {
+            return oldItem.getId() == newItem.getId();
         }
     }
 
@@ -75,9 +75,9 @@ public class NutrientListAdapter extends ListAdapter<Nutrient, NutrientListAdapt
             nutrientValue = (TextView) itemView.findViewById(R.id.recipeNutritionListItem_nutrientValue);
         }
 
-        public void bind(Nutrient nutrient) {
-            nutrientName.setText(nutrient.getNutrientDescription());
-            nutrientValue.setText(Float.toString(nutrient.getNutrientValue()) + nutrient.getUnit());
+        public void bind(FoodNutrient nutrient) {
+            nutrientName.setText(nutrient.getNutrient().getName());
+            nutrientValue.setText(nutrient.getAmount() + nutrient.getNutrient().getUnitName());
         }
     }
 }

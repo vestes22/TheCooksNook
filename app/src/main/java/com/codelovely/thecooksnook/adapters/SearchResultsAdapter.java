@@ -7,31 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codelovely.thecooksnook.R;
-import com.codelovely.thecooksnook.data.MainFoodDesc;
+import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResultsAdapter.SearchResultsViewHolder> {
-
-    // The listener allows us to detect when an item in the RecyclerView is clicked.
+public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder> {
+    private List<SearchResultFood> results = new ArrayList<>();
     private SearchResultsListener mSearchResultsListener;
 
 
-
-    public SearchResultsAdapter (@NonNull DiffUtil.ItemCallback<MainFoodDesc> diffCallback, SearchResultsListener searchResultsListener) {
-        super(diffCallback);
+    public SearchResultsAdapter (SearchResultsListener searchResultsListener) {
         mSearchResultsListener = searchResultsListener;
     }
 
-    /*
-    onCreateViewHolder is called right when the adapter is created and is used to initialize the ViewHolder.
-     */
+
+    @NonNull
     @Override
-    public SearchResultsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchResultsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -40,15 +37,42 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
         return holder;
     }
 
-    /*
-    onBindViewHolder is called for each ViewHOlder to bind it to the adapter.
-    This is where we populate our individual RecyclerView items with data.
-     */
+
     @Override
-    public void onBindViewHolder(SearchResultsViewHolder holder, int position) {
-        MainFoodDesc current = getItem(position);
-        holder.bind(current.getMainFoodDesc());
+    public int getItemCount() {
+        return results.size();
     }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull SearchResultsViewHolder holder, int position) {
+        SearchResultFood current = results.get(position);
+        if (current.getDescription() != null) {
+            if (current.getAdditionalDescriptions() != null && current.getBrandOwner() != null) {
+                holder.bind(current.getDescription() + " | " + current.getAdditionalDescriptions() + " | " + current.getBrandOwner());
+            }
+            else if (current.getAdditionalDescriptions() != null) {
+                holder.bind(current.getDescription() + " | " + current.getAdditionalDescriptions());
+            }
+            else if (current.getBrandOwner() != null) {
+                holder.bind(current.getDescription() + " | " + current.getBrandOwner());
+            }
+            else {
+                holder.bind(current.getDescription());
+            }
+        }
+    }
+
+
+    public void setResults(List<SearchResultFood> results) {
+        this.results = results;
+        notifyDataSetChanged();
+    }
+
+    public List<SearchResultFood> getResults() {
+        return results;
+    }
+
 
     /*
     This interface is used to detect when a user clicks on a RecyclerView item.
@@ -59,34 +83,12 @@ public class SearchResultsAdapter extends ListAdapter<MainFoodDesc, SearchResult
         void onSearchResultClicked(int position);
     }
 
-    /*
-    DiffUtil classes are still an enigma to me... I will def spend some more time learning about them.
-    For now, I understand they are used for efficiently updating lists of data by comparing values,
-    and only updating positions where the values do not match.
-     */
-    public static class SearchResultsDiff extends DiffUtil.ItemCallback<MainFoodDesc> {
 
-        @Override
-        public boolean areItemsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
-            return oldItem == newItem;
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull MainFoodDesc oldItem, @NonNull MainFoodDesc newItem) {
-            return oldItem.getFoodId() == newItem.getFoodId();
-        }
-    }
-
-    /*
-    This is the ViewHolder class for the adapter.
-    The ViewHolder's job i to describe an item view and metadata about its place in the RecyclerView.
-    It caches results for View.findViewById, which can otherwise be expensive.
-     */
     public class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView ingredientTextView;
         SearchResultsListener listener;
 
-        private SearchResultsViewHolder(View itemView, SearchResultsListener listener) {
+        private SearchResultsViewHolder(@NonNull View itemView, SearchResultsListener listener) {
             super(itemView);
             this.listener = listener;
             ingredientTextView = (TextView) itemView.findViewById(R.id.searchResultsItem_ingredientName);

@@ -15,6 +15,6 @@ public interface UserRecipeDao {
     @Query("SELECT * FROM userRecipes")
     public LiveData<List<UserRecipe>> getAll();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     void insert(UserRecipe userRecipe);
 }

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".AddMealPlanActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/addMealPlan_activityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Meal Plan"
+        android:layout_margin="16dp"
+        android:layout_gravity="center"
+        style="@style/cookbook_headings" />
+
+
+
+        <!-- DatePicker card -->
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/addMealPlan_datePickerCard"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark">
+
+            <TextView
+                android:id="@+id/addMealPlan_datePickerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/cookbook_headings"
+                android:text="Pick your meal plan date"
+                android:layout_margin="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <DatePicker
+                android:id="@+id/addMealPlan_datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:calendarTextColor="@color/colorNude"
+                style="@style/MyDatePickerStyle"
+                android:theme="@style/MyDatePickerSpinnerStyle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_datePickerTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+        <!-- Recipes Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark">
+
+            <TextView
+                android:id="@+id/addMealPlan_addRecipesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/cookbook_headings"
+                android:text="Add Recipes"
+                android:layout_margin="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_breakfastListTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Breakfast"
+                android:textSize="16sp"
+                android:layout_margin="16dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_addRecipesTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastList"/>
+
+            <ListView
+                android:id="@+id/addMealPlan_breakfastList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastListTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchListTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_lunchListTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lunch"
+                android:textSize="16sp"
+                android:layout_margin="16dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchList"/>
+
+            <ListView
+                android:id="@+id/addMealPlan_lunchList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchListTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerListTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_dinnerListTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dinner"
+                android:textSize="16sp"
+                android:layout_margin="16dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerList"/>
+
+            <ListView
+                android:id="@+id/addMealPlan_dinnerList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerListTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerListTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_appetizerListTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Appetizers"
+                android:textSize="16sp"
+                android:layout_margin="16dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerList"/>
+
+            <ListView
+                android:id="@+id/addMealPlan_appetizerList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_appetizerListTitle"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
+    <!-- Save Meal Plan button -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/addRecipe_saveRecipeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="saveMealPlanButtonClicked"
+        card_view:cardBackgroundColor="@color/colorAccent"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addRecipe_recipeInstructionsCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/cookbook_headings"
+                android:text="Save Meal Plan"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

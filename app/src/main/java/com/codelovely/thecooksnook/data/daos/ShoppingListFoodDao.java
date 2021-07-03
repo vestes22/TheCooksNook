@@ -15,6 +15,9 @@ public interface ShoppingListFoodDao {
     @Query("SELECT * FROM shoppingListFoods")
     public LiveData<List<ShoppingListFood>> getAll();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Query("SELECT EXISTS(SELECT * FROM shoppingListFoods WHERE `Shopping list code` = :shoppingListCode AND `Food code` = :fdcId)")
+    boolean checkIfExists(int fdcId, int shoppingListCode);
+
+    @Insert
     void insert(ShoppingListFood shoppingListFood);
 }

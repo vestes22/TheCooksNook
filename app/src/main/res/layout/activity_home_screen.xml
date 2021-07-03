@@ -43,7 +43,7 @@
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="8dp"
             app:layout_constraintHeight_default="percent"
-            app:layout_constraintHeight_percent=".25" >
+            app:layout_constraintHeight_percent=".25">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -58,14 +58,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="16dp"
                     android:background="@color/colorPrimaryDark"
-                    android:paddingBottom="16dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/recommended_recipe"
                     android:textColor="@color/colorNude"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/homeScreen_recommendedRecipeCard_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -79,7 +79,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/homeScreen_recommendedRecipeCard_description"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/homeScreen_recommendedRecipeCard_title"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
                     app:layout_constraintWidth_percent=".2" />
 
@@ -88,10 +88,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
                     android:text="@string/recipe_description"
                     android:textColor="@color/colorNude"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/homeScreen_recommendedRecipeCard_image"
                     app:layout_constraintTop_toBottomOf="@+id/homeScreen_recommendedRecipeCard_title"
                     app:layout_constraintWidth_default="percent"
@@ -133,42 +133,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="16dp"
                     android:background="@color/colorPrimaryDark"
-                    android:paddingBottom="16dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/meal_planner"
                     android:textColor="@color/colorNude"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/homeScreen_mealPlannerCard_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/homeScreen_mealPlannerCard_image"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
                     android:contentDescription="@string/recipe_image_description"
                     android:paddingBottom="8dp"
                     android:src="@drawable/book"
-                    android:adjustViewBounds="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/homeScreen_mealPlannerCard_description"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/homeScreen_mealPlannerCard_title"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent=".2"/>
+                    app:layout_constraintWidth_percent=".2" />
 
                 <TextView
                     android:id="@+id/homeScreen_mealPlannerCard_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="@string/this_is_a_sample_recipe_recommended_by_the_application"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:text="Plan daily meals and track your nutrition."
                     android:textColor="@color/colorNude"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/homeScreen_mealPlannerCard_image"
                     app:layout_constraintTop_toBottomOf="@+id/homeScreen_mealPlannerCard_title"
+                    app:layout_constraintVertical_bias="0.483"
                     app:layout_constraintWidth_default="percent"
                     app:layout_constraintWidth_percent=".7" />
 
@@ -208,14 +209,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
                     android:background="@color/colorPrimaryDark"
-                    android:paddingBottom="16dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/shopping_list"
                     android:textColor="@color/colorNude"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:layout_constraintStart_toEndOf="@id/homeScreen_shoppingListCard_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -224,24 +225,25 @@
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/recipe_image_description"
+                    android:layout_margin="16dp"
                     android:paddingBottom="8dp"
-                    android:src="@drawable/turkey"
+                    android:src="@drawable/grocery_cart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/homeScreen_shoppingListCard_description"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/homeScreen_shoppingListCard_title"
+                    app:layout_constraintTop_toTopOf="@+id/homeScreen_shoppingListCard_title"
                     app:layout_constraintWidth_default="percent"
-                    app:layout_constraintWidth_percent=".2"/>
+                    app:layout_constraintWidth_percent=".2" />
 
                 <TextView
                     android:id="@+id/homeScreen_shoppingListCard_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="@string/recommended_recipe_description"
+                    android:text="Make shopping lists out of your meal plans and recipes. "
                     android:textColor="@color/colorNude"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@+id/homeScreen_shoppingListCard_image"
                     app:layout_constraintTop_toBottomOf="@+id/homeScreen_shoppingListCard_title"
                     app:layout_constraintWidth_default="percent"
@@ -284,14 +286,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="16dp"
                     android:background="@color/colorAccent"
-                    android:paddingBottom="16dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/personal_cook_book_title"
                     android:textColor="@color/colorNude"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/homeScreen_cookBookCard_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -301,11 +303,11 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/recipe_image_description"
                     android:paddingBottom="8dp"
-                    android:src="@drawable/turkey"
+                    android:src="@drawable/chef_hat"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/homeScreen_cookBookCard_description"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/homeScreen_cookBookCard_title"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_default="percent"
                     app:layout_constraintWidth_percent=".2" />
 
@@ -314,10 +316,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="@string/recommended_recipe_description"
+                    android:text="It's time to put on your chef's hat! Browse your favorite recipes here. "
                     android:textColor="@color/colorNude"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="16sp"
+                    android:layout_marginStart="16dp"
                     app:layout_constraintStart_toEndOf="@id/homeScreen_cookBookCard_image"
                     app:layout_constraintTop_toBottomOf="@id/homeScreen_cookBookCard_title"
                     app:layout_constraintWidth_default="percent"
@@ -325,5 +327,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

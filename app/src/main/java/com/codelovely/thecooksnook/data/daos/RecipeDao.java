@@ -22,7 +22,7 @@ public interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE `Recipe code` = :recipeCode")
     Recipe getRecipeById(int recipeCode);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     long insert(Recipe recipe);
 
     @Query("DELETE FROM recipes WHERE `Recipe code` = :recipeId")

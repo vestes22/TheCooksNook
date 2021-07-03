@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codelovely.thecooksnook.R;
-import com.codelovely.thecooksnook.models.Recipe;
+import com.codelovely.thecooksnook.models.RecipeModel;
 
-public class RecipeAdapter extends ListAdapter<Recipe, RecipeAdapter.RecipeViewHolder> {
+public class RecipeAdapter extends ListAdapter<RecipeModel, RecipeAdapter.RecipeViewHolder> {
 
     // The listener allows us to detect when an item in the RecyclerView is clicked.
     private RecipeAdapter.RecipeListener mRecipeListener;
 
 
 
-    public RecipeAdapter (@NonNull DiffUtil.ItemCallback<Recipe> diffCallback, RecipeListener listener) {
+    public RecipeAdapter (@NonNull DiffUtil.ItemCallback<RecipeModel> diffCallback, RecipeListener listener) {
         super(diffCallback);
         mRecipeListener = listener;
     }
@@ -46,7 +46,7 @@ public class RecipeAdapter extends ListAdapter<Recipe, RecipeAdapter.RecipeViewH
      */
     @Override
     public void onBindViewHolder(RecipeAdapter.RecipeViewHolder holder, int position) {
-        Recipe current = getItem(position);
+        RecipeModel current = getItem(position);
         holder.bind(current);
     }
 
@@ -64,15 +64,15 @@ public class RecipeAdapter extends ListAdapter<Recipe, RecipeAdapter.RecipeViewH
     For now, I understand they are used for efficiently updating lists of data by comparing values,
     and only updating positions where the values do not match.
      */
-    public static class RecipeDiff extends DiffUtil.ItemCallback<Recipe> {
+    public static class RecipeDiff extends DiffUtil.ItemCallback<RecipeModel> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Recipe oldItem, @NonNull Recipe newItem) {
+        public boolean areItemsTheSame(@NonNull RecipeModel oldItem, @NonNull RecipeModel newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Recipe oldItem, @NonNull Recipe newItem) {
+        public boolean areContentsTheSame(@NonNull RecipeModel oldItem, @NonNull RecipeModel newItem) {
             return oldItem.getId() == newItem.getId();
         }
     }
@@ -101,7 +101,7 @@ public class RecipeAdapter extends ListAdapter<Recipe, RecipeAdapter.RecipeViewH
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Recipe recipe) {
+        public void bind(RecipeModel recipe) {
 
             recipeName.setText(recipe.getName());
             recipeDescription.setText(recipe.getDescription());

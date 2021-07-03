@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:id="@+id/recipe_linearLayout">
 
 
 
@@ -40,7 +41,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/recipe_recipeName"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent=".33"/>
 
                 <TextView
                     android:id="@+id/recipe_recipeName"
@@ -48,14 +51,23 @@
                     android:layout_height="wrap_content"
                     android:text="@string/recipe_title"
                     android:textColor="@color/colorNude"
-                    android:textSize="32sp"
+                    android:textSize="24sp"
                     android:layout_margin="8dp"
                     app:layout_constraintTop_toTopOf="parent"
-
-                    
                     app:layout_constraintStart_toEndOf="@id/recipe_recipeImage"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/recipe_recipeDescription"/>
+                    app:layout_constraintBottom_toTopOf="@id/recipe_recipeNumServings"/>
+
+                <TextView
+                    android:id="@+id/recipe_recipeNumServings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorNude"
+                    android:layout_margin="8dp"
+                    android:text="Servings: "
+                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeName"
+                    app:layout_constraintStart_toEndOf="@id/recipe_recipeImage"
+                    app:layout_constraintBottom_toTopOf="@id/recipe_recipeDescription"
+                    />
 
                 <TextView
                     android:id="@+id/recipe_recipeDescription"
@@ -64,9 +76,8 @@
                     android:text="@string/sample_recipe_description"
                     android:textColor="@color/colorNude"
                     android:layout_margin="8dp"
-                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeName"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeNumServings"
                     app:layout_constraintStart_toEndOf="@id/recipe_recipeImage"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -193,13 +204,37 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/recipe_recipeNutritionRecyclerView"/>
 
+                <TextView
+                    android:id="@+id/recipe_recipeNutritionCardDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calculated per single serving. "
+                    android:textColor="@color/colorNude"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeNutritionLabel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/recipe_recipeNutritionProfileButton"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <Button
+                    android:id="@+id/recipe_recipeNutritionProfileButton"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="View Nutrition Profile"
+                    android:backgroundTint="@color/colorAccent"
+                    android:layout_margin="8dp"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeNutritionCardDescription"
+                    app:layout_constraintBottom_toTopOf="@id/recipe_recipeNutritionRecyclerView"
+                    />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recipe_recipeNutritionRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeNutritionLabel"
+                    app:layout_constraintTop_toBottomOf="@id/recipe_recipeNutritionProfileButton"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

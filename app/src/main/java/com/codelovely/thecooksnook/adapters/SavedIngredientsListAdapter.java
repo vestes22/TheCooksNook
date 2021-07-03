@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codelovely.thecooksnook.R;
 import com.codelovely.thecooksnook.RecipeActivity;
-import com.codelovely.thecooksnook.models.Ingredient;
+import com.codelovely.thecooksnook.models.IngredientModel;
 
-public class SavedIngredientsListAdapter extends ListAdapter<Ingredient, SavedIngredientsListAdapter.IngredientsViewHolder> {
+public class SavedIngredientsListAdapter extends ListAdapter<IngredientModel, SavedIngredientsListAdapter.IngredientsViewHolder> {
 
 
-    public SavedIngredientsListAdapter(@NonNull DiffUtil.ItemCallback<Ingredient> diffCallback, RecipeActivity recipeActivity) {
+    public SavedIngredientsListAdapter(@NonNull DiffUtil.ItemCallback<IngredientModel> diffCallback, RecipeActivity recipeActivity) {
         super(diffCallback);
     }
 
@@ -40,21 +40,21 @@ public class SavedIngredientsListAdapter extends ListAdapter<Ingredient, SavedIn
      */
     @Override
     public void onBindViewHolder(SavedIngredientsListAdapter.IngredientsViewHolder holder, int position) {
-        Ingredient current = getItem(position);
+        IngredientModel current = getItem(position);
         holder.bind(current);
     }
 
 
-    public static class IngredientsDiff extends DiffUtil.ItemCallback<Ingredient> {
+    public static class IngredientsDiff extends DiffUtil.ItemCallback<IngredientModel> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Ingredient oldItem, @NonNull Ingredient newItem) {
+        public boolean areItemsTheSame(@NonNull IngredientModel oldItem, @NonNull IngredientModel newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Ingredient oldItem, @NonNull Ingredient newItem) {
-            return oldItem.getFoodId() == newItem.getFoodId();
+        public boolean areContentsTheSame(@NonNull IngredientModel oldItem, @NonNull IngredientModel newItem) {
+            return oldItem.getFdcId() == newItem.getFdcId();
         }
     }
 
@@ -76,10 +76,10 @@ public class SavedIngredientsListAdapter extends ListAdapter<Ingredient, SavedIn
             unit = (TextView) itemView.findViewById(R.id.savedIngredientsListItem_ingredientPortion);
         }
 
-        public void bind(Ingredient ingredient) {
-            ingredientName.setText(ingredient.getFoodName());
-            ingredientQty.setText(Float.toString(ingredient.getQty()));
-            unit.setText(ingredient.getSelectedPortion().getPortionDesc());
+        public void bind(IngredientModel ingredient) {
+            ingredientName.setText(ingredient.getDescription());
+            ingredientQty.setText(Float.toString(ingredient.getAmountInRecipe()));
+            unit.setText(ingredient.getServingSizeUnit());
         }
     }
 }
