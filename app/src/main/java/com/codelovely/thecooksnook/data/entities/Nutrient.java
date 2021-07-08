@@ -23,19 +23,21 @@ public class Nutrient {
         this.id = id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
+    @NonNull
     public String getUnitName() {
         return unitName;
     }
 
-    public void setUnitName(String unitName) {
+    public void setUnitName(@NonNull String unitName) {
         this.unitName = unitName;
     }
 }

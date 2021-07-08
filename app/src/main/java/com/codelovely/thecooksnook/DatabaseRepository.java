@@ -1,7 +1,9 @@
 package com.codelovely.thecooksnook;
 
 import android.app.Application;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -26,10 +28,10 @@ import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import com.codelovely.thecooksnook.network.RetrofitClientInstance;
 import com.codelovely.thecooksnook.network.RetrofitNetworkInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,22 +106,12 @@ public class DatabaseRepository {
         }
     }
 
-    public List<Recipe> getAllRecipes() {
-        List<Recipe> recipes = mRecipeDao.getAll();
-        for (Recipe recipe : recipes) {
-            System.out.println(recipe.getRecipeId());
-        }
-        return mRecipeDao.getAll();
-    }
-
 
     public List<RecipeModel> getRecipesByCategory(String category) {
-        System.out.println("Calling getRecipesByCategory... ");
         List<Recipe> recipes = mRecipeDao.getRecipeByCategory(category);
         List<RecipeModel> modelRecipes = new ArrayList<>();
+
         for (Recipe recipe : recipes) {
-            // TODO - remove print debug
-            System.out.println("Get recipes by category: " + recipe.getTitle());
             RecipeModel modelRecipe = new RecipeModel();
             modelRecipe.setId(recipe.getRecipeId());
             modelRecipe.setName(recipe.getTitle());
@@ -144,10 +136,9 @@ public class DatabaseRepository {
             List<com.codelovely.thecooksnook.models.restmodels.FoodNutrient> foodNutrientModels = new ArrayList<>();
 
             for (FoodNutrient foodNutrient : foodNutrients) {
-                System.out.println("Nutrient ID: " + foodNutrient.getNutrientId());
+
                 Nutrient nutrient = mNutrientDao.getNutrientById(foodNutrient.getNutrientId());
                 com.codelovely.thecooksnook.models.restmodels.Nutrient nutrientModel = convertToNutrientModel(nutrient);
-                System.out.println("Nutrient: " + nutrientModel.getName());
 
                 com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel = convertToFoodNutrientModel(foodNutrient);
                 foodNutrientModel.setNutrient(nutrientModel);
@@ -158,13 +149,9 @@ public class DatabaseRepository {
             IngredientModel ingredientModel = convertToIngredientModel(ingredient);
             ingredientModel.setAmountInRecipe(recipeIngredient.getAmount());
             ingredientModel.setFoodNutrientsPerOriginalServingSize(foodNutrientModels);
+            ingredientModel.updateHashmap();
             ingredientModel.setFoodNutrientsAdjustedForRecipe();
             ingredientModels.add(ingredientModel);
-            // TODO - delete print debugs
-            System.out.println("Food nutrient models: ");
-            for (com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrient : foodNutrientModels) {
-                System.out.println(foodNutrient.getNutrient().getName());
-            }
         }
 
 
@@ -186,8 +173,7 @@ public class DatabaseRepository {
             @Override
             public void onResponse(@NonNull Call<SearchResult> call, @NonNull Response<SearchResult> response) {
                 if (response.code() == 404) {
-                    // TODO - handle not found response.
-                    System.out.println("Response 404");
+                    Log.e("ERROR", "Response 404 - Not found");
                 }
                 else if (response.body() != null) {
                     SearchResult result = response.body();
@@ -197,94 +183,98 @@ public class DatabaseRepository {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(@NonNull Call call, @NonNull Throwable t) {
                 searchResultMutableLiveData.postValue(null);
-                System.out.println("Something went wrong!");
+                if (t instanceof IOException) {
+                    Log.e("ERROR", "Network error - try again.");
+                }
+                else {
+                    Log.e("ERROR", "Conversion error. Could not convert to model.");
+                }
             }
         });
     }
 
 
     public void getBrandedFoodItemById(int fdcId) {
-        mService.getBrandedFoodItemById(fdcId, RetrofitClientInstance.getApiKey()).enqueue(new Callback<BrandedFoodItem>() {
+        mService.getBrandedFoodItemById(fdcId, Nutrients.getNutrientNumbersList(), RetrofitClientInstance.getApiKey()).enqueue(new Callback<BrandedFoodItem>() {
 
             @Override
-            public void onResponse(Call<BrandedFoodItem> call, Response<BrandedFoodItem> response) {
+            public void onResponse(@NonNull Call<BrandedFoodItem> call, @NonNull Response<BrandedFoodItem> response) {
                 if (response.code() == 404) {
-                    // TODO - handle not found response.
-                    System.out.println("Response 404");
+                    Log.e("ERROR", "Response 404 - Not found");
+                }
+                else if(response.code() == 400) {
+                    Log.e("ERROR", "Response 400 - Bad parameter");
                 }
                 else if (response.body() != null) {
                     BrandedFoodItem result = response.body();
                     IngredientModel ingredient = new IngredientModel();
+
                     ingredient.setDataType(result.getDataType());
                     ingredient.setDescription(result.getDescription() + " | " + result.getBrandOwner());
                     ingredient.setFdcId(result.getFdcId());
                     ingredient.setCategory(result.getBrandedFoodCategory());
                     ingredient.setFoodNutrientsPerOriginalServingSize(result.getFoodNutrients());
                     ingredient.setServingSizeUnit(result.getServingSizeUnit());
-                    System.out.println("Nutrients for " + result.getDescription() + ":");
-                    for (com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrient : result.getFoodNutrients()) {
-                        System.out.println(foodNutrient.getNutrient().getId() + " "  + foodNutrient.getNutrient().getName());
-                    }
-                    if (result.getLabelNutrients().getCalories() == null) {
-                        System.out.println("Calories not set.");
-                    }
-                    //System.out.println("Label nutrients: " + result.getLabelNutrients().getCalories().getID());
-                    System.out.println("Label nutrients: " + result.getLabelNutrients().getCalories().getValue());
 
                     _selectedIngredientsList.add(ingredient);
                     selectedIngredientsList.postValue(_selectedIngredientsList);
-
-                    for (com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrient : result.getFoodNutrients()) {
-                        System.out.println("Food nutrient ID: " + foodNutrient.getId());
-                    }
-                    System.out.println("Food description: " + result.getDescription());
-                    System.out.println("FDC ID: " + result.getFdcId());
                 }
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(@NonNull Call call, @NonNull Throwable t) {
                 searchResultMutableLiveData.postValue(null);
-                System.out.println("Something went wrong!");
+                if (t instanceof IOException) {
+                    Log.e("ERROR", "Network error - try again.");
+                }
+                else {
+                    Log.e("ERROR", "Conversion error. Could not convert to model.");
+                }
             }
         });
     }
 
 
     public void getFoundationFoodItemById(int fdcId) {
-        mService.getFoundationFoodItemById(fdcId, RetrofitClientInstance.getApiKey()).enqueue(new Callback<FoundationFoodItem>() {
+        mService.getFoundationFoodItemById(fdcId, Nutrients.getNutrientNumbersList(), RetrofitClientInstance.getApiKey()).enqueue(new Callback<FoundationFoodItem>() {
 
             @Override
-            public void onResponse(Call<FoundationFoodItem> call, Response<FoundationFoodItem> response) {
-                if (response.code() == 404) {
-                    // TODO - handle not found response.
-                    System.out.println("Response 404");
-                }
-                else if (response.body() != null) {
-                    FoundationFoodItem result = response.body();
-                    IngredientModel ingredient = new IngredientModel();
-                    ingredient.setDataType(result.getDataType());
-                    ingredient.setDescription(result.getDescription());
-                    ingredient.setFdcId(result.getFdcId());
-                    ingredient.setFoodNutrientsPerOriginalServingSize(result.getFoodNutrients());
-                    ingredient.setServingSizeUnit("g");
-                    ingredient.setCategory(result.getFoodCategory().getDescription());
-                    _selectedIngredientsList.add(ingredient);
-                    selectedIngredientsList.postValue(_selectedIngredientsList);
-
-                    System.out.println("Nutrients for " + result.getDescription() + ":");
-                    for (com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrient : result.getFoodNutrients()) {
-                        System.out.println(foodNutrient.getNutrient().getId() + " "  + foodNutrient.getNutrient().getName());
+            public void onResponse(@NonNull Call<FoundationFoodItem> call, @NonNull Response<FoundationFoodItem> response) {
+                if (response.isSuccessful())
+                {
+                    if (response.code() == 404) {
+                        Log.e("ERROR", "Response 404 - Not found");
+                    }
+                    else if(response.code() == 400) {
+                        Log.e("ERROR", "Response 400 - Bad parameter");
+                    }
+                    else if (response.body() != null) {
+                        FoundationFoodItem result = response.body();
+                        IngredientModel ingredient = new IngredientModel();
+                        ingredient.setDataType(result.getDataType());
+                        ingredient.setDescription(result.getDescription());
+                        ingredient.setFdcId(result.getFdcId());
+                        ingredient.setFoodNutrientsPerOriginalServingSize(result.getFoodNutrients());
+                        ingredient.setServingSizeUnit("g");
+                        ingredient.setCategory(result.getFoodCategory().getDescription());
+                        _selectedIngredientsList.add(ingredient);
+                        selectedIngredientsList.postValue(_selectedIngredientsList);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(@NonNull Call call, @NonNull Throwable t) {
                 searchResultMutableLiveData.postValue(null);
                 System.out.println("Something went wrong!");
+                if (t instanceof IOException) {
+                    Log.e("ERROR", "Network error - try again.");
+                }
+                else {
+                    Log.e("ERROR", "Conversion error. Could not convert to model.");
+                }
             }
         });
     }

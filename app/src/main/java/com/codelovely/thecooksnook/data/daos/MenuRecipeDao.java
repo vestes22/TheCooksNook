@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface MenuRecipeDao {
     @Query("SELECT * FROM menuRecipes")
-    public LiveData<List<MenuRecipe>> getAll();
+    LiveData<List<MenuRecipe>> getAll();
 
     @Query("SELECT EXISTS(SELECT * FROM menuRecipes WHERE `Menu code` = :menuCode AND `Recipe code` = :recipeCode)")
     boolean checkIfExists(int menuCode, int recipeCode);

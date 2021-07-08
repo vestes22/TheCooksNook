@@ -16,26 +16,6 @@
         android:layout_marginEnd="8dp"
         android:textSize="16sp"
         android:textColor="@color/colorNude"
-        android:layout_weight=".1"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="X"
-        android:layout_margin="4dp"
-        android:textSize="16sp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/colorNude" />
-
-    <TextView
-        android:id="@+id/savedIngredientsListItem_ingredientPortion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Cup"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textSize="16sp"
-        android:textColor="@color/colorNude"
         android:layout_weight=".3"/>
 
     <TextView

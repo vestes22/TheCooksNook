@@ -15,7 +15,6 @@ import com.codelovely.thecooksnook.data.daos.MenuRecipeDao;
 import com.codelovely.thecooksnook.data.daos.NutrientDao;
 import com.codelovely.thecooksnook.data.daos.RecipeDao;
 import com.codelovely.thecooksnook.data.daos.RecipeIngredientDao;
-import com.codelovely.thecooksnook.data.daos.RecommendedDailyValueDao;
 import com.codelovely.thecooksnook.data.daos.ShoppingListDao;
 import com.codelovely.thecooksnook.data.daos.ShoppingListFoodDao;
 import com.codelovely.thecooksnook.data.daos.UserDao;
@@ -27,7 +26,6 @@ import com.codelovely.thecooksnook.data.entities.MenuRecipe;
 import com.codelovely.thecooksnook.data.entities.Nutrient;
 import com.codelovely.thecooksnook.data.entities.Recipe;
 import com.codelovely.thecooksnook.data.entities.RecipeIngredient;
-import com.codelovely.thecooksnook.data.entities.RecommendedDailyValue;
 import com.codelovely.thecooksnook.data.entities.ShoppingList;
 import com.codelovely.thecooksnook.data.entities.ShoppingListFood;
 import com.codelovely.thecooksnook.data.entities.User;
@@ -44,7 +42,6 @@ import java.util.concurrent.Executors;
         Nutrient.class,
         Recipe.class,
         RecipeIngredient.class,
-        RecommendedDailyValue.class,
         ShoppingList.class,
         ShoppingListFood.class,
         User.class,
@@ -59,7 +56,6 @@ public abstract class NutritionInformationDatabase extends RoomDatabase {
     abstract public NutrientDao getNutrientDao();
     abstract public RecipeDao getRecipeDao();
     abstract public RecipeIngredientDao getRecipeIngredientDao();
-    abstract public RecommendedDailyValueDao getRecommendedDailyValueDao();
     abstract public ShoppingListDao getShoppingListDao();
     abstract public ShoppingListFoodDao getShoppingListFoodDao();
     abstract public UserDao getUserDao();
@@ -77,6 +73,7 @@ public abstract class NutritionInformationDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             NutritionInformationDatabase.class, "nutrition_information_database")
                             .createFromAsset("Database.db")
+                            .setJournalMode(JournalMode.TRUNCATE)
                             .build();
                 }
             }

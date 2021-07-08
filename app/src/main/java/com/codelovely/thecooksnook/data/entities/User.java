@@ -13,7 +13,7 @@ public class User {
 
     public User() {}
 
-    public void setUserId(String userId) {
+    public void setUserId(@NonNull String userId) {
         this.userId = userId;
     }
 
@@ -25,6 +25,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    @NonNull
     public String getUserId() {
         return userId;
     }

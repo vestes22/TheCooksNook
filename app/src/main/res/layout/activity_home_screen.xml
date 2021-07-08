@@ -48,10 +48,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/homeScreen_recommendedRecipeCard_title"
@@ -123,10 +123,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/homeScreen_mealPlannerCard_title"
@@ -165,7 +165,7 @@
                     android:paddingBottom="8dp"
                     android:layout_marginStart="16dp"
                     android:textSize="16sp"
-                    android:text="Plan daily meals and track your nutrition."
+                    android:text="@string/meal_planner_card_description"
                     android:textColor="@color/colorNude"
                     app:layout_constraintStart_toEndOf="@+id/homeScreen_mealPlannerCard_image"
                     app:layout_constraintTop_toBottomOf="@+id/homeScreen_mealPlannerCard_title"
@@ -199,11 +199,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
-
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
                 <TextView
                     android:id="@+id/homeScreen_shoppingListCard_title"
                     android:layout_width="wrap_content"
@@ -240,7 +239,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="Make shopping lists out of your meal plans and recipes. "
+                    android:text="@string/shopping_list_card_description"
                     android:textColor="@color/colorNude"
                     android:layout_marginStart="16dp"
                     android:textSize="16sp"
@@ -276,10 +275,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="16dp">
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/homeScreen_cookBookCard_title"
@@ -316,7 +315,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:text="It's time to put on your chef's hat! Browse your favorite recipes here. "
+                    android:text="@string/cookbook_card_description"
                     android:textColor="@color/colorNude"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"

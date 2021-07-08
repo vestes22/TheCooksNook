@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,14 +29,14 @@ public class RecipeAdapter extends ListAdapter<RecipeModel, RecipeAdapter.Recipe
     /*
     onCreateViewHolder is called right when the adapter is created and is used to initialize the ViewHolder.
      */
+    @NonNull
     @Override
     public RecipeAdapter.RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View recipeView = inflater.inflate(R.layout.recipe_list_item, parent, false);
-        RecipeAdapter.RecipeViewHolder holder = new RecipeAdapter.RecipeViewHolder(recipeView, mRecipeListener);
-        return holder;
+        return new RecipeViewHolder(recipeView, mRecipeListener);
     }
 
     /*
@@ -85,18 +84,16 @@ public class RecipeAdapter extends ListAdapter<RecipeModel, RecipeAdapter.Recipe
     The ViewHolder's job i to describe an item view and metadata about its place in the RecyclerView.
     It caches results for View.findViewById, which can otherwise be expensive.
      */
-    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView recipeName;
         private TextView recipeDescription;
-        private ImageView recipeImage;
         RecipeListener listener;
 
         private RecipeViewHolder(View itemView, RecipeListener listener) {
             super(itemView);
             this.listener = listener;
-            recipeName = (TextView) itemView.findViewById(R.id.recipeList_recipeTitle);
-            recipeDescription = (TextView) itemView.findViewById(R.id.recipeList_recipeDescription);
-            recipeImage = (ImageView) itemView.findViewById(R.id.recipeList_recipeImage);
+            recipeName = itemView.findViewById(R.id.recipeList_recipeTitle);
+            recipeDescription = itemView.findViewById(R.id.recipeList_recipeDescription);
 
             itemView.setOnClickListener(this);
         }
@@ -105,13 +102,12 @@ public class RecipeAdapter extends ListAdapter<RecipeModel, RecipeAdapter.Recipe
 
             recipeName.setText(recipe.getName());
             recipeDescription.setText(recipe.getDescription());
-            recipeImage.setImageResource(R.drawable.turkey);
         }
 
         @Override
         public void onClick(View view) {
 
-            listener.onRecipeClicked(getAdapterPosition());
+            listener.onRecipeClicked(getBindingAdapterPosition());
         }
     }
 }

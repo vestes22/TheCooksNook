@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -43,13 +44,13 @@ public class EditableIngredientsListAdapter extends ListAdapter<IngredientModel,
     /*
     onCreateViewHolder() is called right when the adapter is created and is used to initialize the ViewHolder.
      */
+    @NonNull
     @Override
     public EditableIngredientsListAdapter.IngredientsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View ingredientView = inflater.inflate(R.layout.editable_ingredients_list_item, parent, false);
-        IngredientsViewHolder holder = new IngredientsViewHolder(ingredientView);
-        return holder;
+        return new IngredientsViewHolder(ingredientView);
     }
 
     /*
@@ -86,21 +87,28 @@ public class EditableIngredientsListAdapter extends ListAdapter<IngredientModel,
         private TextView ingredientName;
         private EditText ingredientQty;
         private TextView unit;
-        private Context context;
+        private Button removeIngredientButton;
 
-        public IngredientsViewHolder(View itemView) {
+        IngredientsViewHolder(View itemView) {
             super(itemView);
 
-            ingredientName = (TextView) itemView.findViewById(R.id.ingredientListItem_ingredientName);
+            ingredientName = itemView.findViewById(R.id.ingredientListItem_ingredientName);
             ingredientQty = (TextInputEditText) itemView.findViewById(R.id.ingredientListItem_qtyEditText);
             unit =  itemView.findViewById(R.id.ingredientListItem_servingUnit);
-            context = itemView.getContext();
+            removeIngredientButton = itemView.findViewById(R.id.ingredientListItem_removeIngredientButton);
         }
 
         public void bind(IngredientModel ingredient) {
             ingredientName.setText(ingredient.getDescription());
             unit.setText(ingredient.getServingSizeUnit());
 
+
+            removeIngredientButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    _ingredients.remove(getBindingAdapterPosition());
+                    notifyItemRemoved(getBindingAdapterPosition());
+                }
+            });
 
             ingredientQty.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -111,7 +119,11 @@ public class EditableIngredientsListAdapter extends ListAdapter<IngredientModel,
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     if(!ingredientQty.getText().toString().equals("")) {
-                        _ingredients.get(getAdapterPosition()).setAmountInRecipe(Float.parseFloat(ingredientQty.getText().toString()));
+                        try {
+                            _ingredients.get(getBindingAdapterPosition()).setAmountInRecipe(Float.parseFloat(ingredientQty.getText().toString()));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 

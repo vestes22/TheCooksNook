@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface MenuDao {
     @Query("SELECT * FROM menus")
-    public LiveData<List<Menu>> getAll();
+    LiveData<List<Menu>> getAll();
 
     @Insert
     void insert(Menu menu);

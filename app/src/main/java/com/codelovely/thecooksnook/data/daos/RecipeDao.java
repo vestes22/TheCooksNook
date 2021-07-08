@@ -14,10 +14,10 @@ import java.util.List;
 @Dao
 public interface RecipeDao {
     @Query("SELECT * FROM recipes")
-    public List<Recipe> getAll();
+    List<Recipe> getAll();
 
     @Query("SELECT * FROM recipes WHERE category = :category")
-    public List<Recipe> getRecipeByCategory(String category);
+    List<Recipe> getRecipeByCategory(String category);
 
     @Query("SELECT * FROM recipes WHERE `Recipe code` = :recipeCode")
     Recipe getRecipeById(int recipeCode);

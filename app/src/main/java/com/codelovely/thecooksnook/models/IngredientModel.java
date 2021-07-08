@@ -1,9 +1,13 @@
 package com.codelovely.thecooksnook.models;
 
+import com.codelovely.thecooksnook.Nutrients;
 import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
+import com.codelovely.thecooksnook.models.restmodels.Nutrient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IngredientModel {
 
@@ -15,6 +19,15 @@ public class IngredientModel {
     private String category;
     private List<FoodNutrient> foodNutrientsPerOriginalServingSize;
     private List<FoodNutrient> foodNutrientsAdjustedForRecipe;
+    private Map<Integer, FoodNutrient> foodNutrientsMap;
+
+    public IngredientModel() {
+        foodNutrientsMap = new HashMap<>();
+
+        for (Integer nutrientId : Nutrients.getNutrientIds()) {
+            foodNutrientsMap.put(nutrientId, null);
+        }
+    }
 
     public int getFdcId() {
         return fdcId;
@@ -68,17 +81,78 @@ public class IngredientModel {
         this.foodNutrientsPerOriginalServingSize = foodNutrientsPerOriginalServingSize;
     }
 
+    public void updateHashmap() {
+        Nutrient energyNutrient = new Nutrient();
+
+        energyNutrient.setId(1008);
+        energyNutrient.setName("Energy");
+        energyNutrient.setUnitName("kCal");
+
+        int energyId = 1008;
+        int energyAtwaterGeneralId = 2047;
+        int energyAtwaterSpecificId = 2048;
+
+        FoodNutrient energyValue = null;
+        FoodNutrient energyAtwaterGeneralValue = null;
+        FoodNutrient energyAtwaterSpecificValue = null;
+
+        for (FoodNutrient foodNutrient : foodNutrientsPerOriginalServingSize) {
+            int nutrientId = foodNutrient.getNutrient().getId();
+
+            if (nutrientId == energyId) {
+                energyValue = foodNutrient;
+            }
+            else if (nutrientId == energyAtwaterGeneralId) {
+                energyAtwaterGeneralValue = foodNutrient;
+            }
+
+            else if (nutrientId == energyAtwaterSpecificId) {
+                energyAtwaterSpecificValue = foodNutrient;
+            }
+            else {
+                foodNutrientsMap.replace(foodNutrient.getNutrient().getId(), foodNutrient);
+            }
+        }
+
+        if (energyAtwaterSpecificValue != null) {
+            energyAtwaterSpecificValue.setNutrient(energyNutrient);
+            energyValue = energyAtwaterSpecificValue;
+        }
+        else if (energyAtwaterGeneralValue != null) {
+            energyAtwaterGeneralValue.setNutrient(energyNutrient);
+            energyValue = energyAtwaterGeneralValue;
+        }
+
+        if (energyValue != null) {
+            foodNutrientsMap.replace(energyId, energyValue);
+        }
+    }
+
+    public boolean checkForMissingData() {
+        for (Map.Entry foodNutrient : foodNutrientsMap.entrySet()) {
+            if (foodNutrient.getValue() == null) {
+                System.out.println(foodNutrient.getKey() + " is returning null." );
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<FoodNutrient> getFoodNutrientsAdjustedForRecipe() {
         return foodNutrientsAdjustedForRecipe;
     }
 
     public void setFoodNutrientsAdjustedForRecipe() {
         List<FoodNutrient> nutrientsPerServing = new ArrayList<>();
-        for (FoodNutrient nutrient : foodNutrientsPerOriginalServingSize) {
-            FoodNutrient newNutrient = nutrient;
-            float newAmount = (nutrient.getAmount() / 100) * amountInRecipe;
-            newNutrient.setAmount(newAmount);
-            nutrientsPerServing.add(newNutrient);
+
+        for (Map.Entry mapEntry : foodNutrientsMap.entrySet()) {
+            if (mapEntry.getValue() != null) {
+                FoodNutrient newNutrient = (FoodNutrient) mapEntry.getValue();
+                System.out.println(description + newNutrient.getNutrient().getName());
+                float newAmount = (newNutrient.getAmount() / 100) * amountInRecipe;
+                newNutrient.setAmount(newAmount);
+                nutrientsPerServing.add(newNutrient);
+            }
         }
         foodNutrientsAdjustedForRecipe = nutrientsPerServing;
     }

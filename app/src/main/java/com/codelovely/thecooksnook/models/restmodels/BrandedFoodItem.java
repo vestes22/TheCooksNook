@@ -12,7 +12,6 @@ public class BrandedFoodItem {
     private String servingSizeUnit;
     private String brandedFoodCategory;
     private List<FoodNutrient> foodNutrients;
-    private LabelNutrients labelNutrients;
 
 
     public int getFdcId() {
@@ -77,13 +76,5 @@ public class BrandedFoodItem {
 
     public void setFoodNutrients(List<FoodNutrient> foodNutrients) {
         this.foodNutrients = foodNutrients;
-    }
-
-    public LabelNutrients getLabelNutrients() {
-        return labelNutrients;
-    }
-
-    public void setLabelNutrients(LabelNutrients labelNutrients) {
-        this.labelNutrients = labelNutrients;
     }
 }

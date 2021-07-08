@@ -5,7 +5,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static String API_KEY = "1oByUxz5COPxGQzGIQnobSN0TBExqWwT0SmNxoLm";
     private static final String BASE_URL = "https://api.nal.usda.gov/fdc/";
 
     public static Retrofit getRetrofitInstance() {
@@ -18,5 +17,6 @@ public class RetrofitClientInstance {
         return retrofit;
     }
 
-    public static String getApiKey() { return API_KEY; }
+    public static String getApiKey() {
+        return "1oByUxz5COPxGQzGIQnobSN0TBExqWwT0SmNxoLm"; }
 }

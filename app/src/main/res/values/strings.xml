@@ -11,6 +11,9 @@
     <string name="appetizers_icon_desc">Chips and guacamole.</string>
     <string name="add_recipe">Add Recipe</string>
 
+    <string name="kCal_progress"> %1$.1f/%2$dkCal</string>
+    <string name="g_progress">%1$.1f/%2$dg</string>
+
     <!--  -->
     <string name="search_text_label">Name</string>
     <string name="recipe_instructions_label">Instructions</string>
@@ -43,4 +46,15 @@
     <!-- ERROR MESSAGES -->
     <string name="non_null_error">Field cannot be left blank.</string>
     <string name="non_integer_error">Field can only contain numbers.</string>
+    <string name="number_of_servings">Number of Servings</string>
+    <string name="category">Category</string>
+    <string name="search_for_ingredients">Search For Ingredients</string>
+    <string name="ingredients_list">Ingredients List</string>
+    <string name="preparation_instructions">Preparation Instructions</string>
+    <string name="save_recipe">Save Recipe</string>
+    <string name="meal_planner_card_description">Plan daily meals and track your nutrition.</string>
+    <string name="shopping_list_card_description">Make shopping lists out of your meal plans and recipes.</string>
+    <string name="cookbook_card_description">It\'s time to put on your chef\'s hat! Browse your favorite recipes here.</string>
+    <string name="add_new_meal_plan">+ Add New Meal Plan</string>
+    <string name="servings">Servings: %1$d</string>
 </resources>

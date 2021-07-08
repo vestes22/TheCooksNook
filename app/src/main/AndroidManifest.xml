@@ -13,11 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AnychartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".AddMealPlanActivity" />
         <activity android:name=".DailyMealPlanActivity" />
@@ -27,6 +22,11 @@
         <activity android:name=".CookBookActivity" />
         <activity android:name=".CookBookHomeActivity" />
         <activity android:name=".HomeScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
     </application>

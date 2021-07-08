@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codelovely.thecooksnook.R;
-import com.codelovely.thecooksnook.RecipeActivity;
 import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 
 public class NutrientListAdapter extends ListAdapter<FoodNutrient, NutrientListAdapter.NutrientViewHolder> {
 
 
-    public NutrientListAdapter(@NonNull DiffUtil.ItemCallback<FoodNutrient> diffCallback, RecipeActivity recipeActivity) {
+    public NutrientListAdapter(@NonNull DiffUtil.ItemCallback<FoodNutrient> diffCallback) {
         super(diffCallback);
     }
 
@@ -26,13 +25,13 @@ public class NutrientListAdapter extends ListAdapter<FoodNutrient, NutrientListA
     /*
     onCreateViewHolder() is called right when the adapter is created and is used to initialize the ViewHolder.
      */
+    @NonNull
     @Override
     public NutrientListAdapter.NutrientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View nutrientView = inflater.inflate(R.layout.recipe_nutrition_list_item, parent, false);
-        NutrientListAdapter.NutrientViewHolder holder = new NutrientListAdapter.NutrientViewHolder(nutrientView);
-        return holder;
+        return new NutrientViewHolder(nutrientView);
     }
 
     /*
@@ -64,15 +63,15 @@ public class NutrientListAdapter extends ListAdapter<FoodNutrient, NutrientListA
     The ViewHolder's job is to describe an item view and metadata about its place in the RecyclerView.
     It caches results for View.findViewById, which can otherwise be expensive.
      */
-    class NutrientViewHolder extends RecyclerView.ViewHolder {
+    static class NutrientViewHolder extends RecyclerView.ViewHolder {
         private TextView nutrientName;
         private TextView nutrientValue;
 
-        public NutrientViewHolder(View itemView) {
+        NutrientViewHolder(View itemView) {
             super(itemView);
 
-            nutrientName = (TextView) itemView.findViewById(R.id.recipeNutritionListItem_nutrientName);
-            nutrientValue = (TextView) itemView.findViewById(R.id.recipeNutritionListItem_nutrientValue);
+            nutrientName = itemView.findViewById(R.id.recipeNutritionListItem_nutrientName);
+            nutrientValue = itemView.findViewById(R.id.recipeNutritionListItem_nutrientValue);
         }
 
         public void bind(FoodNutrient nutrient) {

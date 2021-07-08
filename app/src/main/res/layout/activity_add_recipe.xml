@@ -105,7 +105,7 @@
                     android:id="@+id/addRecipe_numServingsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Number of Servings"
+                    android:hint="@string/number_of_servings"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
@@ -131,7 +131,7 @@
                 <TextView
                     android:id="@+id/addRecipe_recipeCategoryLabel"
                     style="@style/cookbook_headings"
-                    android:text="Category"
+                    android:text="@string/category"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -228,7 +228,7 @@
                     android:id="@+id/addRecipe_searchIngredientsText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Search For Ingredients"
+                    android:hint="@string/search_for_ingredients"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
@@ -307,7 +307,7 @@
                 <TextView
                     android:id="@+id/addRecipe_recipeIngredientsLabel"
                     style="@style/cookbook_headings"
-                    android:text="Ingredients List"
+                    android:text="@string/ingredients_list"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/addRecipe_recipeIngredientsRecyclerView"/>
@@ -355,7 +355,7 @@
                     android:id="@+id/addRecipe_recipeInstructionsText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Preparation Instructions"
+                    android:hint="@string/preparation_instructions"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
@@ -406,7 +406,7 @@
 
                 <TextView
                     style="@style/cookbook_headings"
-                    android:text="Save Recipe"
+                    android:text="@string/save_recipe"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"

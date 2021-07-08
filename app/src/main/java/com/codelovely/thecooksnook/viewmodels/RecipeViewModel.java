@@ -41,7 +41,7 @@ public class RecipeViewModel extends AndroidViewModel {
 
 
         synchronized (lockObject) {
-            while (condition[0] == false) {
+            while (!condition[0]) {
                 try {
                     lockObject.wait();
                 } catch (Exception e) {

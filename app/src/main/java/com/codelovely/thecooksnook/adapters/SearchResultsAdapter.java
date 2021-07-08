@@ -33,8 +33,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View searchResultView = inflater.inflate(R.layout.search_results_item, parent, false);
-        SearchResultsViewHolder holder = new SearchResultsViewHolder(searchResultView, mSearchResultsListener);
-        return holder;
+        return new SearchResultsViewHolder(searchResultView, mSearchResultsListener);
     }
 
 
@@ -84,14 +83,14 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     }
 
 
-    public class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class SearchResultsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView ingredientTextView;
         SearchResultsListener listener;
 
         private SearchResultsViewHolder(@NonNull View itemView, SearchResultsListener listener) {
             super(itemView);
             this.listener = listener;
-            ingredientTextView = (TextView) itemView.findViewById(R.id.searchResultsItem_ingredientName);
+            ingredientTextView = itemView.findViewById(R.id.searchResultsItem_ingredientName);
 
             itemView.setOnClickListener(this);
         }
@@ -102,7 +101,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
 
         @Override
         public void onClick(View view) {
-            listener.onSearchResultClicked(getAdapterPosition());
+            listener.onSearchResultClicked(getBindingAdapterPosition());
         }
     }
 }

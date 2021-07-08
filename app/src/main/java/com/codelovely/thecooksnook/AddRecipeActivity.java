@@ -59,7 +59,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         recipeDescriptionText = (TextInputEditText)findViewById(R.id.addRecipe_recipeDescriptionEditText);
         recipeServingsText = (TextInputEditText)findViewById(R.id.addRecipe_numServingsEditText);
         recipeInstructionsText = (TextInputEditText)findViewById(R.id.addRecipe_recipeInstructionsEditText);
-        progressBar = (ProgressBar) findViewById(R.id.addRecipe_indeterminateProgressBar);
+        progressBar = findViewById(R.id.addRecipe_indeterminateProgressBar);
         chipGroup = findViewById(R.id.addRecipe_chipGroup);
         breakfastChip = findViewById(R.id.addRecipe_breakfastChip);
         lunchChip = findViewById(R.id.addRecipe_lunchChip);
@@ -247,14 +247,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         List<IngredientModel> ingredients = ingredientsAdapter.getIngredients();
 
         // TODO - figure out how to validate all ingredients have a quantity
-        /*
-        for (Ingredient ingredient : ingredients) {
-            if (ingredient.getAmountInRecipe() == null) {
-
-            }
-        }
-
-         */
 
         // Create new recipe object
         RecipeModel recipe = new RecipeModel();
@@ -267,8 +259,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
 
 
         mAddRecipeViewModel.insertRecipe(recipe);
-
-        // TODO - Save recipe object to Firebase - write method in ViewModel
 
         Intent intent = new Intent(this, CookBookHomeActivity.class);
         startActivity(intent);

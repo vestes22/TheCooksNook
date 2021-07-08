@@ -43,11 +43,12 @@ public class RecipeIngredient {
         this.amount = amount;
     }
 
+    @NonNull
     public String getDataType() {
         return dataType;
     }
 
-    public void setDataType(String dataType) {
+    public void setDataType(@NonNull String dataType) {
         this.dataType = dataType;
     }
 }

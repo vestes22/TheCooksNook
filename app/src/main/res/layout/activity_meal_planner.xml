@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/cookbook_headings"
-        android:text="Meal Planner"
+        android:text="@string/meal_planner"
         android:layout_margin="16dp"
         android:textColor="@color/colorNude"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,7 +55,7 @@
 
                 android:id="@+id/cookBookHome_addRecipeLabel"
                 style="@style/cookbook_headings"
-                android:text="+ Add New Meal Plan"
+                android:text="@string/add_new_meal_plan"
                 android:padding="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

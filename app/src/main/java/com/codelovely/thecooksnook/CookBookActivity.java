@@ -28,6 +28,7 @@ CookBookActivity extends AppCompatActivity implements RecipeAdapter.RecipeListen
 
         // Gets the category passed from the previous intent.
         Bundle extras = getIntent().getExtras();
+        assert extras != null;
         String category = extras.getString("category");
         // TODO - Write functionality for "View All" recipe button.
         // If "category == "ALL" then write another function in view model for all recipes.
