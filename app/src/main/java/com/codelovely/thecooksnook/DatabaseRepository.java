@@ -143,17 +143,18 @@ public class DatabaseRepository {
                 com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel = convertToFoodNutrientModel(foodNutrient);
                 foodNutrientModel.setNutrient(nutrientModel);
                 foodNutrientModels.add(foodNutrientModel);
-            }
+            } // End FoodNutrient for loop.
 
             Ingredient ingredient = mIngredientDao.getIngredientById(recipeIngredient.getFdcId());
             IngredientModel ingredientModel = convertToIngredientModel(ingredient);
             ingredientModel.setAmountInRecipe(recipeIngredient.getAmount());
             ingredientModel.setFoodNutrientsPerOriginalServingSize(foodNutrientModels);
-            ingredientModel.updateHashmap();
             ingredientModel.setFoodNutrientsAdjustedForRecipe();
-            ingredientModels.add(ingredientModel);
-        }
 
+
+
+            ingredientModels.add(ingredientModel);
+        } // End Ingredient for loop.
 
         recipeModel.setIngredients(ingredientModels);
         recipeModel.setTotalRecipeNutrients();

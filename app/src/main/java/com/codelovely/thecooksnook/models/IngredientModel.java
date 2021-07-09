@@ -79,9 +79,7 @@ public class IngredientModel {
 
     public void setFoodNutrientsPerOriginalServingSize(List<FoodNutrient> foodNutrientsPerOriginalServingSize) {
         this.foodNutrientsPerOriginalServingSize = foodNutrientsPerOriginalServingSize;
-    }
 
-    public void updateHashmap() {
         Nutrient energyNutrient = new Nutrient();
 
         energyNutrient.setId(1008);
@@ -144,11 +142,14 @@ public class IngredientModel {
 
     public void setFoodNutrientsAdjustedForRecipe() {
         List<FoodNutrient> nutrientsPerServing = new ArrayList<>();
-
         for (Map.Entry mapEntry : foodNutrientsMap.entrySet()) {
             if (mapEntry.getValue() != null) {
-                FoodNutrient newNutrient = (FoodNutrient) mapEntry.getValue();
-                System.out.println(description + newNutrient.getNutrient().getName());
+                FoodNutrient nutrient = (FoodNutrient) mapEntry.getValue();
+                FoodNutrient newNutrient = new FoodNutrient();
+                newNutrient.setAmount(nutrient.getAmount());
+                newNutrient.setFdcId(nutrient.getFdcId());
+                newNutrient.setId(nutrient.getId());
+                newNutrient.setNutrient(nutrient.getNutrient());
                 float newAmount = (newNutrient.getAmount() / 100) * amountInRecipe;
                 newNutrient.setAmount(newAmount);
                 nutrientsPerServing.add(newNutrient);

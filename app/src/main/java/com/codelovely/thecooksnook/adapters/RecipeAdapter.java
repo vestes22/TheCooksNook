@@ -58,11 +58,6 @@ public class RecipeAdapter extends ListAdapter<RecipeModel, RecipeAdapter.Recipe
         void onRecipeClicked(int position);
     }
 
-    /*
-    DiffUtil classes are still an enigma to me... I will def spend some more time learning about them.
-    For now, I understand they are used for efficiently updating lists of data by comparing values,
-    and only updating positions where the values do not match.
-     */
     public static class RecipeDiff extends DiffUtil.ItemCallback<RecipeModel> {
 
         @Override

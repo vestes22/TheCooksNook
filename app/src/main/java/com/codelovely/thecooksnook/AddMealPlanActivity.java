@@ -16,4 +16,12 @@ public class AddMealPlanActivity extends AppCompatActivity {
     public void saveMealPlanButtonClicked(View view) {
         // TODO
     }
+
+    public void onBreakfastButtonClicked(View view) {
+        //TODO
+    }
+
+    public void onLunchButtonClicked(View view) {
+        // TODO
+    }
 }

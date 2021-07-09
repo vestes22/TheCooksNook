@@ -26,7 +26,6 @@ public class EditableIngredientsListAdapter extends ListAdapter<IngredientModel,
     // Returns a list of ingredients for the recipe, including the values grabbed from the EditTexts
     private List<IngredientModel> _ingredients;
 
-    // Called by
     public void updateIngredients(List<IngredientModel> ingredients) {
         _ingredients = ingredients;
     }

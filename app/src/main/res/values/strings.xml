@@ -57,4 +57,7 @@
     <string name="cookbook_card_description">It\'s time to put on your chef\'s hat! Browse your favorite recipes here.</string>
     <string name="add_new_meal_plan">+ Add New Meal Plan</string>
     <string name="servings">Servings: %1$d</string>
+    <string name="nutrition_profile">Nutrition Profile</string>
+    <string name="recipe_serving">%1$.1f%2$s</string>
+    <string name="original_serving">%1$.1f%2$s</string>
 </resources>

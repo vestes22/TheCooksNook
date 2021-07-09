@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/recipeNutritionProfile_title"
+            android:text="@string/nutrition_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipeNutritionProfile_closePopUpButton"
+            style="@style/activity_title" />
+
+        <TextView
+            android:id="@+id/recipeNutritionProfile_itemName"
+            style="@style/cookbook_headings"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:text="Fruit Salad"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipeNutritionProfile_title" />
+
+        <LinearLayout
+            android:id="@+id/recipeNutritionProfile_linearLayout"
+            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipeNutritionProfile_itemName" >
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/recipeNutritionProfile_macronutrientPieChart"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipeNutritionProfile_linearLayout"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Daily Values"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/cookbook_headings"
+                android:text="Calories" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+
+                <ProgressBar
+                    android:id="@+id/recipeNutritionProfile_calorieDeterminateBar"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:progressTint="#50C878"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="25"/>
+
+                <TextView
+                    android:id="@+id/recipeNutritionProfile_calorieProgressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/recipeNutritionProfile_calorieDeterminateBar"
+                    android:layout_alignTop="@id/recipeNutritionProfile_calorieDeterminateBar"
+                    android:layout_alignEnd="@id/recipeNutritionProfile_calorieDeterminateBar"
+                    android:layout_alignBottom="@id/recipeNutritionProfile_calorieDeterminateBar"
+                    android:background="#00000000"
+                    android:gravity="center"
+                    android:textColor="@color/colorNude" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/cookbook_headings"
+                android:text="Total Fat" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ProgressBar
+                    android:id="@+id/recipeNutritionProfile_fatDeterminateBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:progressTint="#FFC300"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="25"/>
+
+                <TextView
+                    android:id="@+id/recipeNutritionProfile_fatProgressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/recipeNutritionProfile_fatDeterminateBar"
+                    android:layout_alignTop="@id/recipeNutritionProfile_fatDeterminateBar"
+                    android:layout_alignEnd="@id/recipeNutritionProfile_fatDeterminateBar"
+                    android:layout_alignBottom="@id/recipeNutritionProfile_fatDeterminateBar"
+                    android:background="#00000000"
+                    android:gravity="center"
+                    android:textColor="@color/colorNude" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/cookbook_headings"
+                android:text="Carbohydrates" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ProgressBar
+                    android:id="@+id/recipeNutritionProfile_carbsDeterminateBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:progressTint="#89CFF0"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="25"/>
+
+                <TextView
+                    android:id="@+id/recipeNutritionProfile_carbsProgressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/recipeNutritionProfile_carbsDeterminateBar"
+                    android:layout_alignTop="@id/recipeNutritionProfile_carbsDeterminateBar"
+                    android:layout_alignEnd="@id/recipeNutritionProfile_carbsDeterminateBar"
+                    android:layout_alignBottom="@id/recipeNutritionProfile_carbsDeterminateBar"
+                    android:background="#00000000"
+                    android:gravity="center"
+                    android:textColor="@color/colorNude" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/cookbook_headings"
+                android:text="Protein" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ProgressBar
+                    android:id="@+id/recipeNutritionProfile_proteinDeterminateBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:progressTint="#C70039"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="25"/>
+
+                <TextView
+                    android:id="@+id/recipeNutritionProfile_proteinProgressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/recipeNutritionProfile_proteinDeterminateBar"
+                    android:layout_alignTop="@id/recipeNutritionProfile_proteinDeterminateBar"
+                    android:layout_alignEnd="@id/recipeNutritionProfile_proteinDeterminateBar"
+                    android:layout_alignBottom="@id/recipeNutritionProfile_proteinDeterminateBar"
+                    android:background="#00000000"
+                    android:gravity="center"
+                    android:textColor="@color/colorNude" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/cookbook_headings"
+                android:text="Fiber" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ProgressBar
+                    android:id="@+id/recipeNutritionProfile_fiberDeterminateBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:progressTint="#FF5F1F"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:progress="25"/>
+
+                <TextView
+                    android:id="@+id/recipeNutritionProfile_fiberProgressText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/recipeNutritionProfile_fiberDeterminateBar"
+                    android:layout_alignTop="@id/recipeNutritionProfile_fiberDeterminateBar"
+                    android:layout_alignEnd="@id/recipeNutritionProfile_fiberDeterminateBar"
+                    android:layout_alignBottom="@id/recipeNutritionProfile_fiberDeterminateBar"
+                    android:background="#00000000"
+                    android:gravity="center"
+                    android:textColor="@color/colorNude" />
+
+            </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/recipeNutritionProfile_closePopUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
