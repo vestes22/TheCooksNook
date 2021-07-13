@@ -12,6 +12,7 @@
     tools:context=".AddMealPlanActivity">
 
     <LinearLayout
+        android:id="@+id/addMealPlan_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -97,100 +98,84 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/addMealPlan_breakfastListTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/addMealPlan_breakfastTitle"
                 android:text="Breakfast"
-                android:clickable="true"
                 android:onClick="onBreakfastButtonClicked"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
-                android:textColor="@color/colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addMealPlan_addRecipesTitle"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastList"/>
-
-            <ListView
-                android:id="@+id/addMealPlan_breakfastList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastListTitle"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchListTitle"/>
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastRecipeText"
+                style="@style/addMealPlan_recipeTitle" />
 
             <TextView
-                android:id="@+id/addMealPlan_lunchListTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/addMealPlan_breakfastRecipeText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchTitle"
+                style="@style/addMealPlan_recipeText" />
+
+            <TextView
+                android:id="@+id/addMealPlan_lunchTitle"
                 android:text="Lunch"
-                android:clickable="true"
                 android:onClick="onLunchButtonClicked"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
-                android:textColor="@color/colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastList"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchList"/>
-
-            <ListView
-                android:id="@+id/addMealPlan_lunchList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchListTitle"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerListTitle"/>
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastRecipeText"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchRecipeText"
+                style="@style/addMealPlan_recipeTitle"/>
 
             <TextView
-                android:id="@+id/addMealPlan_dinnerListTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/addMealPlan_lunchRecipeText"
+                style="@style/addMealPlan_recipeText"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_dinnerTitle"
+                android:onClick="onDinnerButtonClicked"
                 android:text="Dinner"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchList"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerList"/>
 
-            <ListView
-                android:id="@+id/addMealPlan_dinnerList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerListTitle"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerListTitle"/>
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchRecipeText"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerRecipeText"
+                style="@style/addMealPlan_recipeTitle"/>
 
             <TextView
-                android:id="@+id/addMealPlan_appetizerListTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Appetizers"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerList"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerList"/>
+                android:id="@+id/addMealPlan_dinnerRecipeText"
+                style="@style/addMealPlan_recipeText"
 
-            <ListView
-                android:id="@+id/addMealPlan_appetizerList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_appetizerListTitle"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_appetizerTitle"
+                android:onClick="onAppetizersButtonClicked"
+                android:text="Appetizers"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerRecipeText"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerRecipeText"
+                style="@style/addMealPlan_recipeTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_appetizerRecipeText"
+                style="@style/addMealPlan_recipeText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_appetizerTitle"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-
-
-
-
+    <FrameLayout
+        android:id="@+id/addMealPlan_nutritionProfileFragmentPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
 
     <!-- Save Meal Plan button -->
     <androidx.cardview.widget.CardView

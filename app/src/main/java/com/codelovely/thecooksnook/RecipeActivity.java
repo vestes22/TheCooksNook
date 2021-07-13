@@ -146,7 +146,7 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
         //instantiate the popup.xml layout file
         LayoutInflater layoutInflater = (LayoutInflater) RecipeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
-        @SuppressLint("InflateParams") View customView = layoutInflater.inflate(R.layout.recipe_nutrition_profile, null);
+        @SuppressLint("InflateParams") View customView = layoutInflater.inflate(R.layout.fragment_nutrition_profile, null);
 
         closeRecipeNutrientPopup = customView.findViewById(R.id.recipeNutritionProfile_closePopUpButton);
         recipeNutritionItemName = customView.findViewById(R.id.recipeNutritionProfile_itemName);
