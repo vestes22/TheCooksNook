@@ -8,57 +8,71 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.codelovely.thecooksnook.DatabaseRepository;
+import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 import com.codelovely.thecooksnook.models.RecipeModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddMealPlanViewModel extends AndroidViewModel {
 
     private MutableLiveData<Map<String, RecipeModel>> recipeMap;
     private Map<String, RecipeModel> _recipeMap;
-    private MutableLiveData<RecipeModel> breakfastRecipe;
-    private MutableLiveData<RecipeModel> lunchRecipe;
-    private MutableLiveData<RecipeModel> dinnerRecipe;
-    private MutableLiveData<RecipeModel> appetizerRecipe;
     private DatabaseRepository mRepository;
 
     public AddMealPlanViewModel(@NonNull Application application) {
         super(application);
 
-        _recipeMap = new HashMap();
+        recipeMap = new MutableLiveData<Map<String, RecipeModel>>();
+        _recipeMap = new HashMap<>();
         mRepository = new DatabaseRepository(application);
     }
 
-    public LiveData<RecipeModel> getBreakfastRecipe() {
-        return breakfastRecipe;
+
+    public LiveData<Map<String, RecipeModel>> getMealPlanRecipes() {
+        return recipeMap;
     }
 
-    public void setBreakfastRecipe(RecipeModel breakfastRecipe) {
-        this.breakfastRecipe.postValue(breakfastRecipe);
+    public void updateHashMap(RecipeModel recipe) {
+        if (_recipeMap.containsKey(recipe.getCategory())) {
+            _recipeMap.replace(recipe.getCategory(), recipe);
+        }
+        else {
+            _recipeMap.put(recipe.getCategory(), recipe);
+        }
+        recipeMap.postValue(_recipeMap);
     }
 
-    public LiveData<RecipeModel> getLunchRecipe() {
-        return lunchRecipe;
-    }
+    public RecipeModel getRecipeById(final int id) {
+        final List<RecipeModel> recipe = new ArrayList<>();
+        final Boolean[] condition = {false};
+        final Object lockObject = new Object();
 
-    public void setLunchRecipe(RecipeModel lunchRecipe) {
-        this.lunchRecipe.postValue(lunchRecipe);
-    }
 
-    public LiveData<RecipeModel> getDinnerRecipe() {
-        return dinnerRecipe;
-    }
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (lockObject) {
+                    RecipeModel newRecipe = mRepository.getRecipeById(id);
+                    recipe.add(newRecipe);
+                    condition[0] = true;
+                    lockObject.notify();
+                }
+            }
+        });
 
-    public void setDinnerRecipe(RecipeModel dinnerRecipe) {
-        this.dinnerRecipe.postValue(dinnerRecipe);
-    }
 
-    public LiveData<RecipeModel> getAppetizerRecipe() {
-        return appetizerRecipe;
-    }
-
-    public void setAppetizerRecipe(RecipeModel appetizerRecipe) {
-        this.appetizerRecipe.postValue(appetizerRecipe);
+        synchronized (lockObject) {
+            while (!condition[0]) {
+                try {
+                    lockObject.wait();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return recipe.get(0);
     }
 }

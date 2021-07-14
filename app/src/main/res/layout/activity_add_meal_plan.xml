@@ -171,11 +171,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <FrameLayout
-        android:id="@+id/addMealPlan_nutritionProfileFragmentPlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
+ <fragment
+     android:id="@+id/addMealPlan_nutritionProfileFragment"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:name="com.codelovely.thecooksnook.NutritionProfileFragment" />
 
     <!-- Save Meal Plan button -->
     <androidx.cardview.widget.CardView

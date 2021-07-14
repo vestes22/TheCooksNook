@@ -16,7 +16,7 @@ public class CookBookHomeActivity extends AppCompatActivity {
 
     public void onBreakfastButtonClicked(View view) {
         Intent intent = new Intent(this, CookBookActivity.class);
-        intent.putExtra("category", "BREAKFAST");
+        intent.putExtra("category", RecipeCategory.BREAKFAST.toString());
         startActivity(intent);
     }
 
@@ -27,19 +27,19 @@ public class CookBookHomeActivity extends AppCompatActivity {
 
     public void onLunchButtonClicked(View view) {
         Intent intent = new Intent(this, CookBookActivity.class);
-        intent.putExtra("category", "LUNCH");
+        intent.putExtra("category", RecipeCategory.LUNCH.toString());
         startActivity(intent);
     }
 
     public void onDinnerButtonClicked(View view) {
         Intent intent = new Intent(this, CookBookActivity.class);
-        intent.putExtra("category", "DINNER");
+        intent.putExtra("category", RecipeCategory.DINNER.toString());
         startActivity(intent);
     }
 
     public void onAppetizerButtonClicked(View view) {
         Intent intent = new Intent(this, CookBookActivity.class);
-        intent.putExtra("category", "APPETIZER");
+        intent.putExtra("category", RecipeCategory.APPETIZER.toString());
         startActivity(intent);
     }
 

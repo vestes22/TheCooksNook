@@ -20,146 +20,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:id="@+id/ingredientNutritionProfile_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/activity_title"
-            android:text="@string/nutrition_profile"
-
-            app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_itemName"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/ingredientNutritionProfile_itemName"
-            style="@style/cookbook_headings"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_recipeServingSizeCard"
-            app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_title" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/ingredientNutritionProfile_recipeServingSizeCard"
+        <fragment
+            android:id="@+id/popUpWindow_nutritionProfileFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:layout_margin="16dp"
-
-
+            android:name="com.codelovely.thecooksnook.NutritionProfileFragment"
+            app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_closePopUpButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_originalServingSizeCard"
-            app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_itemName" >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/ingredientNutritionProfile_recipeServingSizeCardTitle"
-                    style="@style/section_headings"
-                    android:text="Nutrients Per Recipe Serving"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_recipeAmount" />
-
-                <TextView
-                    android:id="@+id/ingredientNutritionProfile_recipeAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorNude"
-                    android:text="@string/recipe_serving"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_recipeServingSizeCardTitle"
-                    app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_recipeServingNutrientsRecyclerView"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ingredientNutritionProfile_recipeServingNutrientsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="16dp"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_recipeAmount"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/ingredientNutritionProfile_originalServingSizeCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:layout_margin="16dp"
-
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_recipeServingSizeCard" >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/ingredientNutritionProfile_originalServingSizeCardTitle"
-                    style="@style/section_headings"
-                    android:text="Nutrients Per Original Serving"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_originalAmount" />
-
-                <TextView
-                    android:id="@+id/ingredientNutritionProfile_originalAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorNude"
-                    android:text="@string/original_serving"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_originalServingSizeCardTitle"
-                    app:layout_constraintBottom_toTopOf="@id/ingredientNutritionProfile_originalServingNutrientsRecyclerView"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ingredientNutritionProfile_originalServingNutrientsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="16dp"
-
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ingredientNutritionProfile_originalAmount"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:padding="8dp"
-            android:text="Fruit Salad"
+            android:text=""
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,7 @@
                     android:progressTint="#50C878"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:progress="25"/>
+                    android:progress="0"/>
 
                 <TextView
                     android:id="@+id/recipeNutritionProfile_calorieProgressText"
@@ -133,7 +133,7 @@
                     android:progressTint="#FFC300"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:progress="25"/>
+                    android:progress="0"/>
 
                 <TextView
                     android:id="@+id/recipeNutritionProfile_fatProgressText"
@@ -171,7 +171,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:progress="25"/>
+                    android:progress="0"/>
 
                 <TextView
                     android:id="@+id/recipeNutritionProfile_carbsProgressText"
@@ -209,7 +209,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:progress="25"/>
+                    android:progress="0"/>
 
                 <TextView
                     android:id="@+id/recipeNutritionProfile_proteinProgressText"
@@ -247,7 +247,7 @@
                     android:progressTint="#FF5F1F"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:progress="25"/>
+                    android:progress="0"/>
 
                 <TextView
                     android:id="@+id/recipeNutritionProfile_fiberProgressText"

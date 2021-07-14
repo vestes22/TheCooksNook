@@ -209,23 +209,23 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         String recipeName;
         String recipeDescription;
         int numServings;
-        String recipeCategory = "BREAKFAST";
+        String recipeCategory = RecipeCategory.BREAKFAST.toString();
         String recipeInstructions;
 
         if (breakfastChip.isChecked()) {
-            recipeCategory = "BREAKFAST";
+            recipeCategory = RecipeCategory.BREAKFAST.toString();
         }
 
         if (lunchChip.isChecked()) {
-            recipeCategory = "LUNCH";
+            recipeCategory = RecipeCategory.LUNCH.toString();
         }
 
         if (dinnerChip.isChecked()) {
-            recipeCategory = "DINNER";
+            recipeCategory = RecipeCategory.DINNER.toString();
         }
 
         if (appetizersChip.isChecked()) {
-            recipeCategory = "APPETIZER";
+            recipeCategory = RecipeCategory.APPETIZER.toString();
         }
 
         try {
