@@ -19,6 +19,11 @@ public interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE category = :category")
     List<Recipe> getRecipeByCategory(String category);
 
+    @Query("SELECT userRecipes.`User code`, userRecipes.`Recipe code`, recipes.title, recipes.description, recipes.`Number of servings`, recipes.instructions, recipes.category " +
+            "FROM userRecipes JOIN recipes ON userRecipes.`Recipe code` =  recipes.`Recipe code` " +
+            "WHERE `User code` = :userId AND category = :category")
+    List<Recipe> getUserRecipeByCategory(String userId, String category);
+
     @Query("SELECT * FROM recipes WHERE `Recipe code` = :recipeCode")
     Recipe getRecipeById(int recipeCode);
 

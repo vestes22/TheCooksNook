@@ -7,20 +7,34 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.codelovely.thecooksnook.ClassConverters.FoodNutrientConverter;
+import com.codelovely.thecooksnook.ClassConverters.IngredientConverter;
+import com.codelovely.thecooksnook.ClassConverters.NutrientConverter;
+import com.codelovely.thecooksnook.ClassConverters.RecipeConverter;
+import com.codelovely.thecooksnook.ClassConverters.UserConverter;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 import com.codelovely.thecooksnook.data.daos.FoodNutrientDao;
 import com.codelovely.thecooksnook.data.daos.IngredientDao;
+import com.codelovely.thecooksnook.data.daos.MenuDao;
+import com.codelovely.thecooksnook.data.daos.MenuRecipeDao;
 import com.codelovely.thecooksnook.data.daos.NutrientDao;
 import com.codelovely.thecooksnook.data.daos.RecipeDao;
 import com.codelovely.thecooksnook.data.daos.RecipeIngredientDao;
+import com.codelovely.thecooksnook.data.daos.UserDao;
+import com.codelovely.thecooksnook.data.daos.UserRecipeDao;
 import com.codelovely.thecooksnook.data.entities.FoodNutrient;
 import com.codelovely.thecooksnook.data.entities.Ingredient;
+import com.codelovely.thecooksnook.data.entities.Menu;
 import com.codelovely.thecooksnook.data.entities.Nutrient;
 import com.codelovely.thecooksnook.data.entities.RecipeIngredient;
+import com.codelovely.thecooksnook.data.entities.User;
+import com.codelovely.thecooksnook.data.entities.UserRecipe;
 import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.data.entities.Recipe;
 
+import com.codelovely.thecooksnook.models.MealPlan;
 import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.models.restmodels.BrandedFoodItem;
 import com.codelovely.thecooksnook.models.restmodels.FoundationFoodItem;
 import com.codelovely.thecooksnook.models.restmodels.SearchResult;
@@ -38,37 +52,48 @@ import retrofit2.Response;
 
 public class DatabaseRepository {
 
-    private RecipeDao mRecipeDao;
-    private IngredientDao mIngredientDao;
-    private NutrientDao mNutrientDao;
-    private RecipeIngredientDao mRecipeIngredientDao;
-    private FoodNutrientDao mFoodNutrientDao;
-    private RetrofitNetworkInterface mService;
-    private MutableLiveData<List<SearchResultFood>> searchResultMutableLiveData;
-    private MutableLiveData<List<IngredientModel>> selectedIngredientsList;
-    private List<IngredientModel> _selectedIngredientsList;
+    private final RetrofitNetworkInterface mService;
+    private final MutableLiveData<List<SearchResultFood>> searchResultMutableLiveData;
+    private final MutableLiveData<List<IngredientModel>> selectedIngredientsList;
+    private final List<IngredientModel> _selectedIngredientsList;
+
+    private final FoodNutrientDao mFoodNutrientDao;
+    private final IngredientDao mIngredientDao;
+    private final MenuDao mMenuDao;
+    private final MenuRecipeDao mMenuRecipeDao;
+    private final NutrientDao mNutrientDao;
+    private final RecipeDao mRecipeDao;
+    private final RecipeIngredientDao mRecipeIngredientDao;
+    private final UserDao mUserDao;
+    private final UserRecipeDao mUserRecipeDao;
+
 
     public DatabaseRepository(Application application) {
         NutritionInformationDatabase db = NutritionInformationDatabase.getDatabase(application);
         mService = RetrofitClientInstance.getRetrofitInstance().create(RetrofitNetworkInterface.class);
-        mRecipeDao = db.getRecipeDao();
-        mIngredientDao = db.getIngredientDao();
-        mNutrientDao = db.getNutrientDao();
-        mFoodNutrientDao = db.getFoodNutrientDao();
-        mRecipeIngredientDao = db.getRecipeIngredientDao();
         searchResultMutableLiveData = new MutableLiveData<>();
         selectedIngredientsList = new MutableLiveData<>();
         _selectedIngredientsList = new ArrayList<>();
+
+        mFoodNutrientDao = db.getFoodNutrientDao();
+        mIngredientDao = db.getIngredientDao();
+        mMenuDao = db.getMenuDao();
+        mMenuRecipeDao = db.getMenuRecipeDao();
+        mNutrientDao = db.getNutrientDao();
+        mRecipeDao = db.getRecipeDao();
+        mRecipeIngredientDao = db.getRecipeIngredientDao();
+        mUserDao = db.getUserDao();
+        mUserRecipeDao = db.getUserRecipeDao();
     }
 
-    public void insertRecipe(RecipeModel recipeModel) {
-        Recipe recipe = convertToRecipe(recipeModel);
+    public void insertRecipe(UserModel userModel, RecipeModel recipeModel) {
+        Recipe recipe = RecipeConverter.convertToRecipe(recipeModel);
         int recipeId = (int) mRecipeDao.insert(recipe);
         System.out.println("Recipe inserted!");
         List<IngredientModel> ingredientModels = recipeModel.getIngredients();
 
         for (IngredientModel ingredientModel : ingredientModels) {
-            Ingredient ingredient = convertToIngredient(ingredientModel);
+            Ingredient ingredient = IngredientConverter.convertToIngredient(ingredientModel);
 
             if (!mIngredientDao.checkIfExists(ingredient.getFdcId())) {
                 mIngredientDao.insert(ingredient);
@@ -77,14 +102,14 @@ public class DatabaseRepository {
 
 
             for (com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel : ingredientModel.getFoodNutrientsPerOriginalServingSize()) {
-                Nutrient nutrient = convertToNutrient(foodNutrientModel.getNutrient());
+                Nutrient nutrient = NutrientConverter.convertToNutrient(foodNutrientModel.getNutrient());
 
                 if (!mNutrientDao.checkIfExists(nutrient.getId())) {
                     mNutrientDao.insert(nutrient);
                     System.out.println("Nutrient inserted!");
                 }
 
-                FoodNutrient foodNutrient = convertToFoodNutrient(foodNutrientModel);
+                FoodNutrient foodNutrient = FoodNutrientConverter.convertToFoodNutrient(foodNutrientModel);
                 foodNutrient.setFdcId(ingredientModel.getFdcId());
                 System.out.println("Food nutrient ID: " + foodNutrient.getFdcId());
                 if (!mFoodNutrientDao.checkIfExists(foodNutrient.getFdcId(), foodNutrient.getNutrientId())) {
@@ -104,11 +129,15 @@ public class DatabaseRepository {
                 System.out.println("Recipe Ingredient inserted!");
             }
         }
+
+        UserRecipe userRecipe = new UserRecipe();
+        userRecipe.setRecipeId(recipeId);
+        userRecipe.setUserId(userModel.getUserId());
+        mUserRecipeDao.insert(userRecipe);
     }
 
-
-    public List<RecipeModel> getRecipesByCategory(String category) {
-        List<Recipe> recipes = mRecipeDao.getRecipeByCategory(category);
+    public List<RecipeModel> getRecipesByCategory(UserModel user, String category) {
+        List<Recipe> recipes = mRecipeDao.getUserRecipeByCategory(user.getUserId(), category);
         List<RecipeModel> modelRecipes = new ArrayList<>();
 
         for (Recipe recipe : recipes) {
@@ -126,7 +155,7 @@ public class DatabaseRepository {
 
     public RecipeModel getRecipeById(int recipeId) {
         Recipe recipe = mRecipeDao.getRecipeById(recipeId);
-        RecipeModel recipeModel = convertToRecipeModel(recipe);
+        RecipeModel recipeModel = RecipeConverter.convertToRecipeModel(recipe);
         List<IngredientModel> ingredientModels = new ArrayList<>();
         List<RecipeIngredient> recipeIngredients = mRecipeIngredientDao.getIngredientsByRecipeId(recipeId);
 
@@ -138,15 +167,15 @@ public class DatabaseRepository {
             for (FoodNutrient foodNutrient : foodNutrients) {
 
                 Nutrient nutrient = mNutrientDao.getNutrientById(foodNutrient.getNutrientId());
-                com.codelovely.thecooksnook.models.restmodels.Nutrient nutrientModel = convertToNutrientModel(nutrient);
+                com.codelovely.thecooksnook.models.restmodels.Nutrient nutrientModel = NutrientConverter.convertToNutrientModel(nutrient);
 
-                com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel = convertToFoodNutrientModel(foodNutrient);
+                com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel = FoodNutrientConverter.convertToFoodNutrientModel(foodNutrient);
                 foodNutrientModel.setNutrient(nutrientModel);
                 foodNutrientModels.add(foodNutrientModel);
             } // End FoodNutrient for loop.
 
             Ingredient ingredient = mIngredientDao.getIngredientById(recipeIngredient.getFdcId());
-            IngredientModel ingredientModel = convertToIngredientModel(ingredient);
+            IngredientModel ingredientModel = IngredientConverter.convertToIngredientModel(ingredient);
             ingredientModel.setAmountInRecipe(recipeIngredient.getAmount());
             ingredientModel.setFoodNutrientsPerOriginalServingSize(foodNutrientModels);
             ingredientModel.setFoodNutrientsAdjustedForRecipe();
@@ -289,83 +318,37 @@ public class DatabaseRepository {
         return selectedIngredientsList;
     }
 
-    private Recipe convertToRecipe(RecipeModel model) {
-        Recipe recipe = new Recipe();
-        recipe.setTitle(model.getName());
-        recipe.setDescription(model.getDescription());
-        recipe.setNumServings(model.getNumServings());
-        recipe.setInstructions(model.getInstructions());
-        recipe.setCategory(model.getCategory());
-        return recipe;
-    }
-
-    private Ingredient convertToIngredient(IngredientModel model) {
-        Ingredient ingredient = new Ingredient();
-
-        ingredient.setFdcId(model.getFdcId());
-        ingredient.setDataType(model.getDataType());
-        ingredient.setDescription(model.getDescription());
-        ingredient.setServingSizeUnit(model.getServingSizeUnit());
-        ingredient.setCategory(model.getCategory());
-
-        return ingredient;
-    }
-
-    private Nutrient convertToNutrient(com.codelovely.thecooksnook.models.restmodels.Nutrient nutrientModel) {
-        Nutrient nutrient = new Nutrient();
-        nutrient.setId(nutrientModel.getId());
-        nutrient.setName(nutrientModel.getName());
-        nutrient.setUnitName(nutrientModel.getUnitName());
-        return nutrient;
-    }
-
-    private FoodNutrient convertToFoodNutrient(com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel) {
-        FoodNutrient foodNutrient = new FoodNutrient();
-        foodNutrient.setAmount(foodNutrientModel.getAmount());
-        foodNutrient.setNutrientId(foodNutrientModel.getNutrient().getId());
-        return foodNutrient;
-    }
-
-    private RecipeModel convertToRecipeModel(Recipe recipe) {
-        RecipeModel recipeModel = new RecipeModel();
-        recipeModel.setCategory(recipe.getCategory());
-        recipeModel.setDescription(recipe.getDescription());
-        recipeModel.setName(recipe.getTitle());
-        recipeModel.setNumServings(recipe.getNumServings());
-        recipeModel.setInstructions(recipe.getInstructions());
-        recipeModel.setId(recipe.getRecipeId());
-        return recipeModel;
-    }
-
-    private IngredientModel convertToIngredientModel(Ingredient ingredient) {
-        IngredientModel ingredientModel = new IngredientModel();
-        ingredientModel.setFdcId(ingredient.getFdcId());
-        ingredientModel.setDataType(ingredient.getDataType());
-        ingredientModel.setDescription(ingredient.getDescription());
-        ingredientModel.setCategory(ingredient.getCategory());
-        ingredientModel.setServingSizeUnit(ingredient.getServingSizeUnit());
-
-        return ingredientModel;
-    }
-
-    private com.codelovely.thecooksnook.models.restmodels.FoodNutrient convertToFoodNutrientModel(FoodNutrient foodNutrient) {
-        com.codelovely.thecooksnook.models.restmodels.FoodNutrient foodNutrientModel = new com.codelovely.thecooksnook.models.restmodels.FoodNutrient();
-        foodNutrientModel.setFdcId(foodNutrient.getFdcId());
-        foodNutrientModel.setAmount(foodNutrient.getAmount());
-        return foodNutrientModel;
-    }
-
-    private com.codelovely.thecooksnook.models.restmodels.Nutrient convertToNutrientModel(Nutrient nutrient) {
-        com.codelovely.thecooksnook.models.restmodels.Nutrient nutrientModel = new com.codelovely.thecooksnook.models.restmodels.Nutrient();
-        nutrientModel.setId(nutrient.getId());
-        nutrientModel.setName(nutrient.getName());
-        nutrientModel.setUnitName(nutrient.getUnitName());
-
-        return nutrientModel;
-    }
 
     public void deleteRecipeById(int recipeId) {
         // TODO
+    }
+
+    public void insertMenuItem(MealPlan mealPlan) {
+        Menu menu = new Menu();
+
+    }
+
+    public void insertUser(UserModel userModel) {
+        User user = UserConverter.convertToUser(userModel);
+
+        boolean userExists = mUserDao.checkIfExists(user.getUserId());
+        if (!userExists) {
+            mUserDao.insert(user);
+        }
+    }
+
+    public void initializeUserRecipes(UserModel user) {
+        List<Integer> recipeIds = mUserRecipeDao.getUserRecipes("Default user");
+        for (Integer recipeId : recipeIds) {
+            UserRecipe userRecipe = new UserRecipe();
+            userRecipe.setRecipeId(recipeId);
+            userRecipe.setUserId(user.getUserId());
+            boolean added = mUserRecipeDao.checkIfExists(userRecipe.getUserId(), userRecipe.getRecipeId());
+            if (!added) {
+                mUserRecipeDao.insert(userRecipe);
+            }
+        }
+
     }
 
 }

@@ -1,13 +1,32 @@
 package com.codelovely.thecooksnook.models;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MealPlan {
+    private int id;
     private String dayOfWeek;
     private List<RecipeModel> recipes;
+    private LocalDate date;
     private String month;
     private int day;
     private int year;
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setDayOfWeek(String dayOfWeek) { this.dayOfWeek = dayOfWeek; }
 

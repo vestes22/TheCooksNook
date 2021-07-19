@@ -1,6 +1,7 @@
 package com.codelovely.thecooksnook;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codelovely.thecooksnook.data.entities.User;
+import com.codelovely.thecooksnook.models.UserModel;
+import com.codelovely.thecooksnook.viewmodels.SignInViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,11 +34,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
+    private SignInViewModel mSignInViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        mSignInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("25884934595-v6hdvactber2deeecgd4q6qsroiahnc2.apps.googleusercontent.com")
@@ -86,6 +92,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         final String familyName = account.getFamilyName();
         final String givenName = account.getGivenName();
         final String personId = account.getId();
+        UserModel user = new UserModel();
+        user.setFirstName(givenName);
+        user.setLastName(familyName);
+        user.setUserId(personId);
+
+        mSignInViewModel.insertUser(user);
+
         System.out.println("Display name: " + displayName);
         System.out.println("Family name: " + familyName);
         System.out.println("Given name: " + givenName);
@@ -114,6 +127,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dbReference = database.getReference();
         dbReference.addValueEventListener(changeListener);
+
+        //TODO - debug initializeUserRecipes and figure out why default recipes aren't loading.
+        mSignInViewModel.initializeUserRecipes(user);
 
         Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);

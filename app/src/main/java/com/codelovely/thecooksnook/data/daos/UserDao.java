@@ -14,6 +14,9 @@ public interface UserDao {
     @Query("SELECT  * FROM users")
     LiveData<List<User>> getAll();
 
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE `User code` = :userCode )")
+    boolean checkIfExists(String userCode);
+
     @Insert
     void insert(User user);
 }

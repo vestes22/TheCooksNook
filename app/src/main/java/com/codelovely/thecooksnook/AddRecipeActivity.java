@@ -21,8 +21,11 @@ import com.codelovely.thecooksnook.adapters.EditableIngredientsListAdapter;
 import com.codelovely.thecooksnook.adapters.SearchResultsAdapter;
 import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import com.codelovely.thecooksnook.viewmodels.AddRecipeViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -52,6 +55,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recipe);
+
 
         // Initializing the Views
         searchIngredientsText = (TextInputEditText)findViewById(R.id.addRecipe_searchIngredientsEditText);
@@ -156,6 +160,19 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
                 }
             }
         });
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        UserModel user = new UserModel();
+        user.setFirstName(account.getGivenName());
+        user.setLastName(account.getFamilyName());
+        user.setUserId(account.getId());
+        mAddRecipeViewModel.setUser(user);
     }
 
 

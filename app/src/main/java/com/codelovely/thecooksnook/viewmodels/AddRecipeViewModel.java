@@ -6,13 +6,16 @@ import androidx.lifecycle.LiveData;
 
 import com.codelovely.thecooksnook.DatabaseRepository;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
+import com.codelovely.thecooksnook.data.entities.User;
 import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import java.util.List;
 
 public class AddRecipeViewModel extends AndroidViewModel {
     private DatabaseRepository mRepository;
+    private UserModel user;
 
     public AddRecipeViewModel(Application application) {
         super(application);
@@ -24,9 +27,13 @@ public class AddRecipeViewModel extends AndroidViewModel {
         NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-               mRepository.insertRecipe(recipe);
+               mRepository.insertRecipe(user, recipe);
             }
         });
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 
     public void searchFoodDataCentralByName(String query) {

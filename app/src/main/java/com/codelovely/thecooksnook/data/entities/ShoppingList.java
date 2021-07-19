@@ -1,10 +1,13 @@
 package com.codelovely.thecooksnook.data.entities;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity(
@@ -13,39 +16,31 @@ import java.util.Date;
 )
 public class ShoppingList {
     private @PrimaryKey(autoGenerate=true) @ColumnInfo(name="Shopping list code") int shoppingListId;
-    private @ColumnInfo(name="User code") int userId;
-    private @ColumnInfo(name="Date created") Date dateCreated;
-    private @ColumnInfo(name="Title") String title;
+    @NonNull private @ColumnInfo(name="User code") String userId;
+    private @ColumnInfo(name="Date created") LocalDate dateCreated;
 
     public void setShoppingListId(int shoppingListId) {
         this.shoppingListId = shoppingListId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getShoppingListId() {
         return shoppingListId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public Date getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
 
-    public String getTitle() {
-        return title;
-    }
 }

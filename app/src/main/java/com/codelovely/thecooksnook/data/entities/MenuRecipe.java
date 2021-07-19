@@ -17,8 +17,7 @@ import java.util.Date;
 public class MenuRecipe {
     private @ColumnInfo(name="Menu code") int menuId;
     private @ColumnInfo(name="Recipe code") int recipeId;
-    private @ColumnInfo(name="Recipe date") Date recipeDate;
-    private @ColumnInfo(name="Recipe category") String recipeCategory;
+
 
     public void setMenuId(int menuId) {
         this.menuId = menuId;
@@ -26,14 +25,6 @@ public class MenuRecipe {
 
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
-    }
-
-    public void setRecipeDate(Date recipeDate) {
-        this.recipeDate = recipeDate;
-    }
-
-    public void setRecipeCategory (String recipeCategory) {
-        this.recipeCategory = recipeCategory;
     }
 
     public int getMenuId() {
@@ -44,11 +35,4 @@ public class MenuRecipe {
         return recipeId;
     }
 
-    public Date getRecipeDate() {
-        return recipeDate;
-    }
-
-    public String recipeCategory() {
-        return recipeCategory;
-    }
 }

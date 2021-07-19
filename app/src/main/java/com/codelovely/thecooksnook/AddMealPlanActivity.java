@@ -1,5 +1,6 @@
 package com.codelovely.thecooksnook;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,12 +16,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.codelovely.thecooksnook.adapters.RecipeAdapter;
 import com.codelovely.thecooksnook.data.entities.Recipe;
+import com.codelovely.thecooksnook.models.IngredientModel;
+import com.codelovely.thecooksnook.models.MealPlan;
 import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import com.codelovely.thecooksnook.viewmodels.AddMealPlanViewModel;
@@ -30,6 +34,7 @@ import com.codelovely.thecooksnook.viewmodels.NutritionProfileViewModel;
 
 import org.w3c.dom.Text;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +46,7 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
     AddMealPlanViewModel mAddMealPlanViewModel;
     Observer<Map<String, RecipeModel>> mealPlanRecipeObserver;
     NutritionProfileFragment nutritionProfileFragment;
+    DatePicker datePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,7 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
         appetizerText = findViewById(R.id.addMealPlan_appetizerRecipeText);
         linearLayout = findViewById(R.id.addMealPlan_linearLayout);
         nutritionProfileFragment = (NutritionProfileFragment) getSupportFragmentManager().findFragmentById(R.id.addMealPlan_nutritionProfileFragment);
+        datePicker = findViewById(R.id.addMealPlan_datePicker);
 
         mealPlanRecipeObserver = new Observer<Map<String, RecipeModel>>() {
             @Override
@@ -79,10 +86,6 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
             }
         };
         mAddMealPlanViewModel.getMealPlanRecipes().observe(this, mealPlanRecipeObserver);
-    }
-
-    public void saveMealPlanButtonClicked(View view) {
-        // TODO
     }
 
     public void onBreakfastButtonClicked(View view) {
@@ -127,13 +130,22 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
         //display the popup window
         cookbookWindow.showAtLocation(linearLayout, Gravity.TOP|Gravity.START, 0, 0);
 
-        List<RecipeModel> recipes =  mCookBookViewModel.getRecipesByCategory(category);
-
         RecyclerView recipeRv = customView.findViewById(R.id.cookBook_recipeRecyclerview);
         recipeAdapter = new RecipeAdapter(new RecipeAdapter.RecipeDiff(), this);
-        recipeAdapter.submitList(recipes);
         recipeRv.setAdapter(recipeAdapter);
         recipeRv.setLayoutManager(new LinearLayoutManager(this));
+
+        final Observer<List<RecipeModel>> recipeListObserver = new Observer<List<RecipeModel>>() {
+          @Override
+          public void onChanged(@Nullable final List<RecipeModel> recipeList) {
+              recipeAdapter.submitList(null);
+              recipeAdapter.submitList(recipeList);
+          }
+        };
+
+        mCookBookViewModel.getRecipesByCategory().observe(this, recipeListObserver);
+
+        mCookBookViewModel.setRecipesByCategory(category);
 
         final Button button = customView.findViewById(R.id.cookbook_closeButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -141,5 +153,20 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
                 cookbookWindow.dismiss();
             }
         });
+    }
+
+    public void saveMealPlanButtonClicked(View view) {
+        MealPlan mealPlan = new MealPlan();
+
+        int month = datePicker.getMonth() + 1;
+        int day = datePicker.getDayOfMonth();
+        int year = datePicker.getYear();
+        LocalDate localDate = LocalDate.of(year, month, day);
+        mealPlan.setDay(day);
+        mealPlan.setYear(year);
+        String monthString = localDate.getMonth().toString().toLowerCase();
+        String formattedMonth = monthString.substring(0, 1).toUpperCase() + monthString.substring(1);
+        mealPlan.setMonth(formattedMonth);
+        mealPlan.setRecipes(mAddMealPlanViewModel.getRecipes());
     }
 }

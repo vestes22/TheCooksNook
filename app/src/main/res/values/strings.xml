@@ -35,7 +35,7 @@
     <string name="this_is_a_sample_recipe_recommended_by_the_application">This is a sample recipe recommended by the application.</string>
     <string name="shopping_list">Shopping List</string>
     <string name="recommended_recipe_description">This is a sample recipe recommended by the application.</string>
-    <string name="personal_cook_book_title">Virginia\'s Cook Book!</string>
+    <string name="personal_cook_book_title">%1$s\'s Cook Book!</string>
     <string name="this_is_a_recipe">This is a recipe!</string>
     <string name="recipe_title">Mexican Lasagna</string>
     <string name="sample_recipe_description">A savory casserole dish layered with beef, beans, cheese, and corn tortillas.</string>

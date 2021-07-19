@@ -1,5 +1,6 @@
 package com.codelovely.thecooksnook.data.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -12,10 +13,10 @@ import androidx.room.ForeignKey;
         }
 )
 public class UserRecipe {
-    private @ColumnInfo(name="User code") int userId;
+    @NonNull private @ColumnInfo(name="User code") String userId;
     private @ColumnInfo(name="Recipe code") int recipeId;
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -23,7 +24,7 @@ public class UserRecipe {
         this.recipeId = recipeId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 

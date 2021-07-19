@@ -10,8 +10,10 @@ import androidx.lifecycle.MutableLiveData;
 import com.codelovely.thecooksnook.DatabaseRepository;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,5 +76,10 @@ public class AddMealPlanViewModel extends AndroidViewModel {
             }
         }
         return recipe.get(0);
+    }
+    public List<RecipeModel> getRecipes () {
+        Collection<RecipeModel> mapValues = _recipeMap.values();
+        List<RecipeModel> recipes = new ArrayList<>(mapValues);
+        return recipes;
     }
 }
