@@ -17,6 +17,10 @@ public class MealPlan {
     }
 
     public void setDate(LocalDate date) {
+        this.day = date.getDayOfMonth();
+        this.year = date.getYear();
+        setMonth(date.getMonth().toString());
+        this.dayOfWeek = date.getDayOfWeek().toString();
         this.date = date;
     }
 

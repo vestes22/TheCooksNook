@@ -384,14 +384,26 @@ public class DatabaseRepository {
             LocalDate menuDate = menu.getDateCreated();
             if (menuDate != null) {
                 mealPlan.setDate(menuDate);
-                mealPlan.setDay(menuDate.getDayOfMonth());
-                mealPlan.setYear(menuDate.getYear());
-                mealPlan.setMonth(menuDate.getMonth().toString());
-                mealPlan.setDayOfWeek(menuDate.getDayOfWeek().toString());
                 mealPlans.add(mealPlan);
             }
         }
 
         return mealPlans;
+    }
+
+    public MealPlan getMealPlanById(int id) {
+        Menu menu = mMenuDao.getMenuById(id);
+        MealPlan mealPlan = new MealPlan();
+        mealPlan.setId(menu.getMenuId());
+        LocalDate mealPlanDate = menu.getDateCreated();
+        mealPlan.setDate(mealPlanDate);
+        List<RecipeModel> recipes = new ArrayList();
+        List<MenuRecipe> menuRecipes = mMenuRecipeDao.getRecipesForMenu(id);
+        for (MenuRecipe menuRecipe : menuRecipes) {
+            RecipeModel recipe = getRecipeById(menuRecipe.getRecipeId());
+            recipes.add(recipe);
+        }
+        mealPlan.setRecipes(recipes);
+        return mealPlan;
     }
 }

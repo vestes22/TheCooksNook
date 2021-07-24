@@ -19,4 +19,7 @@ public interface MenuDao {
 
     @Query("SELECT * FROM menus WHERE `User code` = :userCode")
     List<Menu> getUserMenus(String userCode);
+
+    @Query("SELECT * FROM menus WHERE `Menu code` = :menuCode")
+    Menu getMenuById(int menuCode);
 }

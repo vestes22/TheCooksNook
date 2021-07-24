@@ -63,6 +63,10 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanAd
     }
 
     public void onMealPlanClicked(int position) {
-        // TODO
+        List<MealPlan> mealPlans = mMealPlanAdapter.getCurrentList();
+        int mealPlanId = mealPlans.get(position).getId();
+        Intent intent = new Intent(this, DailyMealPlanActivity.class);
+        intent.putExtra("mealPlanId", mealPlanId);
+        startActivity(intent);
     }
 }
