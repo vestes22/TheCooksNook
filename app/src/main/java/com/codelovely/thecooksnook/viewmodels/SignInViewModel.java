@@ -22,18 +22,8 @@ public class SignInViewModel extends AndroidViewModel {
            @Override
            public void run() {
                mRepository.insertUser(user);
+               mRepository.initializeUserRecipes(user);
            }
         });
     }
-
-    // TODO. Question time - how to ensure this only gets called once?
-    public void initializeUserRecipes(final UserModel userModel) {
-        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mRepository.initializeUserRecipes(userModel);
-            }
-        });
-    }
-
 }

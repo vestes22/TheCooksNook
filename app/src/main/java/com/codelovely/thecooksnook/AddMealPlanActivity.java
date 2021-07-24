@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,14 +24,18 @@ import android.widget.TextView;
 
 import com.codelovely.thecooksnook.adapters.RecipeAdapter;
 import com.codelovely.thecooksnook.data.entities.Recipe;
+import com.codelovely.thecooksnook.data.entities.User;
 import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.models.MealPlan;
 import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import com.codelovely.thecooksnook.viewmodels.AddMealPlanViewModel;
 import com.codelovely.thecooksnook.viewmodels.AddRecipeViewModel;
 import com.codelovely.thecooksnook.viewmodels.CookBookViewModel;
 import com.codelovely.thecooksnook.viewmodels.NutritionProfileViewModel;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.w3c.dom.Text;
 
@@ -86,6 +91,14 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
             }
         };
         mAddMealPlanViewModel.getMealPlanRecipes().observe(this, mealPlanRecipeObserver);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        UserModel user = new UserModel();
+        user.setFirstName(account.getGivenName());
+        user.setLastName(account.getFamilyName());
+        user.setUserId(account.getId());
+        mAddMealPlanViewModel.setUser(user);
     }
 
     public void onBreakfastButtonClicked(View view) {
@@ -119,6 +132,13 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
 
     private void recipePopup(String category) {
         CookBookViewModel mCookBookViewModel = new ViewModelProvider(this).get(CookBookViewModel.class);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        UserModel user = new UserModel();
+        user.setFirstName(account.getGivenName());
+        user.setLastName(account.getFamilyName());
+        user.setUserId(account.getId());
+        mCookBookViewModel.setUser(user);
 
         LayoutInflater layoutInflater = (LayoutInflater) AddMealPlanActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
@@ -164,9 +184,12 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
         LocalDate localDate = LocalDate.of(year, month, day);
         mealPlan.setDay(day);
         mealPlan.setYear(year);
-        String monthString = localDate.getMonth().toString().toLowerCase();
-        String formattedMonth = monthString.substring(0, 1).toUpperCase() + monthString.substring(1);
-        mealPlan.setMonth(formattedMonth);
+        mealPlan.setMonth(localDate.getMonth().toString());
+        mealPlan.setDate(localDate);
         mealPlan.setRecipes(mAddMealPlanViewModel.getRecipes());
+        mAddMealPlanViewModel.insertMealPlan(mealPlan);
+
+        Intent intent = new Intent(this, HomeScreenActivity.class);
+        startActivity(intent);
     }
 }

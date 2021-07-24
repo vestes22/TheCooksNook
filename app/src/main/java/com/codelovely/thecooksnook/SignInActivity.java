@@ -128,9 +128,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         DatabaseReference dbReference = database.getReference();
         dbReference.addValueEventListener(changeListener);
 
-        //TODO - debug initializeUserRecipes and figure out why default recipes aren't loading.
-        mSignInViewModel.initializeUserRecipes(user);
-
         Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
     }

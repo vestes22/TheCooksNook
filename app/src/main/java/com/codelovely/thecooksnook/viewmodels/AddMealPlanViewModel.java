@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.codelovely.thecooksnook.DatabaseRepository;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
+import com.codelovely.thecooksnook.models.MealPlan;
 import com.codelovely.thecooksnook.models.RecipeModel;
+import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class AddMealPlanViewModel extends AndroidViewModel {
     private MutableLiveData<Map<String, RecipeModel>> recipeMap;
     private Map<String, RecipeModel> _recipeMap;
     private DatabaseRepository mRepository;
+    private UserModel user;
 
     public AddMealPlanViewModel(@NonNull Application application) {
         super(application);
@@ -32,7 +35,9 @@ public class AddMealPlanViewModel extends AndroidViewModel {
         mRepository = new DatabaseRepository(application);
     }
 
-
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
     public LiveData<Map<String, RecipeModel>> getMealPlanRecipes() {
         return recipeMap;
     }
@@ -81,5 +86,14 @@ public class AddMealPlanViewModel extends AndroidViewModel {
         Collection<RecipeModel> mapValues = _recipeMap.values();
         List<RecipeModel> recipes = new ArrayList<>(mapValues);
         return recipes;
+    }
+
+    public void insertMealPlan(final MealPlan mealPlan) {
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                mRepository.insertMenuItem(user, mealPlan);
+            }
+        });
     }
 }

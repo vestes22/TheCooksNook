@@ -25,6 +25,7 @@ import com.codelovely.thecooksnook.data.daos.UserRecipeDao;
 import com.codelovely.thecooksnook.data.entities.FoodNutrient;
 import com.codelovely.thecooksnook.data.entities.Ingredient;
 import com.codelovely.thecooksnook.data.entities.Menu;
+import com.codelovely.thecooksnook.data.entities.MenuRecipe;
 import com.codelovely.thecooksnook.data.entities.Nutrient;
 import com.codelovely.thecooksnook.data.entities.RecipeIngredient;
 import com.codelovely.thecooksnook.data.entities.User;
@@ -43,6 +44,7 @@ import com.codelovely.thecooksnook.network.RetrofitClientInstance;
 import com.codelovely.thecooksnook.network.RetrofitNetworkInterface;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -323,9 +325,23 @@ public class DatabaseRepository {
         // TODO
     }
 
-    public void insertMenuItem(MealPlan mealPlan) {
+    public void insertMenuItem(UserModel user, MealPlan mealPlan) {
         Menu menu = new Menu();
+        menu.setDateCreated(mealPlan.getDate());
+        menu.setUserId(user.getUserId());
 
+        System.out.println("Saving menu... Menu date: " + menu.getDateCreated());
+
+        int menuId = (int) mMenuDao.insert(menu);
+        System.out.println("Meal plan saved! ID: " + menuId);
+
+        List<RecipeModel> menuRecipes =  mealPlan.getRecipes();
+        for (RecipeModel recipe : menuRecipes) {
+            MenuRecipe menuRecipe = new MenuRecipe();
+            menuRecipe.setRecipeId(recipe.getId());
+            menuRecipe.setMenuId(menuId);
+            mMenuRecipeDao.insert(menuRecipe);
+        }
     }
 
     public void insertUser(UserModel userModel) {
@@ -340,15 +356,42 @@ public class DatabaseRepository {
     public void initializeUserRecipes(UserModel user) {
         List<Integer> recipeIds = mUserRecipeDao.getUserRecipes("Default user");
         for (Integer recipeId : recipeIds) {
+            System.out.println("Recipe ID: " + recipeId);
+        }
+
+        for (Integer recipeId : recipeIds) {
             UserRecipe userRecipe = new UserRecipe();
             userRecipe.setRecipeId(recipeId);
             userRecipe.setUserId(user.getUserId());
+
             boolean added = mUserRecipeDao.checkIfExists(userRecipe.getUserId(), userRecipe.getRecipeId());
             if (!added) {
+                System.out.println("User ID: " + userRecipe.getUserId() + " Recipe ID: " + userRecipe.getRecipeId());
                 mUserRecipeDao.insert(userRecipe);
             }
         }
 
     }
 
+    public List<MealPlan> getUserMealPlans(UserModel user) {
+        List<Menu> menus = mMenuDao.getUserMenus(user.getUserId());
+        List<MealPlan> mealPlans = new ArrayList<>();
+
+        for (Menu menu : menus) {
+            System.out.println("Menu ID: " + menu.getMenuId() + " User ID: " + menu.getUserId() + " Menu date: " + menu.getDateCreated());
+            MealPlan mealPlan = new MealPlan();
+            mealPlan.setId(menu.getMenuId());
+            LocalDate menuDate = menu.getDateCreated();
+            if (menuDate != null) {
+                mealPlan.setDate(menuDate);
+                mealPlan.setDay(menuDate.getDayOfMonth());
+                mealPlan.setYear(menuDate.getYear());
+                mealPlan.setMonth(menuDate.getMonth().toString());
+                mealPlan.setDayOfWeek(menuDate.getDayOfWeek().toString());
+                mealPlans.add(mealPlan);
+            }
+        }
+
+        return mealPlans;
+    }
 }

@@ -15,5 +15,8 @@ public interface MenuDao {
     LiveData<List<Menu>> getAll();
 
     @Insert
-    void insert(Menu menu);
+    long insert(Menu menu);
+
+    @Query("SELECT * FROM menus WHERE `User code` = :userCode")
+    List<Menu> getUserMenus(String userCode);
 }

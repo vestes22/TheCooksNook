@@ -32,7 +32,11 @@ public class MealPlan {
 
     public void setRecipes(List<RecipeModel> recipes) { this.recipes = recipes; }
 
-    public void setMonth(String month) { this.month = month; }
+    public void setMonth(String month) {
+        String lowerCaseMonth = month.toLowerCase();
+        String formattedMonth = lowerCaseMonth.substring(0, 1).toUpperCase() + lowerCaseMonth.substring(1);
+        this.month = formattedMonth;
+    }
 
     public void setDay(int day) { this.day = day; }
 

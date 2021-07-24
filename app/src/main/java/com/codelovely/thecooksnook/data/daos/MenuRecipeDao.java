@@ -19,4 +19,7 @@ public interface MenuRecipeDao {
 
     @Insert
     void insert(MenuRecipe menuRecipe);
+
+    @Query("SELECT * FROM menuRecipes WHERE `Menu code` = :menuCode")
+    List<MenuRecipe> getRecipesForMenu(int menuCode);
 }
