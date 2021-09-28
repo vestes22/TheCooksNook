@@ -192,13 +192,21 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     @Override
     protected void onStart() {
         super.onStart();
+        /*
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         UserModel user = new UserModel();
         user.setFirstName(account.getGivenName());
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
-        mAddRecipeViewModel.setUser(user);
+
+         */
+
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mAddRecipeViewModel.setUser(userModel);
     }
 
 

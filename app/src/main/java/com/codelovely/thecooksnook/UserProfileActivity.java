@@ -166,13 +166,20 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        /*
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         UserModel user = new UserModel();
         user.setFirstName(account.getGivenName());
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
-        mUserProfileViewModel.setUser(user);
-        activityTitle.setText(user.getFirstName() + "'s Metrics");
+
+         */
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mUserProfileViewModel.setUser(userModel);
+        activityTitle.setText(userModel.getFirstName() + "'s Metrics");
     }
 
     private void updateUI(Map<Integer, FoodNutrient> totalNutrients) {

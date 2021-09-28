@@ -30,13 +30,20 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanAd
         setContentView(R.layout.activity_meal_planner);
 
         mMealPlannerViewModel = new ViewModelProvider(this).get(MealPlannerViewModel.class);
+        /*
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         UserModel user = new UserModel();
         user.setFirstName(account.getGivenName());
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
-        mMealPlannerViewModel.setUser(user);
+
+         */
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mMealPlannerViewModel.setUser(userModel);
         mMealPlannerViewModel.setUserMealPlans();
 
         RecyclerView mealPlanRv = findViewById(R.id.mealPlanner_mealPlanRecyclerView);

@@ -92,12 +92,18 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         final String familyName = account.getFamilyName();
         final String givenName = account.getGivenName();
         final String personId = account.getId();
+        /*
         UserModel user = new UserModel();
         user.setFirstName(givenName);
         user.setLastName(familyName);
         user.setUserId(personId);
 
-        mSignInViewModel.insertUser(user);
+         */
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mSignInViewModel.insertUser(userModel);
 
         System.out.println("Display name: " + displayName);
         System.out.println("Family name: " + familyName);

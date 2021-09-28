@@ -24,8 +24,8 @@ public class CookBookHomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        activityTitle.setText(account.getGivenName() +"'s Cook Book");
+        //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        activityTitle.setText("My Cook Book");
     }
 
     public void onBreakfastButtonClicked(View view) {

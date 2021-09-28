@@ -33,13 +33,20 @@ CookBookActivity extends AppCompatActivity implements RecipeAdapter.RecipeListen
         setContentView(R.layout.activity_cook_book);
 
         mCookBookViewModel = new ViewModelProvider(this).get(CookBookViewModel.class);
+        /*
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         UserModel user = new UserModel();
         user.setFirstName(account.getGivenName());
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
-        mCookBookViewModel.setUser(user);
+
+         */
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mCookBookViewModel.setUser(userModel);
 
         // Gets the category passed from the previous intent.
         Bundle extras = getIntent().getExtras();

@@ -26,6 +26,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
+        personalCookBookTitle.setText("My Cook Book!");
     }
 
     public void userProfileCardClicked(View view) {
@@ -45,10 +46,10 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private void updateUI(GoogleSignInAccount account) {
         if (account != null) {
-            final String givenName = account.getGivenName();
+            final String givenName = "Default User";
 
             String cookBookTitle = getString(R.string.personal_cook_book_title, givenName);
-            personalCookBookTitle.setText(cookBookTitle);
+            personalCookBookTitle.setText("My Cook Book!");
         }
     }
 }

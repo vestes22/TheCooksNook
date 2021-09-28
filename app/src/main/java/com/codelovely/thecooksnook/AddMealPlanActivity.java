@@ -167,13 +167,20 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
         };
         mAddMealPlanViewModel.getDrinkRecipes().observe(this, drinkRecipeObserver);
 
+        /*
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         UserModel user = new UserModel();
         user.setFirstName(account.getGivenName());
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
-        mAddMealPlanViewModel.setUser(user);
+
+         */
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mAddMealPlanViewModel.setUser(userModel);
 
         breakfastText.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -267,12 +274,18 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
     private void recipePopup(String category) {
         CookBookViewModel mCookBookViewModel = new ViewModelProvider(this).get(CookBookViewModel.class);
 
+        /*
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         UserModel user = new UserModel();
         user.setFirstName(account.getGivenName());
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
-        mCookBookViewModel.setUser(user);
+         */
+        UserModel userModel = new UserModel();
+        userModel.setFirstName("Default user");
+        userModel.setLastName("Default user");
+        userModel.setUserId("Default user");
+        mCookBookViewModel.setUser(userModel);
 
         LayoutInflater layoutInflater = (LayoutInflater) AddMealPlanActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
