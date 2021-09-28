@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,21 @@ import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 import com.codelovely.thecooksnook.viewmodels.RecipeViewModel;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.text.nlclassifier.NLClassifier;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +92,29 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
         recipeNutrientAdapter.submitList(recipe.getRecipeNutrientsPerServing());
         nutrientsRv.setAdapter(recipeNutrientAdapter);
         nutrientsRv.setLayoutManager(new LinearLayoutManager(this));
+
+        String ingredientNames = "";
+        List<IngredientModel> ingredients = recipe.getIngredients();
+        for (IngredientModel ingredient : ingredients) {
+            ingredientNames = ingredientNames + ingredient.getDescription() + ", ";
+        }
+        NLClassifier classifier;
+        try {
+            classifier = NLClassifier.createFromFile(this, "model.tflite");
+            List<Category> results = classifier.classify(ingredientNames);
+            float highestScore = results.get(0).getScore();
+            Category topResult = results.get(0);
+            for (Category result : results) {
+                if (result.getScore() > highestScore) {
+                    highestScore = result.getScore();
+                    topResult = result;
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -100,7 +135,7 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
         ingredientNutrientWindow = new PopupWindow(customView, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
 
         //display the popup window
-        ingredientNutrientWindow.showAtLocation(linearLayout, Gravity.TOP|Gravity.START, 0, 0);
+        ingredientNutrientWindow.showAtLocation(linearLayout, Gravity.TOP | Gravity.START, 0, 0);
 
         ingredientNutritionItemName = customView.findViewById(R.id.ingredientNutritionProfile_itemName);
         recipeServingAmount = customView.findViewById(R.id.ingredientNutritionProfile_recipeAmount);
@@ -142,6 +177,7 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
         TextView calorieProgress, fatProgress, fiberProgress, carbProgress, proteinProgress, recipeNutritionItemName;
         ProgressBar calorieBar, fatBar, fiberBar, carbBar, proteinBar;
         PieChart macronutrientChart;
+        RadarChart radarChart;
 
         //instantiate the popup.xml layout file
         LayoutInflater layoutInflater = (LayoutInflater) RecipeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -152,6 +188,7 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
         recipeNutritionItemName = customView.findViewById(R.id.recipeNutritionProfile_itemName);
 
         macronutrientChart = customView.findViewById(R.id.recipeNutritionProfile_macronutrientPieChart);
+        radarChart = customView.findViewById(R.id.recipeNutritionProfile_radarChart);
 
         calorieBar = customView.findViewById(R.id.recipeNutritionProfile_calorieDeterminateBar);
         fatBar = customView.findViewById(R.id.recipeNutritionProfile_fatDeterminateBar);
@@ -185,49 +222,95 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
             int nutrientId = nutrient.getNutrient().getId();
             if (nutrientId == 1008) {
                 calories = nutrient.getAmount();
-            }
-            else if (nutrientId == 1004) {
+            } else if (nutrientId == 1004) {
                 fat = nutrient.getAmount();
-            }
-            else if (nutrientId == 1005) {
+            } else if (nutrientId == 1005) {
                 carbs = nutrient.getAmount();
-            }
-            else if(nutrientId == 1079) {
+            } else if (nutrientId == 1079) {
                 fiber = nutrient.getAmount();
-            }
-            else if (nutrientId == 1003) {
+            } else if (nutrientId == 1003) {
                 protein = nutrient.getAmount();
             }
         }
+        String ingredientNames = "";
+        List<IngredientModel> ingredients = recipe.getIngredients();
+        for (IngredientModel ingredient : ingredients) {
+            ingredientNames = ingredientNames + ingredient.getDescription() + ", ";
+        }
+        NLClassifier classifier;
+        List<RadarEntry> radarEntries = new ArrayList<>();
+        final List<String> labelValues = new ArrayList<>();
+
+        try {
+            classifier = NLClassifier.createFromFile(this, "model.tflite");
+            List<Category> results = classifier.classify(ingredientNames);
+            for (int i = 0; i < results.size(); i++) {
+                radarEntries.add(new RadarEntry(results.get(i).getScore(), results.get(i).getLabel()));
+                labelValues.add(results.get(i).getLabel());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("ERROR", "Classifier could not be created.");
+        }
+
+        XAxis xAxis = radarChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labelValues));
+        xAxis.setTextSize(16f);
+        xAxis.setLabelRotationAngle(-45);
+
+        String[] yAxisLabels = new String[20];
+        for (int i = 0; i < yAxisLabels.length; i++) {
+            yAxisLabels[i] = "";
+        }
+
+        YAxis yAxis = radarChart.getYAxis();
+        yAxis.setTextColor(Color.parseColor("#EAF0F8"));
+        yAxis.setTextSize(10);
+        String longestLabel = xAxis.getLongestLabel();
+        System.out.println("Radar Chart longest label: " + longestLabel);
+        xAxis.setTextColor(Color.parseColor("#EAF0F8"));
+        RadarDataSet dataSet = new RadarDataSet(radarEntries, "Likelihood Score");
+        dataSet.setValueFormatter(new IndexAxisValueFormatter(yAxisLabels));
+        dataSet.setLineWidth(2.5f);
+        dataSet.setFillColor(Color.parseColor("#FF6600"));
+        dataSet.setDrawFilled(true);
+        dataSet.setColor(Color.parseColor("#FF6600"));
+        RadarData radarData = new RadarData(dataSet);
+        radarChart.setData(radarData);
+        radarChart.setWebColor(Color.parseColor("#EAF0F8"));
+        radarChart.setWebColorInner(Color.parseColor("#EAF0F8"));
+        radarChart.getDescription().setText("");
+        radarChart.invalidate();
 
 
         // Calorie progress bar
         if (calories != null) {
-            calorieBar.setProgress(Math.round((calories/RecommendedDailyValues.ENERGY.getDailyValue()) * 100));
+            calorieBar.setProgress(Math.round((calories / RecommendedDailyValues.ENERGY.getDailyValue()) * 100));
             String calorieText = getString(R.string.kCal_progress, calories, (int) RecommendedDailyValues.ENERGY.getDailyValue());
             calorieProgress.setText(calorieText);
         }
         // Total fats progress bar
         if (fat != null) {
-            fatBar.setProgress(Math.round((fat/RecommendedDailyValues.TOTAL_FAT.getDailyValue()) * 100), true);
+            fatBar.setProgress(Math.round((fat / RecommendedDailyValues.TOTAL_FAT.getDailyValue()) * 100), true);
             String fatText = getString(R.string.g_progress, fat, (int) RecommendedDailyValues.TOTAL_FAT.getDailyValue());
             fatProgress.setText(fatText);
         }
         // Fiber progress bar
         if (fiber != null) {
-            fiberBar.setProgress( Math.round((fiber/RecommendedDailyValues.FIBER.getDailyValue()) * 100), true);
+            fiberBar.setProgress(Math.round((fiber / RecommendedDailyValues.FIBER.getDailyValue()) * 100), true);
             String fiberText = getString(R.string.g_progress, fiber, (int) RecommendedDailyValues.FIBER.getDailyValue());
             fiberProgress.setText(fiberText);
         }
         // Carbs progress bar
         if (carbs != null) {
-            carbBar.setProgress( Math.round((carbs/RecommendedDailyValues.CARBS.getDailyValue()) * 100), true);
+            carbBar.setProgress(Math.round((carbs / RecommendedDailyValues.CARBS.getDailyValue()) * 100), true);
             String carbsText = getString(R.string.g_progress, carbs, (int) RecommendedDailyValues.CARBS.getDailyValue());
             carbProgress.setText(carbsText);
         }
         //
         if (protein != null) {
-            proteinBar.setProgress( Math.round((protein/RecommendedDailyValues.PROTEIN.getDailyValue()) * 100), true);
+            proteinBar.setProgress(Math.round((protein / RecommendedDailyValues.PROTEIN.getDailyValue()) * 100), true);
             String proteinText = getString(R.string.g_progress, protein, (int) RecommendedDailyValues.PROTEIN.getDailyValue());
             proteinProgress.setText(proteinText);
         }
@@ -268,20 +351,5 @@ public class RecipeActivity extends AppCompatActivity implements SavedIngredient
             }
         });
 
-    }
-
-    public void addToMealPlanButtonClicked(View view) {
-        // TODO
-    }
-
-    public void addToShoppingListButtonClicked(View view) {
-        // TODO
-    }
-
-    public void deleteRecipeButtonClicked(View view) {
-        int recipeId = recipe.getId();
-        mRecipeViewModel.delete(recipeId);
-        Intent intent = new Intent(this, CookBookHomeActivity.class);
-        startActivity(intent);
     }
 }

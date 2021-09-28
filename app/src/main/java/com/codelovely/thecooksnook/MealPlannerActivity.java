@@ -12,9 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.codelovely.thecooksnook.adapters.MealPlanAdapter;
-import com.codelovely.thecooksnook.adapters.RecipeAdapter;
 import com.codelovely.thecooksnook.models.MealPlan;
-import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.viewmodels.MealPlannerViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

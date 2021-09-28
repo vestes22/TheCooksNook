@@ -228,36 +228,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-
-        <Button
-            android:id="@+id/recipe_deleteRecipeButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            android:onClick="deleteRecipeButtonClicked"
-            android:layout_gravity="center"
-            android:text="Delete"
-            />
-
-        <Button
-            android:id="@+id/recipe_addToShoppingListButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            android:onClick="addToShoppingListButtonClicked"
-            android:layout_gravity="center"
-            android:text="Add To Shopping List"
-            />
-
-        <Button
-            android:id="@+id/recipe_addToMealPlanButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent"
-            android:layout_gravity="center"
-            android:onClick="addToMealPlanButtonClicked"
-            android:text="Add To Meal Plan"
-            />
-
     </LinearLayout>
 </ScrollView>

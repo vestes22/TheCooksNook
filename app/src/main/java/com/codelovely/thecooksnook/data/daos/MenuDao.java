@@ -7,6 +7,7 @@ import androidx.room.Query;
 
 import com.codelovely.thecooksnook.data.entities.Menu;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Dao
@@ -22,4 +23,5 @@ public interface MenuDao {
 
     @Query("SELECT * FROM menus WHERE `Menu code` = :menuCode")
     Menu getMenuById(int menuCode);
+
 }

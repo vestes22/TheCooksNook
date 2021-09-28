@@ -6,6 +6,8 @@ import androidx.room.Query;
 
 import com.codelovely.thecooksnook.data.entities.Ingredient;
 
+import java.util.List;
+
 @Dao
 public interface IngredientDao {
     @Insert()
@@ -16,4 +18,7 @@ public interface IngredientDao {
 
     @Query("SELECT EXISTS(SELECT * FROM ingredients WHERE `FDC ID` = :id)")
     boolean checkIfExists(int id);
+
+    @Query("SELECT * FROM ingredients")
+    List<Ingredient> getAllIngredients();
 }

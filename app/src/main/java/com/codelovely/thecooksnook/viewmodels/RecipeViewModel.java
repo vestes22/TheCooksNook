@@ -1,6 +1,7 @@
 package com.codelovely.thecooksnook.viewmodels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 
@@ -46,18 +47,10 @@ public class RecipeViewModel extends AndroidViewModel {
                     lockObject.wait();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.e("ERROR", "The synchronization lock failed.");
                 }
             }
         }
         return recipe.get(0);
-    }
-
-    public void delete(final int id) {
-        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mRepository.deleteRecipeById(id);
-            }
-        });
     }
 }

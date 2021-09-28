@@ -16,14 +16,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import com.codelovely.thecooksnook.models.IngredientModel;
+import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 import com.codelovely.thecooksnook.viewmodels.NutritionProfileViewModel;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.text.nlclassifier.NLClassifier;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -36,6 +50,7 @@ public class NutritionProfileFragment extends Fragment {
     private TextView calorieProgress, fatProgress, fiberProgress, carbProgress, proteinProgress, recipeNutritionItemName;
     private ProgressBar calorieBar, fatBar, fiberBar, carbBar, proteinBar;
     private PieChart macronutrientChart;
+    private RadarChart radarChart;
 
     public NutritionProfileFragment() {
         // Required empty public constructor
@@ -64,8 +79,6 @@ public class NutritionProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_nutrition_profile, container, false);
 
-
-
         return view;
     }
 
@@ -77,6 +90,7 @@ public class NutritionProfileFragment extends Fragment {
         if (view != null) {
 
             macronutrientChart = view.findViewById(R.id.recipeNutritionProfile_macronutrientPieChart);
+            radarChart = view.findViewById(R.id.recipeNutritionProfile_radarChart);
 
             calorieBar = view.findViewById(R.id.recipeNutritionProfile_calorieDeterminateBar);
             fatBar = view.findViewById(R.id.recipeNutritionProfile_fatDeterminateBar);
@@ -95,17 +109,18 @@ public class NutritionProfileFragment extends Fragment {
 
         private void updateUI(Map<Integer, FoodNutrient> totalNutrients) {
 
-            Float calories = null;
-            Float fat = null;
-            Float protein = null;
-            Float carbs = null;
-            Float fiber = null;
+            Float calories = 0f;
+            Float fat = 0f;
+            Float protein = 0f;
+            Float carbs = 0f;
+            Float fiber = 0f;
 
             int calorieId = RecommendedDailyValues.ENERGY.getNutrientId();
             int fatId = RecommendedDailyValues.TOTAL_FAT.getNutrientId();
             int proteinId = RecommendedDailyValues.PROTEIN.getNutrientId();
             int carbId = RecommendedDailyValues.CARBS.getNutrientId();
             int fiberId = RecommendedDailyValues.FIBER.getNutrientId();
+
 
             if (totalNutrients.containsKey(calorieId)) {
                 calories = Objects.requireNonNull(totalNutrients.get(calorieId)).getAmount();
@@ -152,13 +167,15 @@ public class NutritionProfileFragment extends Fragment {
                 String carbsText = getString(R.string.g_progress, carbs, (int) RecommendedDailyValues.CARBS.getDailyValue());
                 carbProgress.setText(carbsText);
             }
-            //
+            // Protein progress bar
             if (protein != null) {
                 proteinBar.setProgress( Math.round((protein/RecommendedDailyValues.PROTEIN.getDailyValue()) * 100), true);
                 String proteinText = getString(R.string.g_progress, protein, (int) RecommendedDailyValues.PROTEIN.getDailyValue());
                 proteinProgress.setText(proteinText);
             }
 
+
+            // Sets data for the Macronutrient Pie Chart
             if (carbs != null && fat != null && protein != null) {
                 List<PieEntry> energyEntries = new ArrayList<>();
                 energyEntries.add(new PieEntry(fat * 9, "Fats"));
@@ -185,7 +202,84 @@ public class NutritionProfileFragment extends Fragment {
                 macronutrientChart.getLegend().setEnabled(false);
                 macronutrientChart.getDescription().setText("");
                 macronutrientChart.invalidate(); // refresh
-        }
+
+
+                // Sets data for the Radar Chart
+                Map<String, Float> resultsMap = new HashMap<>();
+
+                for (RecipeModel recipe : mNutritionProfileViewModel.getRecipes()) {
+
+                    String ingredientNames = "";
+                    List<IngredientModel> ingredients = recipe.getIngredients();
+
+                    for (IngredientModel ingredient : ingredients) {
+                        ingredientNames = ingredientNames + ingredient.getDescription() + ", ";
+                    }
+
+                    // Uses the machine learning model to classify each recipe into a category based on its ingredients.
+                    // Sums the total category scores for all recipes.
+                    NLClassifier classifier;
+                    try {
+                        classifier = NLClassifier.createFromFile(getActivity(), "model.tflite");
+                        List<Category> results = classifier.classify(ingredientNames);
+                        for (int i = 0; i < results.size(); i++) {
+
+                            if (resultsMap.containsKey(results.get(i).getLabel())) {
+                                float addedNumber = results.get(i).getScore();
+                                addedNumber = addedNumber + resultsMap.get(results.get(i).getLabel());
+                                resultsMap.replace(results.get(i).getLabel(), addedNumber);
+                            }
+                            else {
+                                resultsMap.put(results.get(i).getLabel(), results.get(i).getScore());
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                List<RadarEntry> radarEntries = new ArrayList<>();
+                final List<String> labelValues = new ArrayList<>();
+
+                // Take the average of the category scores, so we can view the category averages for groups of recipes.
+                for (Map.Entry score : resultsMap.entrySet()) {
+                    float averageScore = (float) score.getValue() / mNutritionProfileViewModel.getRecipes().size();
+                    resultsMap.replace((String) score.getKey(), averageScore);
+                    radarEntries.add(new RadarEntry(averageScore, (String) score.getKey()));
+                    labelValues.add((String) score.getKey());
+                }
+
+                XAxis xAxis = radarChart.getXAxis();
+                xAxis.setValueFormatter(new IndexAxisValueFormatter(labelValues));
+                xAxis.setTextSize(16f);
+                xAxis.setLabelRotationAngle(-45);
+
+                String[] yAxisLabels = new String[20];
+                for (int i = 0; i < yAxisLabels.length; i++) {
+                    yAxisLabels[i] = "";
+                }
+
+                YAxis yAxis = radarChart.getYAxis();
+                yAxis.setTextColor(Color.parseColor("#EAF0F8"));
+                yAxis.setTextSize(10);
+                String longestLabel = xAxis.getLongestLabel();
+                System.out.println("Radar Chart longest label: " + longestLabel);
+                xAxis.setTextColor(Color.parseColor("#EAF0F8"));
+                RadarDataSet dataSet = new RadarDataSet(radarEntries, "Likelihood Score");
+                dataSet.setValueFormatter(new IndexAxisValueFormatter(yAxisLabels));
+                dataSet.setLineWidth(2.5f);
+                dataSet.setFillColor(Color.parseColor("#FF6600"));
+                dataSet.setDrawFilled(true);
+                dataSet.setColor(Color.parseColor("#FF6600"));
+                RadarData radarData = new RadarData(dataSet);
+                radarChart.setData(radarData);
+                radarChart.setWebColor(Color.parseColor("#EAF0F8"));
+                radarChart.setWebColorInner(Color.parseColor("#EAF0F8"));
+                radarChart.getDescription().setText("");
+                radarChart.invalidate();
+
+            }
     }
 
     public NutritionProfileViewModel getNutritionProfileViewModel () {

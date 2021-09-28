@@ -1,5 +1,7 @@
 package com.codelovely.thecooksnook.models;
 
+import android.util.Log;
+
 import com.codelovely.thecooksnook.Nutrients;
 import com.codelovely.thecooksnook.models.restmodels.FoodNutrient;
 import com.codelovely.thecooksnook.models.restmodels.Nutrient;
@@ -129,7 +131,7 @@ public class IngredientModel {
     public boolean checkForMissingData() {
         for (Map.Entry foodNutrient : foodNutrientsMap.entrySet()) {
             if (foodNutrient.getValue() == null) {
-                System.out.println(foodNutrient.getKey() + " is returning null." );
+                Log.v("VERBOSE", "That value returns null");
                 return true;
             }
         }

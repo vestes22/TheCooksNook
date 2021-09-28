@@ -198,6 +198,31 @@
                         android:layout_marginEnd="8dp"
                         app:chipStrokeWidth="2dp"
                         android:text="@string/appetizers_text"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/addRecipe_dessertChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStrokeColor="@color/colorAccent"
+                        app:chipBackgroundColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorNude"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:chipStrokeWidth="2dp"
+                        android:text="Dessert"/>
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/addRecipe_drinkChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStrokeColor="@color/colorAccent"
+                        app:chipBackgroundColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorNude"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:chipStrokeWidth="2dp"
+                        android:text="Drink"/>
+
                 </com.google.android.material.chip.ChipGroup>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

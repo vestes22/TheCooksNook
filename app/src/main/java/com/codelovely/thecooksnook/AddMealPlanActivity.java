@@ -3,7 +3,6 @@ package com.codelovely.thecooksnook;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,42 +15,41 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.codelovely.thecooksnook.adapters.RecipeAdapter;
-import com.codelovely.thecooksnook.data.entities.Recipe;
-import com.codelovely.thecooksnook.data.entities.User;
-import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.models.MealPlan;
 import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.UserModel;
-import com.codelovely.thecooksnook.models.restmodels.SearchResultFood;
 import com.codelovely.thecooksnook.viewmodels.AddMealPlanViewModel;
-import com.codelovely.thecooksnook.viewmodels.AddRecipeViewModel;
 import com.codelovely.thecooksnook.viewmodels.CookBookViewModel;
-import com.codelovely.thecooksnook.viewmodels.NutritionProfileViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-import org.w3c.dom.Text;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdapter.RecipeListener {
     RecipeAdapter recipeAdapter;
     LinearLayout linearLayout;
     PopupWindow cookbookWindow;
-    TextView breakfastText, lunchText, dinnerText, appetizerText;
+    ListView breakfastText, lunchText, dinnerText, appetizerText, dessertText, drinkText;
     AddMealPlanViewModel mAddMealPlanViewModel;
-    Observer<Map<String, RecipeModel>> mealPlanRecipeObserver;
+    Observer<List<RecipeModel>> breakfastRecipeObserver, lunchRecipeObserver, dinnerRecipeObserver, appetizerRecipeObserver, dessertRecipeObserver, drinkRecipeObserver;
     NutritionProfileFragment nutritionProfileFragment;
     DatePicker datePicker;
+    List<String> breakfastList, lunchList, dinnerList, appetizerList, dessertList, drinkList;
+    ArrayAdapter<String> breakfastAdapter, lunchAdapter, dinnerAdapter, appetizerAdapter, dessertAdapter, drinkAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,38 +57,115 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
         setContentView(R.layout.activity_add_meal_plan);
 
         mAddMealPlanViewModel = new ViewModelProvider(this).get(AddMealPlanViewModel.class);
+        breakfastList = new ArrayList<>();
+        lunchList = new ArrayList<>();
+        dinnerList = new ArrayList<>();
+        appetizerList = new ArrayList<>();
+        dessertList = new ArrayList<>();
+        drinkList = new ArrayList<>();
 
-
-        breakfastText = findViewById(R.id.addMealPlan_breakfastRecipeText);
-        lunchText = findViewById(R.id.addMealPlan_lunchRecipeText);
-        dinnerText = findViewById(R.id.addMealPlan_dinnerRecipeText);
-        appetizerText = findViewById(R.id.addMealPlan_appetizerRecipeText);
+        breakfastText = findViewById(R.id.addMealPlan_breakfastRecipeList);
+        lunchText = findViewById(R.id.addMealPlan_lunchRecipeList);
+        dinnerText = findViewById(R.id.addMealPlan_dinnerRecipeList);
+        appetizerText = findViewById(R.id.addMealPlan_appetizerRecipeList);
+        dessertText = findViewById(R.id.addMealPlan_dessertRecipeList);
+        drinkText = findViewById(R.id.addMealPlan_drinkRecipeList);
         linearLayout = findViewById(R.id.addMealPlan_linearLayout);
         nutritionProfileFragment = (NutritionProfileFragment) getSupportFragmentManager().findFragmentById(R.id.addMealPlan_nutritionProfileFragment);
         datePicker = findViewById(R.id.addMealPlan_datePicker);
 
-        mealPlanRecipeObserver = new Observer<Map<String, RecipeModel>>() {
+        breakfastAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1_edited, breakfastList);
+        lunchAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1_edited, lunchList);
+        dinnerAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1_edited, dinnerList);
+        appetizerAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1_edited, appetizerList);
+        dessertAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1_edited, dessertList);
+        drinkAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_1_edited, drinkList);
+
+        breakfastText.setAdapter(breakfastAdapter);
+        lunchText.setAdapter(lunchAdapter);
+        dinnerText.setAdapter(dinnerAdapter);
+        appetizerText.setAdapter(appetizerAdapter);
+        dessertText.setAdapter(dessertAdapter);
+        drinkText.setAdapter(drinkAdapter);
+
+        breakfastRecipeObserver = new Observer<List<RecipeModel>>() {
             @Override
-            public void onChanged(Map<String, RecipeModel> mealPlanRecipes) {
-                if (mealPlanRecipes.containsKey(RecipeCategory.BREAKFAST.toString())) {
-                    RecipeModel breakfastRecipe = mealPlanRecipes.get(RecipeCategory.BREAKFAST.toString());
-                    breakfastText.setText(breakfastRecipe.getName());
+            public void onChanged(List<RecipeModel> breakfastRecipes) {
+                breakfastList.clear();
+                breakfastAdapter.clear();
+                for (RecipeModel recipe : breakfastRecipes) {
+                    breakfastList.add(recipe.getName());
                 }
-                if (mealPlanRecipes.containsKey(RecipeCategory.LUNCH.toString())) {
-                    RecipeModel lunchRecipe = mealPlanRecipes.get(RecipeCategory.LUNCH.toString());
-                    lunchText.setText(lunchRecipe.getName());
-                }
-                if (mealPlanRecipes.containsKey(RecipeCategory.DINNER.toString())) {
-                    RecipeModel dinnerRecipe = mealPlanRecipes.get(RecipeCategory.DINNER.toString());
-                    dinnerText.setText(dinnerRecipe.getName());
-                }
-                if (mealPlanRecipes.containsKey(RecipeCategory.APPETIZER.toString())) {
-                    RecipeModel appetizerRecipe = mealPlanRecipes.get(RecipeCategory.APPETIZER.toString());
-                    appetizerText.setText(appetizerRecipe.getName());
-                }
+                justifyListViewHeightBasedOnChildren(breakfastText);
             }
         };
-        mAddMealPlanViewModel.getMealPlanRecipes().observe(this, mealPlanRecipeObserver);
+        mAddMealPlanViewModel.getBreakfastRecipes().observe(this, breakfastRecipeObserver);
+
+        lunchRecipeObserver = new Observer<List<RecipeModel>>() {
+            @Override
+            public void onChanged(List<RecipeModel> lunchRecipes) {
+                lunchList.clear();
+                lunchAdapter.clear();
+                for (RecipeModel recipe : lunchRecipes) {
+                    lunchList.add(recipe.getName());
+                }
+                justifyListViewHeightBasedOnChildren(lunchText);
+            }
+        };
+        mAddMealPlanViewModel.getLunchRecipes().observe(this, lunchRecipeObserver);
+
+        dinnerRecipeObserver = new Observer<List<RecipeModel>>() {
+            @Override
+            public void onChanged(List<RecipeModel> dinnerRecipes) {
+                dinnerList.clear();
+                dinnerAdapter.clear();
+                for (RecipeModel recipe : dinnerRecipes) {
+                    dinnerList.add(recipe.getName());
+                }
+                justifyListViewHeightBasedOnChildren(dinnerText);
+            }
+        };
+        mAddMealPlanViewModel.getDinnerRecipes().observe(this, dinnerRecipeObserver);
+
+        appetizerRecipeObserver = new Observer<List<RecipeModel>>() {
+            @Override
+            public void onChanged(List<RecipeModel> appetizerRecipes) {
+                appetizerList.clear();
+                appetizerAdapter.clear();
+                for (RecipeModel recipe : appetizerRecipes) {
+                    appetizerList.add(recipe.getName());
+                }
+                justifyListViewHeightBasedOnChildren(appetizerText);
+            }
+        };
+        mAddMealPlanViewModel.getAppetizerRecipes().observe(this, appetizerRecipeObserver);
+
+        dessertRecipeObserver = new Observer<List<RecipeModel>>() {
+            @Override
+            public void onChanged(List<RecipeModel> dessertRecipes) {
+                dessertList.clear();
+                dessertAdapter.clear();
+                for (RecipeModel recipe : dessertRecipes) {
+                    dessertList.add(recipe.getName());
+                    System.out.println(recipe.getName());
+                }
+                justifyListViewHeightBasedOnChildren(dessertText);
+            }
+        };
+        mAddMealPlanViewModel.getDessertRecipes().observe(this, dessertRecipeObserver);
+
+        drinkRecipeObserver = new Observer<List<RecipeModel>>() {
+            @Override
+            public void onChanged(List<RecipeModel> drinkRecipes) {
+                drinkAdapter.clear();
+                drinkList.clear();
+                for (RecipeModel recipe : drinkRecipes) {
+                    drinkList.add(recipe.getName());
+                }
+                justifyListViewHeightBasedOnChildren(drinkText);
+            }
+        };
+        mAddMealPlanViewModel.getDrinkRecipes().observe(this, drinkRecipeObserver);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
@@ -99,6 +174,66 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
         user.setLastName(account.getFamilyName());
         user.setUserId(account.getId());
         mAddMealPlanViewModel.setUser(user);
+
+        breakfastText.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                String recipeName = breakfastList.get(position);
+                mAddMealPlanViewModel.removeBreakfast(recipeName);
+                nutritionProfileFragment.getNutritionProfileViewModel().removeRecipe(recipeName);
+            }
+        });
+
+        lunchText.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                String recipeName = lunchList.get(position);
+                mAddMealPlanViewModel.removeLunch(recipeName);
+                nutritionProfileFragment.getNutritionProfileViewModel().removeRecipe(recipeName);
+            }
+        });
+
+        dinnerText.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                String recipeName = dinnerList.get(position);
+                mAddMealPlanViewModel.removeDinner(recipeName);
+                nutritionProfileFragment.getNutritionProfileViewModel().removeRecipe(recipeName);
+            }
+        });
+
+        appetizerText.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                String recipeName = appetizerList.get(position);
+                mAddMealPlanViewModel.removeAppetizer(recipeName);
+                nutritionProfileFragment.getNutritionProfileViewModel().removeRecipe(recipeName);
+            }
+        });
+
+        dessertText.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                String recipeName = dessertList.get(position);
+                mAddMealPlanViewModel.removeDessert(recipeName);
+                nutritionProfileFragment.getNutritionProfileViewModel().removeRecipe(recipeName);
+            }
+        });
+
+        drinkText.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                String recipeName = drinkList.get(position);
+                mAddMealPlanViewModel.removeDrink(recipeName);
+                nutritionProfileFragment.getNutritionProfileViewModel().removeRecipe(recipeName);
+            }
+        });
+
     }
 
     public void onBreakfastButtonClicked(View view) {
@@ -117,7 +252,6 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
 
         mAddMealPlanViewModel.updateHashMap(recipe);
         nutritionProfileFragment.getNutritionProfileViewModel().updateHashMap(recipe);
-        System.out.println(recipe.getDescription() + " Recipe clicked!");
         cookbookWindow.dismiss();
     }
 
@@ -191,5 +325,34 @@ public class AddMealPlanActivity extends AppCompatActivity implements RecipeAdap
 
         Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
+    }
+
+    public void onDessertButtonClicked(View view) {
+        recipePopup(RecipeCategory.DESSERT.toString());
+    }
+
+    public void onDrinkButtonClicked(View view) {
+        recipePopup(RecipeCategory.DRINK.toString());
+    }
+
+    public static void justifyListViewHeightBasedOnChildren (ListView listView) {
+
+        ListAdapter adapter = listView.getAdapter();
+
+        if (adapter == null) {
+            return;
+        }
+        ViewGroup vg = listView;
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, vg);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams par = listView.getLayoutParams();
+        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(par);
+        listView.requestLayout();
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 
 import com.codelovely.thecooksnook.DatabaseRepository;
 import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
-import com.codelovely.thecooksnook.data.entities.User;
 import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.UserModel;
@@ -54,6 +53,10 @@ public class AddRecipeViewModel extends AndroidViewModel {
 
     public void getFoundationFoodItemById(int fdcId) {
         mRepository.getFoundationFoodItemById(fdcId);
+    }
+
+    public void getSRLegacyFoodItemById(int fdcId) {
+        mRepository.getSRLegacyFoodItemById(fdcId);
     }
 }
 

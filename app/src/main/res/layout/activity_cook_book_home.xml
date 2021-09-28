@@ -141,7 +141,7 @@
         app:cardUseCompatPadding="true"
         card_view:cardElevation="8dp"
         card_view:cardCornerRadius="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintBottom_toTopOf="@+id/cookBookHome_dessertButton"
         app:layout_constraintEnd_toStartOf="@+id/cookBookHome_appetizerButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cookBookHome_breakfastButton"
@@ -155,13 +155,13 @@
             android:paddingTop="24dp"
             android:paddingBottom="24dp">
 
-        <TextView
-            android:id="@+id/cookBookHome_dinnerLabel"
-            android:text="@string/dinner_text"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/cookbook_headings"/>
+            <TextView
+                android:id="@+id/cookBookHome_dinnerLabel"
+                android:text="@string/dinner_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/cookbook_headings"/>
 
             <ImageView
                 android:id="@+id/cookBookHome_dinnerIcon"
@@ -192,7 +192,7 @@
         app:cardUseCompatPadding="true"
         card_view:cardElevation="8dp"
         card_view:cardCornerRadius="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintBottom_toTopOf="@+id/cookBookHome_drinkButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cookBookHome_dinnerButton"
         app:layout_constraintTop_toBottomOf="@+id/cookBookHome_lunchButton"
@@ -206,13 +206,13 @@
             android:paddingTop="24dp"
             android:paddingBottom="24dp">
 
-        <TextView
-            android:id="@+id/cookBookHome_appetizerLabel"
-            android:text="@string/appetizers_text"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/cookbook_headings"/>
+            <TextView
+                android:id="@+id/cookBookHome_appetizerLabel"
+                android:text="@string/appetizers_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/cookbook_headings"/>
 
             <ImageView
                 android:layout_width="0dp"
@@ -230,6 +230,108 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cookBookHome_dessertButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onDessertButtonClicked"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintEnd_toStartOf="@+id/cookBookHome_drinkButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cookBookHome_dinnerButton"
+        app:layout_constraintVertical_weight="2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingRight="24dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/cookBookHome_dessertLabel"
+                android:text="Dessert"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/cookbook_headings"/>
+
+            <ImageView
+                android:id="@+id/cookBookHome_dessertIcon"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/dessert"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cookBookHome_dessertLabel"
+                android:contentDescription="@string/dinner_icon_desc" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cookBookHome_drinkButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onDrinkButtonClicked"
+        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        app:cardUseCompatPadding="true"
+        card_view:cardElevation="8dp"
+        card_view:cardCornerRadius="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cookBookHome_dessertButton"
+        app:layout_constraintTop_toBottomOf="@+id/cookBookHome_appetizerButton"
+        app:layout_constraintVertical_weight="2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingRight="24dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/cookBookHome_drinkLabel"
+                android:text="Drinks"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/cookbook_headings"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/juice"
+                android:id="@+id/cookBookHome_drinkIcon"
+                app:layout_constraintTop_toBottomOf="@+id/cookBookHome_drinkLabel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/appetizers_icon_desc" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
@@ -238,7 +340,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/cookBookHome_viewAllButton"
-        app:layout_constraintTop_toBottomOf="@+id/cookBookHome_dinnerButton"
+        app:layout_constraintTop_toBottomOf="@+id/cookBookHome_dessertButton"
         />
 
     <androidx.cardview.widget.CardView

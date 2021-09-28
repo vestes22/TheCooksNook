@@ -22,7 +22,6 @@ public class SignInViewModel extends AndroidViewModel {
            @Override
            public void run() {
                mRepository.insertUser(user);
-               mRepository.initializeUserRecipes(user);
            }
         });
     }

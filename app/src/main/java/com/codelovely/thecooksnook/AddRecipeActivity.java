@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -45,10 +46,7 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
     ProgressBar progressBar;
 
     ChipGroup chipGroup;
-    Chip breakfastChip;
-    Chip lunchChip;
-    Chip dinnerChip;
-    Chip appetizersChip;
+    Chip breakfastChip, lunchChip, dinnerChip, appetizersChip, dessertChip, drinkChip;
     Context context = this;
 
     @Override
@@ -69,6 +67,8 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         lunchChip = findViewById(R.id.addRecipe_lunchChip);
         dinnerChip = findViewById(R.id.addRecipe_dinnerChip);
         appetizersChip = findViewById(R.id.addRecipe_appetizerChip);
+        dessertChip = findViewById(R.id.addRecipe_dessertChip);
+        drinkChip = findViewById(R.id.addRecipe_drinkChip);
         mAddRecipeViewModel = new ViewModelProvider(this).get(AddRecipeViewModel.class);
 
         progressBar.setVisibility(View.GONE);
@@ -112,6 +112,8 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         lunchChip.setCheckable(true);
         dinnerChip.setCheckable(true);
         appetizersChip.setCheckable(true);
+        dessertChip.setCheckable(true);
+        drinkChip.setCheckable(true);
 
         breakfastChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -160,6 +162,30 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
                 }
             }
         });
+
+        dessertChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (!isChecked) {
+                    dessertChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+                }
+                else {
+                    dessertChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
+                }
+            }
+        });
+
+        drinkChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+                if (!isChecked) {
+                    drinkChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimaryDark)));
+                }
+                else {
+                    drinkChip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorAccent)));
+                }
+            }
+        });
     }
 
 
@@ -200,24 +226,21 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
             }
         }
         if (flag >= 0) {
-            System.out.println("Ingredient already added.");
+            Log.i("INFO", "Ingredient was already added.");
         }
         else {
             progressBar.setVisibility(View.VISIBLE);
 
             if (dataType.equals("Branded")) {
-                System.out.println("Calling getBrandedFoodItemById...");
                 mAddRecipeViewModel.getBrandedFoodItemById(ingredient.getFdcId());
             }
             else if (dataType.equals("Foundation")) {
-                System.out.println("Calling getFoundationFoodItemById...");
                 mAddRecipeViewModel.getFoundationFoodItemById(ingredient.getFdcId());
             }
+            else if (dataType.equals("SR Legacy")) {
+                mAddRecipeViewModel.getSRLegacyFoodItemById(ingredient.getFdcId());
+            }
         }
-
-
-
-
     }
 
 
@@ -233,26 +256,33 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
             recipeCategory = RecipeCategory.BREAKFAST.toString();
         }
 
-        if (lunchChip.isChecked()) {
+        else if (lunchChip.isChecked()) {
             recipeCategory = RecipeCategory.LUNCH.toString();
         }
 
-        if (dinnerChip.isChecked()) {
+        else if (dinnerChip.isChecked()) {
             recipeCategory = RecipeCategory.DINNER.toString();
         }
 
-        if (appetizersChip.isChecked()) {
+        else if (appetizersChip.isChecked()) {
             recipeCategory = RecipeCategory.APPETIZER.toString();
         }
 
+        else if (dessertChip.isChecked()) {
+            recipeCategory = RecipeCategory.DESSERT.toString();
+        }
+
+        else if (drinkChip.isChecked()) {
+            recipeCategory = RecipeCategory.DRINK.toString();
+        }
+
         try {
-            // TODO - Validate Input
             recipeName = recipeNameText.getText().toString();
             recipeDescription = recipeDescriptionText.getText().toString();
             numServings = Integer.parseInt(recipeServingsText.getText().toString());
             recipeInstructions = recipeInstructionsText.getText().toString();
         } catch(Exception e) {
-            // TODO - populate errors for TextFields
+            Log.e("ERROR", "Invalid input.");
             e.printStackTrace();
         }
 
@@ -262,8 +292,6 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
         numServings = Integer.parseInt(recipeServingsText.getText().toString());
         recipeInstructions = recipeInstructionsText.getText().toString();
         List<IngredientModel> ingredients = ingredientsAdapter.getIngredients();
-
-        // TODO - figure out how to validate all ingredients have a quantity
 
         // Create new recipe object
         RecipeModel recipe = new RecipeModel();
@@ -279,6 +307,5 @@ public class AddRecipeActivity extends AppCompatActivity implements SearchResult
 
         Intent intent = new Intent(this, CookBookHomeActivity.class);
         startActivity(intent);
-
     }
 }

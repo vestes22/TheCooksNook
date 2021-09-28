@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="1500dp"
+    android:fillViewport="true"
+    tools:context=".UserProfileActivity"
+    android:background="@color/colorPrimary">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/userProfile_activityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[User Name]'s Metrics"
+        style="@style/activity_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/userProfile_dateRangeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Select a Date Range For Data"
+        android:layout_marginTop="16dp"
+        style="@style/section_headings"
+
+        app:layout_constraintTop_toBottomOf="@id/userProfile_activityTitle"
+        app:layout_constraintBottom_toTopOf="@id/userProfile_averageValuesCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <!-- Date Details CardView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userProfile_averageValuesCard"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/userProfile_dateRangeText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/userProfile_metricsProgressBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark" >
+
+            <TextView
+                android:id="@+id/userProfile_userValuesStartDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Date"
+                style="@style/cookbook_headings"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/userProfile_averageValuesStartDatePicker"/>
+
+            <DatePicker
+                android:id="@+id/userProfile_averageValuesStartDatePicker"
+                style="@style/MyDatePickerStyle"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:layout_marginTop="16dp"
+                android:calendarTextColor="@color/colorNude"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:theme="@style/MyDatePickerSpinnerStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_userValuesStartDateText" />
+
+                <TextView
+                    android:id="@+id/userProfile_averageValuesEndDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End Date"
+                    style="@style/cookbook_headings"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userProfile_averageValuesStartDatePicker" />
+
+            <DatePicker
+                android:id="@+id/userProfile_averageValuesEndDatePicker"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:calendarTextColor="@color/colorNude"
+                style="@style/MyDatePickerStyle"
+                android:theme="@style/MyDatePickerSpinnerStyle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_averageValuesEndDateText" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/userProfile_calculateDailyAverageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calculate My Metrics"
+                    android:onClick="calculateDailyAverageButtonClicked"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userProfile_averageValuesEndDatePicker" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/userProfile_metricsProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/userProfile_averageValuesCard"
+        app:layout_constraintBottom_toTopOf="@id/userProfile_macronutrientCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Recipe Macronutrients CardView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userProfile_macronutrientCard"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/userProfile_averageValuesCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/userProfile_lineGraphCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark" >
+
+            <TextView
+                android:id="@+id/userProfile_title"
+                android:text="@string/nutrition_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/activity_title" />
+
+            <TextView
+                android:id="@+id/userProfile_itemName"
+                style="@style/cookbook_headings"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:text=""
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_title" />
+
+            <LinearLayout
+                android:id="@+id/userProfile_linearLayout"
+                android:layout_height="300dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_itemName" >
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/userProfile_macronutrientPieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_linearLayout"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Daily Values"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/cookbook_headings"
+                    android:text="Calories" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+
+                    <ProgressBar
+                        android:id="@+id/userProfile_calorieDeterminateBar"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressTint="#50C878"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:progress="0"/>
+
+                    <TextView
+                        android:id="@+id/userProfile_calorieProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/userProfile_calorieDeterminateBar"
+                        android:layout_alignTop="@id/userProfile_calorieDeterminateBar"
+                        android:layout_alignEnd="@id/userProfile_calorieDeterminateBar"
+                        android:layout_alignBottom="@id/userProfile_calorieDeterminateBar"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:textColor="@color/colorNude" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/cookbook_headings"
+                    android:text="Total Fat" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ProgressBar
+                        android:id="@+id/userProfile_fatDeterminateBar"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:progressTint="#FFC300"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:progress="0"/>
+
+                    <TextView
+                        android:id="@+id/userProfile_fatProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/userProfile_fatDeterminateBar"
+                        android:layout_alignTop="@id/userProfile_fatDeterminateBar"
+                        android:layout_alignEnd="@id/userProfile_fatDeterminateBar"
+                        android:layout_alignBottom="@id/userProfile_fatDeterminateBar"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:textColor="@color/colorNude" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/cookbook_headings"
+                    android:text="Carbohydrates" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ProgressBar
+                        android:id="@+id/userProfile_carbsDeterminateBar"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressTint="#89CFF0"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:progress="0"/>
+
+                    <TextView
+                        android:id="@+id/userProfile_carbsProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/userProfile_carbsDeterminateBar"
+                        android:layout_alignTop="@id/userProfile_carbsDeterminateBar"
+                        android:layout_alignEnd="@id/userProfile_carbsDeterminateBar"
+                        android:layout_alignBottom="@id/userProfile_carbsDeterminateBar"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:textColor="@color/colorNude" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/cookbook_headings"
+                    android:text="Protein" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ProgressBar
+                        android:id="@+id/userProfile_proteinDeterminateBar"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:progressTint="#C70039"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:progress="0"/>
+
+                    <TextView
+                        android:id="@+id/userProfile_proteinProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/userProfile_proteinDeterminateBar"
+                        android:layout_alignTop="@id/userProfile_proteinDeterminateBar"
+                        android:layout_alignEnd="@id/userProfile_proteinDeterminateBar"
+                        android:layout_alignBottom="@id/userProfile_proteinDeterminateBar"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:textColor="@color/colorNude" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    style="@style/cookbook_headings"
+                    android:text="Fiber" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ProgressBar
+                        android:id="@+id/userProfile_fiberDeterminateBar"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:progressTint="#FF5F1F"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:progress="0"/>
+
+                    <TextView
+                        android:id="@+id/userProfile_fiberProgressText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/userProfile_fiberDeterminateBar"
+                        android:layout_alignTop="@id/userProfile_fiberDeterminateBar"
+                        android:layout_alignEnd="@id/userProfile_fiberDeterminateBar"
+                        android:layout_alignBottom="@id/userProfile_fiberDeterminateBar"
+                        android:background="#00000000"
+                        android:gravity="center"
+                        android:textColor="@color/colorNude" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Line Graphs CardView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userProfile_lineGraphCard"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/userProfile_macronutrientCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/userProfile_recommendedRecipeCard">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark" >
+
+            <LinearLayout
+                android:id="@+id/userProfile_lineChartLinearLayout"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/userProfile_radarLinearLayout">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/userProfile_caloriesLineChart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="200dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userProfile_radarLinearLayout"
+                android:layout_height="500dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_lineChartLinearLayout"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.github.mikephil.charting.charts.RadarChart
+                    android:id="@+id/userProfile_radarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+         <!-- Recommended Recipe Card -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/userProfile_recommendedRecipeCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/userProfile_lineGraphCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/userProfile_recommendedRecipe_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="8dp"
+                android:text="We recommend this recipe for you!"
+                android:textColor="@color/colorNude"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/userProfile_recommendedRecipe"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/userProfile_recommendedRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:layout_constraintTop_toBottomOf="@id/userProfile_recommendedRecipe_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/userProfile_recommendedRecipeCardDescription">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/userProfile_recommendedRecipeTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="16dp"
+                        android:background="@color/colorPrimary"
+                        android:paddingBottom="8dp"
+                        android:text="Recipe Title"
+                        android:textColor="@color/colorNude"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                    <TextView
+                        android:id="@+id/userProfile_recommendedRecipeDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:layout_marginStart="16dp"
+                        android:textSize="16sp"
+                        android:text="This is the recipe description."
+                        android:textColor="@color/colorNude"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/userProfile_recommendedRecipeTitle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintWidth_default="percent"
+                        app:layout_constraintWidth_percent=".7" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+            <TextView
+                android:id="@+id/userProfile_recommendedRecipeCardDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="16sp"
+                android:text="View your nutrition statistics, and get personalized recipe recommendations."
+                android:textColor="@color/colorNude"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userProfile_recommendedRecipe"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

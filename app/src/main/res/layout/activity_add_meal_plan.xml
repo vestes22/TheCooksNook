@@ -95,19 +95,33 @@
                 android:layout_margin="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastTitle"/>
 
             <TextView
                 android:id="@+id/addMealPlan_breakfastTitle"
                 android:text="Breakfast"
-                android:onClick="onBreakfastButtonClicked"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addMealPlan_addRecipesTitle"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastRecipeText"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastRecipeList"
                 style="@style/addMealPlan_recipeTitle" />
 
-            <TextView
-                android:id="@+id/addMealPlan_breakfastRecipeText"
+            <Button
+                android:id="@+id/addMealPlan_addBreakfastButton"
+                android:text="Add"
+                android:onClick="onBreakfastButtonClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="0dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_addRecipesTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_breakfastRecipeList"
+                />
+
+            <ListView
+                android:id="@+id/addMealPlan_breakfastRecipeList"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastTitle"
@@ -119,12 +133,26 @@
                 android:text="Lunch"
                 android:onClick="onLunchButtonClicked"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastRecipeText"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchRecipeText"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchRecipeList"
                 style="@style/addMealPlan_recipeTitle"/>
 
-            <TextView
-                android:id="@+id/addMealPlan_lunchRecipeText"
+            <Button
+                android:id="@+id/addMealPlan_addLunchButton"
+                android:text="Add"
+                android:onClick="onLunchButtonClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="0dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_breakfastRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_lunchRecipeList"
+                />
+
+            <ListView
+                android:id="@+id/addMealPlan_lunchRecipeList"
                 style="@style/addMealPlan_recipeText"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -138,12 +166,26 @@
                 android:text="Dinner"
 
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchRecipeText"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerRecipeText"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerRecipeList"
                 style="@style/addMealPlan_recipeTitle"/>
 
-            <TextView
-                android:id="@+id/addMealPlan_dinnerRecipeText"
+            <Button
+                android:id="@+id/addMealPlan_addDinnerButton"
+                android:text="Add"
+                android:onClick="onDinnerButtonClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="0dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_lunchRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dinnerRecipeList"
+                />
+
+            <ListView
+                android:id="@+id/addMealPlan_dinnerRecipeList"
                 style="@style/addMealPlan_recipeText"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -156,16 +198,91 @@
                 android:onClick="onAppetizersButtonClicked"
                 android:text="Appetizers"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerRecipeText"
-                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerRecipeText"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerRecipeList"
                 style="@style/addMealPlan_recipeTitle"/>
 
-            <TextView
-                android:id="@+id/addMealPlan_appetizerRecipeText"
+            <Button
+                android:id="@+id/addMealPlan_addAppetizerButton"
+                android:text="Add"
+                android:onClick="onAppetizersButtonClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="0dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dinnerRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_appetizerRecipeList"
+                />
+
+
+            <ListView
+                android:id="@+id/addMealPlan_appetizerRecipeList"
                 style="@style/addMealPlan_recipeText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addMealPlan_appetizerTitle"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dessertTitle"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_dessertTitle"
+                android:text="Dessert"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_appetizerRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dessertRecipeList"
+                style="@style/addMealPlan_recipeTitle"/>
+
+            <Button
+                android:id="@+id/addMealPlan_addDessertButton"
+                android:text="Add"
+                android:onClick="onDessertButtonClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="0dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_appetizerRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_dessertRecipeList"
+                />
+
+            <ListView
+                android:id="@+id/addMealPlan_dessertRecipeList"
+                style="@style/addMealPlan_recipeText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dessertTitle"
+                app:layout_constraintBottom_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/addMealPlan_drinkTitle"
+                android:text="Drinks"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dessertRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_drinkRecipeList"
+                style="@style/addMealPlan_recipeTitle"/>
+
+            <Button
+                android:id="@+id/addMealPlan_addDrinkButton"
+                android:text="Add"
+                android:onClick="onDrinkButtonClicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="0dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_dessertRecipeList"
+                app:layout_constraintBottom_toTopOf="@id/addMealPlan_drinkRecipeList"
+                />
+
+            <ListView
+                android:id="@+id/addMealPlan_drinkRecipeList"
+                style="@style/addMealPlan_recipeText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addMealPlan_drinkTitle"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

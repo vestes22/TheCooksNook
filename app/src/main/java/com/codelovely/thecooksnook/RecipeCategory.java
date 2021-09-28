@@ -4,5 +4,7 @@ public enum RecipeCategory {
     BREAKFAST,
     LUNCH,
     DINNER,
-    APPETIZER;
+    APPETIZER,
+    DRINK,
+    DESSERT;
 }

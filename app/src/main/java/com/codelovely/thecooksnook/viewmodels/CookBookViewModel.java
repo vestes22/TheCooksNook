@@ -11,7 +11,6 @@ import com.codelovely.thecooksnook.data.NutritionInformationDatabase;
 import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.UserModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CookBookViewModel extends AndroidViewModel {
@@ -45,4 +44,12 @@ public class CookBookViewModel extends AndroidViewModel {
     }
 
 
+    public void setAllRecipes() {
+        NutritionInformationDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                recipes.postValue(mRepository.getAllRecipes(user));
+            }
+        });
+    }
 }

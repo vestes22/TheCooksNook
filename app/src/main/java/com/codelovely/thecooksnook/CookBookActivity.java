@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.codelovely.thecooksnook.adapters.RecipeAdapter;
-import com.codelovely.thecooksnook.models.IngredientModel;
 import com.codelovely.thecooksnook.models.RecipeModel;
 import com.codelovely.thecooksnook.models.UserModel;
 import com.codelovely.thecooksnook.viewmodels.CookBookViewModel;
@@ -46,10 +45,12 @@ CookBookActivity extends AppCompatActivity implements RecipeAdapter.RecipeListen
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         String category = extras.getString("category");
-        // TODO - Write functionality for "View All" recipe button.
-        // If "category == "ALL" then write another function in view model for all recipes.
-
-        mCookBookViewModel.setRecipesByCategory(category);
+        if (category.equals("ALL")) {
+            mCookBookViewModel.setAllRecipes();
+        }
+        else {
+            mCookBookViewModel.setRecipesByCategory(category);
+        }
 
         RecyclerView recipeRv = findViewById(R.id.cookBook_recipeRecyclerview);
         recipeAdapter = new RecipeAdapter(new RecipeAdapter.RecipeDiff(), this);
@@ -83,6 +84,4 @@ CookBookActivity extends AppCompatActivity implements RecipeAdapter.RecipeListen
         intent.putExtra("recipeId", recipe.getId());
         startActivity(intent);
     }
-
-
 }
